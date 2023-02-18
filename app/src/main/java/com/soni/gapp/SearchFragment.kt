@@ -33,20 +33,12 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-
-        adapter = custSearchAdapter(custSearchList)
         recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         custSearchView = binding.searchView
+        adapter = custSearchAdapter(custSearchList)
+        recyclerView.adapter = adapter
 
-//        var radioSelection = binding.searchRadioGroup.checkedRadioButtonId
-//        radioBtn = binding.root.findViewById(radioSelection)
-
-//        binding.searchRadioGroup.setOnCheckedChangeListener { _, _ ->
-//            radioSelection = binding.searchRadioGroup.checkedRadioButtonId
-//            radioBtn = binding.root.findViewById(radioSelection)
-//
-//        }
 
         custSearchView.setOnQueryTextListener(object: OnQueryTextListener{
             @SuppressLint("NotifyDataSetChanged")
@@ -55,10 +47,6 @@ class SearchFragment : Fragment() {
                 if (query != null) {
                     getCustData(query.uppercase())
                 }
-
-                adapter.notifyDataSetChanged()
-                recyclerView.adapter = adapter
-
                 return true
             }
 
@@ -69,6 +57,7 @@ class SearchFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun getCustData(query: String?){
         val collectionRef = db.collection("cust")
         collectionRef.get().addOnSuccessListener {
@@ -76,7 +65,6 @@ class SearchFragment : Fragment() {
                 custSearchList.clear()
                 for (docs in it){
                     if(docs.id.contains("$query")){
-                        println(docs.id)
                         collectionRef.document(docs.id).get().addOnSuccessListener {
                             document->
                             val cust = custSearchData(document.data?.get("f_name") as String,
@@ -84,14 +72,13 @@ class SearchFragment : Fragment() {
                                 document.data?.get("l_name") as String,
                                 document.data?.get("city") as String)
                             custSearchList.add(cust)
+                            adapter.notifyDataSetChanged()
                         }
                             .addOnFailureListener {
                                 Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_LONG).show()
                             }
-
                     }
                 }
-                println("Here")
             }
         }
             .addOnFailureListener{
