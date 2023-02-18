@@ -109,8 +109,8 @@ class AddTransaction : Fragment() {
                     .setPositiveButton("Yes") { _, _ ->
                         val transactionHashMap = hashMapOf(
                             "type" to radioBtn.text.toString(),
-                            "amount" to amount,
-                            "ir" to ir,
+                            "amount" to amount.toInt(),
+                            "ir" to ir?.toInt(),
                             "remarks" to remarks,
                             "date" to SimpleDateFormat("dd/MM/yyyy", Locale.UK).parse(date)
                         )

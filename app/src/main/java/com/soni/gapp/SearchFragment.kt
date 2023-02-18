@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
@@ -20,10 +19,9 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private var custSearchList = ArrayList<custSearchData>()
+    private var custSearchList = ArrayList<CustSearchData>()
     private lateinit var custSearchView: SearchView
-    private lateinit var radioBtn: RadioButton
-    private lateinit var adapter: custSearchAdapter
+    private lateinit var adapter: CustSearchAdapter
     private val db = Firebase.firestore
 
     override fun onCreateView(
@@ -34,7 +32,7 @@ class SearchFragment : Fragment() {
         recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         custSearchView = binding.searchView
-        adapter = custSearchAdapter(custSearchList)
+        adapter = CustSearchAdapter(custSearchList)
         recyclerView.adapter = adapter
 
 
@@ -65,7 +63,7 @@ class SearchFragment : Fragment() {
                     if(docs.id.contains("$query")){
                         collectionRef.document(docs.id).get().addOnSuccessListener {
                             document->
-                            val cust = custSearchData(document.data?.get("f_name") as String,
+                            val cust = CustSearchData(document.data?.get("f_name") as String,
                                 document.data?.get("m_name") as String,
                                 document.data?.get("l_name") as String,
                                 document.data?.get("city") as String)
