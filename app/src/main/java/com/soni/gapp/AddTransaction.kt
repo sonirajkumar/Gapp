@@ -35,7 +35,7 @@ class AddTransaction : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
        _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
 
         val data = arguments
@@ -61,7 +61,7 @@ class AddTransaction : Fragment() {
         editTextDate = binding.editTextDate
         btnDatePicker = binding.datePickerButton
 
-        val datePicker = DatePickerDialog.OnDateSetListener { datePicker, year, month, dayOfMonth ->
+        val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             myCalender.set(Calendar.YEAR, year)
             myCalender.set(Calendar.MONTH, month)
             myCalender.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -74,7 +74,7 @@ class AddTransaction : Fragment() {
 
         alertBuilder = AlertDialog.Builder(activity)
 
-        binding.radioGrpNaameJama.setOnCheckedChangeListener { _, i ->
+        binding.radioGrpNaameJama.setOnCheckedChangeListener { _, _ ->
             radioSelection = binding.radioGrpNaameJama.checkedRadioButtonId
             radioBtn = binding.root.findViewById(radioSelection)
 
