@@ -43,6 +43,8 @@ class AddTransaction : Fragment() {
         val lName = data?.getString("l_name")
         val mName = data?.getString("m_name")
         val city = data?.getString("city")
+        val mobileNo = data?.getString("mobile_number")
+        val aadharNo = data?.getString("aadhar_number")
         val rakamType = data?.getString("rakam_type")
         val rakamWeight = data?.getString("rakam_weight")
 
@@ -116,7 +118,9 @@ class AddTransaction : Fragment() {
                             fName?.filter { !it.isWhitespace() } +"_"
                                     + mName?.filter { !it.isWhitespace() } +"_"
                                     + lName?.filter { !it.isWhitespace() } +"_"
-                                    + city?.filter { !it.isWhitespace() })
+                                    + city?.filter { !it.isWhitespace() }+"_"
+                                    + mobileNo?.filter { !it.isWhitespace() }+"_"
+                                    + aadharNo?.filter { !it.isWhitespace() })
                             .collection("rakam").document(
                                 rakamType?.filter { !it.isWhitespace() }
                                     +"_"+rakamWeight+"GMS")

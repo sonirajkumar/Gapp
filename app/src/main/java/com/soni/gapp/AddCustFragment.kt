@@ -44,7 +44,7 @@ class AddCustFragment : Fragment() {
             mobileNo = binding.mobileNumber.text.toString()
             aadharNo = binding.aadharNumber.text.toString()
 
-            if (fName.isNullOrEmpty() or lName.isNullOrEmpty() or mName.isNullOrEmpty() or city.isNullOrEmpty()){
+            if (fName.isEmpty() or lName.isEmpty() or mName.isEmpty() or city.isEmpty()){
                 Toast.makeText(activity,"Please insert Valid Data ", Toast.LENGTH_LONG).show()
             }
             else if (mobileNo.isNotBlank() and (mobileNo.length != 10)){
@@ -75,7 +75,9 @@ class AddCustFragment : Fragment() {
                             fName.filter { !it.isWhitespace() } +"_"
                                     + mName.filter { !it.isWhitespace() } +"_"
                                     + lName.filter { !it.isWhitespace() } +"_"
-                                    + city.filter { !it.isWhitespace() })
+                                    + city.filter { !it.isWhitespace() }+"_"
+                                    + mobileNo.filter { !it.isWhitespace() }+"_"
+                                    + aadharNo.filter { !it.isWhitespace() })
                             .set(accountHashMap, SetOptions.merge())
                             .addOnSuccessListener {
                                 Toast.makeText(activity, "Account Added Successfully", Toast.LENGTH_LONG).show()
@@ -92,6 +94,8 @@ class AddCustFragment : Fragment() {
                                 bundle.putString("m_name", mName)
                                 bundle.putString("l_name", lName)
                                 bundle.putString("city", city)
+                                bundle.putString("mobile_number", mobileNo)
+                                bundle.putString("aadhar_number", aadharNo)
                                 nextFragment.arguments = bundle
 
                                 replaceFragment(nextFragment)
