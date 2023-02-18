@@ -1,10 +1,13 @@
 package com.soni.gapp
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -22,7 +25,7 @@ class SearchFragment : Fragment() {
     private var custSearchList = ArrayList<custSearchData>()
     private lateinit var custSearchView: SearchView
     private lateinit var radioBtn: RadioButton
-
+    private lateinit var adapter: custSearchAdapter
     private val db = Firebase.firestore
 
     override fun onCreateView(
@@ -31,7 +34,7 @@ class SearchFragment : Fragment() {
     ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-
+        adapter = custSearchAdapter(custSearchList)
         recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         custSearchView = binding.searchView
@@ -46,11 +49,15 @@ class SearchFragment : Fragment() {
 //        }
 
         custSearchView.setOnQueryTextListener(object: OnQueryTextListener{
+            @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextSubmit(query: String?): Boolean {
 
                 if (query != null) {
                     getCustData(query.uppercase())
                 }
+
+                adapter.notifyDataSetChanged()
+                recyclerView.adapter = adapter
 
                 return true
             }
@@ -84,7 +91,7 @@ class SearchFragment : Fragment() {
 
                     }
                 }
-                recyclerView.adapter = custSearchAdapter(custSearchList)
+                println("Here")
             }
         }
             .addOnFailureListener{
@@ -92,4 +99,8 @@ class SearchFragment : Fragment() {
             }
 
     }
+//    fun hideKeyboard(){
+//        val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+//    }
 }

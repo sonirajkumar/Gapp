@@ -70,6 +70,8 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent"
             app:queryHint="Search Here" />
