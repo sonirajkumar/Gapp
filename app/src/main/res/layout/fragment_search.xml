@@ -7,52 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
-<!--    <RadioGroup-->
-<!--        android:id="@+id/search_radio_group"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/lavender"-->
-<!--        android:checkedButton="@id/radio_btn_city"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/materialCardView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <RadioButton-->
-<!--            android:id="@+id/radio_btn_city"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@drawable/lavender_borders"-->
-<!--            android:text="@string/city"-->
-<!--            android:textColor="@color/black" />-->
-
-<!--        <RadioButton-->
-<!--            android:id="@+id/radio_btn_f_name"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@drawable/lavender_borders"-->
-<!--            android:text="@string/first_name"-->
-<!--            android:textColor="@color/black" />-->
-
-<!--        <RadioButton-->
-<!--            android:id="@+id/radio_btn_mobile_number"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@drawable/lavender_borders"-->
-<!--            android:text="@string/mobile_number"-->
-<!--            android:textColor="@color/black" />-->
-
-<!--        <RadioButton-->
-<!--            android:id="@+id/radio_btn_aadhar_number"-->
-<!--            android:layout_width="100dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@drawable/lavender_borders"-->
-<!--            android:text="@string/aadhar_number"-->
-<!--            android:textColor="@color/black" />-->
-<!--    </RadioGroup>-->
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="0dp"
