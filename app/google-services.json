@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "554351112045",
+    "project_id": "gapp-raj",
+    "storage_bucket": "gapp-raj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554351112045:android:094f83c5eae171d613f464",
+        "android_client_info": {
+          "package_name": "com.soni.gapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554351112045-vb4ndt6ecd0vdn58gq9n5r9f4gti4g45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSzQAUOxnukZOmeUC8g0K5xazQcVc5clM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554351112045-vb4ndt6ecd0vdn58gq9n5r9f4gti4g45.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

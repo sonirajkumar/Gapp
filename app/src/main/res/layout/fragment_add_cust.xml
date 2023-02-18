@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_cust_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lavender"
+    tools:context=".AddCustFragment">
+
+    <TextView
+        android:id="@+id/text_view_add_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="166dp"
+        android:layout_marginBottom="11dp"
+        android:background="@drawable/lavender_borders"
+        android:padding="20dp"
+        android:text="@string/create_account"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/first_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/first_name"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="128dp"
+        android:background="@drawable/lavender_borders"
+        android:hint="@string/first_name"
+        android:autofillHints="name"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/middle_name"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="188dp"
+        android:background="@drawable/lavender_borders"
+        android:hint="@string/middle_name"
+        android:autofillHints="name"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/last_name"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="248dp"
+        android:background="@drawable/lavender_borders"
+        android:hint="@string/last_name"
+        android:autofillHints="surname"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/city"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="308dp"
+        android:background="@drawable/lavender_borders"
+        android:hint="@string/city"
+        android:autofillHints="city_name"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/mobile_number"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="368dp"
+        android:background="@drawable/lavender_borders"
+        android:hint="@string/mobile_number"
+        android:autofillHints="mobile_number"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="number"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/aadhar_number"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="428dp"
+        android:background="@drawable/lavender_borders"
+        android:hint="@string/aadhar_number"
+        android:autofillHints="aadhar_name"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:inputType="text|number"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+    <Button
+        android:id="@+id/add_account_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="146dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="178dp"
+        android:layout_marginBottom="152dp"
+        android:text="@string/add_account"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aadhar_number"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
