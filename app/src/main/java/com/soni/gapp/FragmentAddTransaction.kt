@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
 
-class AddTransaction : Fragment() {
+class FragmentAddTransaction : Fragment() {
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
     private lateinit var alertBuilder: AlertDialog.Builder

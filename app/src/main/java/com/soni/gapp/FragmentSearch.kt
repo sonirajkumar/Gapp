@@ -15,13 +15,13 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentSearchBinding
 
-class SearchFragment : Fragment() {
+class FragmentSearch : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private var custSearchList = ArrayList<CustSearchData>()
+    private var custSearchList = ArrayList<DataCustSearch>()
     private lateinit var custSearchView: SearchView
-    private lateinit var adapter: CustSearchAdapter
+    private lateinit var adapter: AdapterCustSearch
     private val db = Firebase.firestore
 
     override fun onCreateView(
@@ -32,14 +32,15 @@ class SearchFragment : Fragment() {
         recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         custSearchView = binding.searchView
-        adapter = CustSearchAdapter(custSearchList)
+        adapter = AdapterCustSearch(custSearchList)
         recyclerView.adapter = adapter
 
 
         custSearchView.setOnQueryTextListener(object: OnQueryTextListener{
             @SuppressLint("NotifyDataSetChanged")
             override fun onQueryTextSubmit(query: String?): Boolean {
-
+                custSearchList.clear()
+                adapter.notifyDataSetChanged()
                 if (query != null) {
                     getCustData(query.uppercase())
                 }
@@ -58,12 +59,12 @@ class SearchFragment : Fragment() {
         val collectionRef = db.collection("cust")
         collectionRef.get().addOnSuccessListener {
             if (!it.isEmpty){
-                custSearchList.clear()
+
                 for (docs in it){
                     if(docs.id.contains("$query")){
                         collectionRef.document(docs.id).get().addOnSuccessListener {
                             document->
-                            val cust = CustSearchData(document.data?.get("f_name") as String,
+                            val cust = DataCustSearch(document.data?.get("f_name") as String,
                                 document.data?.get("m_name") as String,
                                 document.data?.get("l_name") as String,
                                 document.data?.get("city") as String)

@@ -13,7 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentAddRakamDetailsBinding
 
 
-class AddRakamDetails : Fragment() {
+class FragmentAddRakam : Fragment() {
 
     private var _binding: FragmentAddRakamDetailsBinding? = null
     private val binding get() = _binding!!
@@ -72,7 +72,7 @@ class AddRakamDetails : Fragment() {
                                 binding.rakamWeight.text.clear()
 
                                 val bundle = Bundle()
-                                val nextFragment = AddTransaction()
+                                val nextFragment = FragmentAddTransaction()
                                 bundle.putString("f_name", fName)
                                 bundle.putString("m_name", mName)
                                 bundle.putString("l_name", lName)

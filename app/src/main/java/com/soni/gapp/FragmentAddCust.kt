@@ -13,7 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentAddCustBinding
 
 
-class AddCustFragment : Fragment() {
+class FragmentAddCust : Fragment() {
     private var _binding: FragmentAddCustBinding? = null
     private val binding get() = _binding!!
     private lateinit var alertBuilder: AlertDialog.Builder
@@ -89,7 +89,7 @@ class AddCustFragment : Fragment() {
                                 binding.aadharNumber.text.clear()
 
                                 val bundle = Bundle()
-                                val nextFragment = AddRakamDetails()
+                                val nextFragment = FragmentAddRakam()
                                 bundle.putString("f_name", fName)
                                 bundle.putString("m_name", mName)
                                 bundle.putString("l_name", lName)

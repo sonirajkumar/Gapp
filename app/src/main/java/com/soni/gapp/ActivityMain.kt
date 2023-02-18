@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.soni.gapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class ActivityMain : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 //    private lateinit var token: SharedPreferences
 
@@ -21,14 +21,14 @@ class MainActivity : AppCompatActivity() {
 
 //        var token = this.getSharedPreferences("email", Context.MODE_PRIVATE)
 
-        replaceFragment(HomeFragment())
+        replaceFragment(FragmentHome())
 
         binding.bottomNavigationView.setOnItemSelectedListener{
             when(it.itemId){
-                R.id.home -> replaceFragment(HomeFragment())
-                R.id.add -> replaceFragment(AddCustFragment())
-                R.id.search -> replaceFragment(SearchFragment())
-                R.id.menu -> replaceFragment(MenuFragment())
+                R.id.home -> replaceFragment(FragmentHome())
+                R.id.add -> replaceFragment(FragmentAddCust())
+                R.id.search -> replaceFragment(FragmentSearch())
+                R.id.menu -> replaceFragment(FragmentMenu())
 
                 else -> {
 

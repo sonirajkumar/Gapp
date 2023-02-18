@@ -9,7 +9,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.soni.gapp.databinding.ActivityLoginBinding
 
-class LoginActivity : AppCompatActivity() {
+class ActivityLogin : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         if (token.getString("loginemail"," ")!=" "){
-            val intent = Intent( this, MainActivity::class.java)
+            val intent = Intent( this, ActivityMain::class.java)
             startActivity(intent)
             finish()
         }
@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
                     if (it.isSuccessful){
 
-                        val intent = Intent( this, MainActivity::class.java)
+                        val intent = Intent( this, ActivityMain::class.java)
                         intent.putExtra("email",email)
 
 

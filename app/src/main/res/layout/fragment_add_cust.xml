@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lavender"
-    tools:context=".AddCustFragment">
+    tools:context=".FragmentAddCust">
 
     <TextView
         android:id="@+id/text_view_add_account"
