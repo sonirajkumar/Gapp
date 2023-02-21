@@ -67,7 +67,10 @@ class FragmentSearch : Fragment() {
                             val cust = DataCustSearch(document.data?.get("f_name") as String,
                                 document.data?.get("m_name") as String,
                                 document.data?.get("l_name") as String,
-                                document.data?.get("city") as String)
+                                document.data?.get("city") as String,
+                                document.data?.get("mobile_no") as String,
+                                document.data?.get("aadhar_no") as String)
+
                             custSearchList.add(cust)
                             adapter.notifyDataSetChanged()
                         }
@@ -82,6 +85,12 @@ class FragmentSearch : Fragment() {
                 Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_LONG).show()
             }
 
+    }
+    fun replaceFragment(fragment: Fragment){
+        val fragmentManager = activity?.supportFragmentManager
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+        fragmentTransaction?.replace(R.id.frameLayout, fragment)
+        fragmentTransaction?.commit()
     }
 //    fun hideKeyboard(){
 //        val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
