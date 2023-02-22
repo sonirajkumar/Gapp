@@ -97,7 +97,7 @@ class FragmentAddTransaction : Fragment() {
             if (amount.isEmpty() or date.isEmpty()){
                 Toast.makeText(activity,"Please insert  ", Toast.LENGTH_LONG).show()
             }
-            else if(binding.editTextIr.isEnabled == true and ir.isNullOrEmpty()){
+            else if(radioBtn.text == "Naame" && ir.isNullOrEmpty()){
                 Toast.makeText(activity,"Please insert IR ", Toast.LENGTH_LONG).show()
 
             }
@@ -109,10 +109,10 @@ class FragmentAddTransaction : Fragment() {
                     .setPositiveButton("Yes") { _, _ ->
                         val transactionHashMap = hashMapOf(
                             "type" to radioBtn.text.toString(),
-                            "amount" to amount.toInt(),
-                            "ir" to ir?.toInt(),
+                            "amount" to amount,
+                            "ir" to ir,
                             "remarks" to remarks,
-                            "date" to SimpleDateFormat("dd/MM/yyyy", Locale.UK).parse(date)
+                            "date" to date
                         )
                         db.collection("cust").document(
                             fName?.filter { !it.isWhitespace() } +"_"

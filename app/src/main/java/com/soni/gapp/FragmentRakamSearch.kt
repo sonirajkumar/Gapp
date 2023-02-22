@@ -64,6 +64,7 @@ class FragmentRakamSearch : Fragment() {
             if(!it.isEmpty){
                 for(rakam in it){
                     val rakamDetail = DataRakamSearch(
+                        fName,mName,lName,city,mobileNumber,aadharNumber,
                         rakam.data["rakam_type"] as String,
                         rakam.data["weight_gms"] as String
                     )
