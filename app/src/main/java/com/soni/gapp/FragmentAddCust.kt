@@ -19,10 +19,10 @@ class FragmentAddCust : Fragment() {
     private lateinit var alertBuilder: AlertDialog.Builder
     private lateinit var fName: String
     private lateinit var mName: String
-    private var lName: String = "null"
+    private lateinit var lName: String
+    private lateinit var city: String
     private var mobileNo: String = "null"
     private var aadharNo: String = "null"
-    private var city: String = "null"
     private var db = Firebase.firestore
 
 
@@ -30,7 +30,7 @@ class FragmentAddCust : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAddCustBinding.inflate(inflater, container, false)
 
         alertBuilder = AlertDialog.Builder(activity)
