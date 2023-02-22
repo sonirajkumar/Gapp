@@ -40,13 +40,24 @@
         app:layout_constraintStart_toEndOf="@+id/textViewMobileNumber"
         app:layout_constraintTop_toBottomOf="@+id/textViewSearchResultCustDetails" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRakamSearch"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonRakamSearchAddRakam"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:text="@string/add_rakam"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMobileNumber" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRakamSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRakamSearchAddRakam" />
 </androidx.constraintlayout.widget.ConstraintLayout>
