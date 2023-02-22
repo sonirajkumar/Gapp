@@ -45,9 +45,9 @@ class ActivityLogin : AppCompatActivity() {
                         intent.putExtra("email",email)
 
 
-                        var editor = token.edit()
+                        val editor = token.edit()
                         editor.putString("loginemail", email)
-                        editor.commit()
+                        editor.apply()
 
                         startActivity(intent)
 
