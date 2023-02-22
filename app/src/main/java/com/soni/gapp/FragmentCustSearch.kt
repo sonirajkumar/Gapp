@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.soni.gapp.databinding.FragmentSearchBinding
+import com.soni.gapp.databinding.FragmentCustSearchBinding
 
-class FragmentSearch : Fragment() {
-    private var _binding: FragmentSearchBinding? = null
+class FragmentCustSearch : Fragment() {
+    private var _binding: FragmentCustSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private var custSearchList = ArrayList<DataCustSearch>()
@@ -28,7 +28,7 @@ class FragmentSearch : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentCustSearchBinding.inflate(inflater, container, false)
         recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         custSearchView = binding.searchView
@@ -86,12 +86,7 @@ class FragmentSearch : Fragment() {
             }
 
     }
-    fun replaceFragment(fragment: Fragment){
-        val fragmentManager = activity?.supportFragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-        fragmentTransaction?.replace(R.id.frameLayout, fragment)
-        fragmentTransaction?.commit()
-    }
+
 //    fun hideKeyboard(){
 //        val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 //        imm.hideSoftInputFromWindow(view?.windowToken, 0)

@@ -10,7 +10,7 @@
 
         <!--        Constraint Layout for Customer Details-->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/CustomerConstrainLayout"
+            android:id="@+id/SearchConstrainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/CustDetails"
+                android:id="@+id/SearchDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"

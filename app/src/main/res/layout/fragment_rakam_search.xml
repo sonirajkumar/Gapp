@@ -5,7 +5,7 @@
     android:id="@+id/layoutSearchResults"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentSearchResult">
+    tools:context=".FragmentRakamSearch">
 
     <TextView
         android:id="@+id/textViewSearchResultCustDetails"
@@ -34,9 +34,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
-        android:padding="10dp"
         android:background="@android:color/darker_gray"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewMobileNumber"
         app:layout_constraintTop_toBottomOf="@+id/textViewSearchResultCustDetails" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRakamSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMobileNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>

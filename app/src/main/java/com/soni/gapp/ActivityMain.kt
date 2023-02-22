@@ -27,7 +27,7 @@ class ActivityMain : AppCompatActivity() {
             when(it.itemId){
                 R.id.home -> replaceFragment(FragmentHome())
                 R.id.add -> replaceFragment(FragmentAddCust())
-                R.id.search -> replaceFragment(FragmentSearch())
+                R.id.search -> replaceFragment(FragmentCustSearch())
                 R.id.menu -> replaceFragment(FragmentMenu())
 
                 else -> {

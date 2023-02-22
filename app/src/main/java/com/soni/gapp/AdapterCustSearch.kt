@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class AdapterCustSearch(private val custList: ArrayList<DataCustSearch>): RecyclerView.Adapter<AdapterCustSearch.CustSearchViewHolder>() {
     inner class CustSearchViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val custDetails: TextView = itemView.findViewById(R.id.CustDetails)
-        val custConstraintLayout: ConstraintLayout = itemView.findViewById(R.id.CustomerConstrainLayout)
+        val custDetails: TextView = itemView.findViewById(R.id.SearchDetails)
+        val custConstraintLayout: ConstraintLayout = itemView.findViewById(R.id.SearchConstrainLayout)
 
     }
 
@@ -42,7 +42,7 @@ class AdapterCustSearch(private val custList: ArrayList<DataCustSearch>): Recycl
             bundle.putString("city", custSearchData.city)
             bundle.putString("mobile_number", custSearchData.mobileNumber)
             bundle.putString("aadhar_number", custSearchData.aadharNumber)
-            val resultFragment = FragmentSearchResult()
+            val resultFragment = FragmentRakamSearch()
             resultFragment.arguments = bundle
             val appCompactActivity = it.context as AppCompatActivity
             appCompactActivity.supportFragmentManager.beginTransaction()

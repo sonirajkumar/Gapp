@@ -6,10 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.soni.gapp.databinding.FragmentSearchResultBinding
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.soni.gapp.databinding.FragmentRakamSearchBinding
 
-class FragmentSearchResult : Fragment() {
-    private var _binding: FragmentSearchResultBinding? = null
+class FragmentRakamSearch : Fragment() {
+    private var _binding: FragmentRakamSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var fName: String
     private lateinit var mName: String
@@ -18,6 +23,12 @@ class FragmentSearchResult : Fragment() {
     private var mobileNumber: String? = null
     private var aadharNumber: String? = null
     private lateinit var documentId: String
+
+    private lateinit var recyclerView: RecyclerView
+    private var rakamList = ArrayList<DataRakamSearch>()
+    private lateinit var adapter: AdapterRakamSearch
+
+    private val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { bundle ->
@@ -32,16 +43,39 @@ class FragmentSearchResult : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSearchResultBinding.inflate(inflater, container, false)
+        _binding = FragmentRakamSearchBinding.inflate(inflater, container, false)
+        recyclerView = binding.recyclerViewRakamSearch
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = AdapterRakamSearch(rakamList)
+        recyclerView.adapter = adapter
+
         val custDetails = "$fName $mName $lName $city"
         binding.textViewSearchResultCustDetails.text = custDetails
         binding.textViewMobileNumber.text = "Mobile: $mobileNumber"
         binding.textViewAadharNumber.text = "Aadhar: $aadharNumber"
+
+        val collectionRef = db.collection("cust").document(documentId).collection("rakam")
+        collectionRef.get().addOnSuccessListener {
+            if(!it.isEmpty){
+                for(rakam in it){
+                    val rakamDetail = DataRakamSearch(
+                        rakam.data["rakam_type"] as String,
+                        rakam.data["weight_gms"] as String
+                    )
+                    rakamList.add(rakamDetail)
+                    adapter.notifyDataSetChanged()
+                }
+
+            }
+
+        }.addOnFailureListener {
+            Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_LONG).show()
+        }
         return binding.root
     }
 }
