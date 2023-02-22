@@ -70,11 +70,6 @@ class FragmentTransactionSearch : Fragment() {
         collectionRef.get().addOnSuccessListener {
             if (!it.isEmpty) {
                 for (tran in it) {
-                    println(tran.data["type"]!!::class.java.typeName)
-                    println(tran.data["amount"]!!::class.java.typeName)
-                    println(tran.data["ir"]!!::class.java.typeName)
-                    println(tran.data["remarks"]!!::class.java.typeName)
-                    println(tran.data["date"]!!::class.java.typeName)
                     val tranDetail = DataTransactionSearch(
                         tran.data["type"] as String,
                         tran.data["amount"] as String,
