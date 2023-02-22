@@ -24,7 +24,6 @@
     <string name="add_rakam">Add Rakam</string>
     <string name="rakam_type">Rakam Type Ex. Kada/Sakli</string>
     <string name="rakam_weight">Rakam Weight in GMS Ex. 1000</string>
-    <string name="add_rakam_btn">Add Rakam</string>
     <!-- Strings related to Add Transaction -->
     <string name="add_transaction">Add Transactions</string>
     <string name="naame">Naame</string>
@@ -34,8 +33,8 @@
     <string name="remarks">Remarks</string>
     <string name="add">Add</string>
     <string name="date">Date (DD/MM/YYYY)</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- String related to search results -->
+
 
 
 </resources>
