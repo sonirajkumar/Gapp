@@ -1,3 +1,5 @@
+@file:Suppress("OverrideDeprecatedMigration")
+
 package com.soni.gapp
 
 //import android.content.SharedPreferences
