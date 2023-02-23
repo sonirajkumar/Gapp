@@ -53,6 +53,8 @@ class FragmentRakamSearch : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = AdapterRakamSearch(rakamList)
         recyclerView.adapter = adapter
+        rakamList.clear()
+        adapter.notifyDataSetChanged()
 
         val custDetails = "$fName $mName $lName $city"
         binding.textViewSearchResultCustDetails.text = custDetails

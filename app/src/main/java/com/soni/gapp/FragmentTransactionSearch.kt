@@ -58,6 +58,8 @@ class FragmentTransactionSearch : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = AdapterTransactionSearch(tranList)
         recyclerView.adapter = adapter
+        tranList.clear()
+        adapter.notifyDataSetChanged()
 
         val custDetails = "$fName $mName $lName $city"
         val rakamDetails = "$rakamType $rakamWeight GMS"
@@ -70,10 +72,11 @@ class FragmentTransactionSearch : Fragment() {
         collectionRef.get().addOnSuccessListener {
             if (!it.isEmpty) {
                 for (tran in it) {
+
                     val tranDetail = DataTransactionSearch(
                         tran.data["type"] as String,
                         tran.data["amount"] as String,
-                        tran.data["ir"] as String,
+                        tran.data["ir"] as String ,
                         tran.data["remarks"] as String,
                         tran.data["date"] as String
                     )

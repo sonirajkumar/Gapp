@@ -26,11 +26,11 @@ class FragmentAddTransaction : Fragment() {
     private var db = Firebase.firestore
     private lateinit var editTextDate: EditText
     private lateinit var btnDatePicker: Button
-    private var ir: String? = null
+    private var ir: String? = ""
     private lateinit var radioBtn: RadioButton
     private lateinit var amount: String
     private lateinit var date:String
-    private var remarks: String? = null
+    private var remarks: String? = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
