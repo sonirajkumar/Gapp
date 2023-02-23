@@ -41,6 +41,7 @@
     <string name="tranSearchDate">Date:</string>
     <string name="tranSearchRemarks">Remarks:</string>
     <string name="calculate_amount">Calculate Amount</string>
+    <string name="rakamSearchDeleteCustomer">Delete Customer</string>
     <!-- String related to search results -->
 
 

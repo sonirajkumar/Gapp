@@ -24,6 +24,7 @@ class FragmentCustSearch : Fragment() {
     private lateinit var adapter: AdapterCustSearch
     private val db = Firebase.firestore
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +35,8 @@ class FragmentCustSearch : Fragment() {
         custSearchView = binding.searchView
         adapter = AdapterCustSearch(custSearchList)
         recyclerView.adapter = adapter
-
+        custSearchList.clear()
+        adapter.notifyDataSetChanged()
 
         custSearchView.setOnQueryTextListener(object: OnQueryTextListener{
             @SuppressLint("NotifyDataSetChanged")

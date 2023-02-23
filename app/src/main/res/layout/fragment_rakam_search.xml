@@ -40,24 +40,31 @@
         app:layout_constraintStart_toEndOf="@+id/textViewMobileNumber"
         app:layout_constraintTop_toBottomOf="@+id/textViewSearchResultCustDetails" />
 
-    <Button
-        android:id="@+id/buttonRakamSearchAddRakam"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRakamSearch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_rakam"
-        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMobileNumber" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewRakamSearch"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonRakamSearchAddRakam"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:text="@string/add_rakam"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteCustomer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonRakamSearchAddRakam" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewRakamSearch" />
+
+    <Button
+        android:id="@+id/btnDeleteCustomer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rakamSearchDeleteCustomer"
+        android:layout_marginStart="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonRakamSearchAddRakam"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewRakamSearch" />
 </androidx.constraintlayout.widget.ConstraintLayout>

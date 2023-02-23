@@ -1,6 +1,7 @@
 package com.soni.gapp
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,8 @@ import com.soni.gapp.databinding.FragmentRakamSearchBinding
 class FragmentRakamSearch : Fragment() {
     private var _binding: FragmentRakamSearchBinding? = null
     private val binding get() = _binding!!
+    private lateinit var alertBuilder: AlertDialog.Builder
+
     private lateinit var fName: String
     private lateinit var mName: String
     private lateinit var lName: String
@@ -49,6 +52,8 @@ class FragmentRakamSearch : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRakamSearchBinding.inflate(inflater, container, false)
+        alertBuilder = AlertDialog.Builder(activity)
+
         recyclerView = binding.recyclerViewRakamSearch
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = AdapterRakamSearch(rakamList)
@@ -85,6 +90,64 @@ class FragmentRakamSearch : Fragment() {
             nextFragment.arguments = arguments
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).addToBackStack(null).commit()
         }
+
+        // DELETING CUSTOMER HERE
+        binding.btnDeleteCustomer.setOnClickListener {
+            alertBuilder.setTitle("Confirmation")
+                .setMessage("Are you sure want to Delete Customer?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { _, _ ->
+                    db.collection("cust").document(documentId)
+                        .collection("rakam").get()
+                        .addOnSuccessListener { rakams->
+                            if (!rakams.isEmpty){
+                                for(rakam in rakams){
+                                    db.collection("archive").document(documentId)
+                                        .collection("rakam").document(rakam.id).set(rakam)
+
+                                    db.collection("cust").document(documentId)
+                                        .collection("rakam").document(rakam.id)
+                                        .collection("transaction").get()
+                                        .addOnSuccessListener { ts->
+                                            if (!ts.isEmpty){
+                                                for (transactions in ts) {
+                                                    db.collection("archive").document(documentId)
+                                                        .collection("rakam").document(rakam.id)
+                                                        .collection("transaction").document(transactions.id)
+                                                        .set(transactions.data)
+
+                                                    db.collection("cust").document(documentId)
+                                                        .collection("rakam").document(rakam.id)
+                                                        .collection("transaction").document(transactions.id)
+                                                        .delete()
+                                                }
+                                            }
+                                        }
+                                    db.collection("cust").document(documentId)
+                                        .collection("rakam").document(rakam.id).delete()
+                                }
+                            }
+                        }
+
+                    db.collection("cust").document(documentId).get()
+                        .addOnSuccessListener {custDocs->
+                            custDocs.data?.let { it1 ->
+                                db.collection("archive").document(documentId)
+                                    .set(it1)
+                            }
+                        }
+
+                    db.collection("cust").document(documentId).delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show()
+                        }
+
+                }.setNegativeButton("No") { _, _ ->
+                    Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            alertBuilder.show()
+        }
         return binding.root
     }
+
 }
