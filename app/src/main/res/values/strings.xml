@@ -40,6 +40,7 @@
     <string name="tranSearchIR">IR:</string>
     <string name="tranSearchDate">Date:</string>
     <string name="tranSearchRemarks">Remarks:</string>
+    <string name="calculate_amount">Calculate Amount</string>
     <!-- String related to search results -->
 
 

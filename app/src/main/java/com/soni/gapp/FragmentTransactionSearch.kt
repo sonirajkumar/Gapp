@@ -86,6 +86,11 @@ class FragmentTransactionSearch : Fragment() {
 
             }
         }
+
+        binding.buttonCalculateTotalBalance.setOnClickListener {
+
+        }
+
         return binding.root
     }
 

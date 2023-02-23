@@ -59,4 +59,22 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTransactionSearchFragmentRakamDetails" />
+
+    <Button
+        android:id="@+id/buttonCalculateTotalBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/calculate_amount"
+        app:layout_constraintEnd_toStartOf="@+id/calculatedAmount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTransactionSearch" />
+
+    <TextView
+        android:id="@+id/calculatedAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/buttonCalculateTotalBalance"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTransactionSearch" />
 </androidx.constraintlayout.widget.ConstraintLayout>
