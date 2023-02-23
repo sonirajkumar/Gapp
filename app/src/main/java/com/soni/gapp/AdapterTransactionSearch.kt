@@ -9,18 +9,25 @@ import androidx.recyclerview.widget.RecyclerView
 class AdapterTransactionSearch(private val tranList: ArrayList<DataTransactionSearch>): RecyclerView.Adapter<AdapterTransactionSearch.TranSearchViewHolder>() {
 
     inner class TranSearchViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val tranDetails: TextView = itemView.findViewById(R.id.SearchDetails)
+        val tranType: TextView = itemView.findViewById(R.id.tvType)
+        val tranAmount: TextView = itemView.findViewById(R.id.tvAmount)
+        val tranIR: TextView = itemView.findViewById(R.id.tvIR)
+        val tranDate: TextView = itemView.findViewById(R.id.tvDate)
+        val tranRemarks: TextView = itemView.findViewById(R.id.tvRemarks)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterTransactionSearch.TranSearchViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.search_items, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.transaction_items, parent, false)
         return TranSearchViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: AdapterTransactionSearch.TranSearchViewHolder, position: Int) {
         val tranSearchData = tranList[position]
-        val tranSearchText = tranSearchData.tranType + " " + tranSearchData.amount+" "+ tranSearchData.ir + " " + tranSearchData.date +" "+ tranSearchData.remarks
-        holder.tranDetails.text = tranSearchText
+        holder.tranType.text = tranSearchData.tranType
+        holder.tranAmount.text = tranSearchData.amount
+        holder.tranIR.text = tranSearchData.ir
+        holder.tranDate.text = tranSearchData.date
+        holder.tranRemarks.text = tranSearchData.remarks
     }
 
     override fun getItemCount(): Int {

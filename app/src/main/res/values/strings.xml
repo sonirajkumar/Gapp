@@ -35,6 +35,11 @@
     <string name="date">Date (DD/MM/YYYY)</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tranType">Type:</string>
+    <string name="tranSearchAmount">Amount:</string>
+    <string name="tranSearchIR">IR:</string>
+    <string name="tranSearchDate">Date:</string>
+    <string name="tranSearchRemarks">Remarks:</string>
     <!-- String related to search results -->
 
 

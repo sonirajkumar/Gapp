@@ -81,6 +81,7 @@ class FragmentAddTransaction : Fragment() {
             binding.editTextIr.isEnabled = radioBtn.text.toString() != "Jama"
             if (radioBtn.text.toString() == "Jama"){
                 binding.editTextIr.text.clear()
+                ir=""
             }
         }
 
