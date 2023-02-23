@@ -34,6 +34,7 @@ class FragmentAddRakam : Fragment() {
         val city = data?.getString("city")
         val mobileNo = data?.getString("mobile_number")
         val aadharNo = data?.getString("aadhar_number")
+        val documentID = fName?.filter { !it.isWhitespace() } +"_"+ mName?.filter { !it.isWhitespace() } +"_"+ lName?.filter { !it.isWhitespace() } +"_"+ city?.filter { !it.isWhitespace() }+"_"+ mobileNo?.filter { !it.isWhitespace() }+"_"+ aadharNo?.filter { !it.isWhitespace() }
         val showName = "Customer: $fName $mName $lName $city"
         binding.textViewName.text = showName
 
@@ -56,13 +57,7 @@ class FragmentAddRakam : Fragment() {
                             "weight_gms" to rakamWeight
                             )
 
-                        db.collection("cust").document(
-                            fName?.filter { !it.isWhitespace() } +"_"
-                                    + mName?.filter { !it.isWhitespace() } +"_"
-                                    + lName?.filter { !it.isWhitespace() } +"_"
-                                    + city?.filter { !it.isWhitespace() }+"_"
-                                    + mobileNo?.filter { !it.isWhitespace() }+"_"
-                                    + aadharNo?.filter { !it.isWhitespace() })
+                        db.collection("cust").document(documentID)
                             .collection("rakam").document(rakamType.filter { !it.isWhitespace() }
                                     +"_"+rakamWeight+"GMS")
                             .set(rakamHashMap, SetOptions.merge())

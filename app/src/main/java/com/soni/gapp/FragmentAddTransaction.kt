@@ -48,6 +48,9 @@ class FragmentAddTransaction : Fragment() {
         val rakamType = data?.getString("rakam_type")
         val rakamWeight = data?.getString("rakam_weight")
 
+        val custDocumentID = fName?.filter { !it.isWhitespace() } +"_"+ mName?.filter { !it.isWhitespace() } +"_"+ lName?.filter { !it.isWhitespace() } +"_"+ city?.filter { !it.isWhitespace() }+"_"+ mobileNo?.filter { !it.isWhitespace() }+"_"+ aadharNo?.filter { !it.isWhitespace() }
+        val rakamDocumentID = rakamType?.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
+
         var radioSelection = binding.radioGrpNaameJama.checkedRadioButtonId
         radioBtn = binding.root.findViewById(radioSelection)
 
@@ -115,16 +118,8 @@ class FragmentAddTransaction : Fragment() {
                             "remarks" to remarks,
                             "date" to date
                         )
-                        db.collection("cust").document(
-                            fName?.filter { !it.isWhitespace() } +"_"
-                                    + mName?.filter { !it.isWhitespace() } +"_"
-                                    + lName?.filter { !it.isWhitespace() } +"_"
-                                    + city?.filter { !it.isWhitespace() }+"_"
-                                    + mobileNo?.filter { !it.isWhitespace() }+"_"
-                                    + aadharNo?.filter { !it.isWhitespace() })
-                            .collection("rakam").document(
-                                rakamType?.filter { !it.isWhitespace() }
-                                    +"_"+rakamWeight+"GMS")
+                        db.collection("cust").document(custDocumentID)
+                            .collection("rakam").document(rakamDocumentID)
                             .collection("transaction").document(LocalDateTime.now().toString())
                             .set(transactionHashMap, SetOptions.merge())
                             .addOnSuccessListener {

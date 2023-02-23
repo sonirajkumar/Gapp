@@ -65,16 +65,27 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="@string/calculate_amount"
-        app:layout_constraintEnd_toStartOf="@+id/calculatedAmount"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddTransaction"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTransactionSearch" />
+
+    <Button
+        android:id="@+id/btnAddTransaction"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/add_transaction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonCalculateTotalBalance"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewTransactionSearch" />
 
     <TextView
         android:id="@+id/calculatedAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/buttonCalculateTotalBalance"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewTransactionSearch" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCalculateTotalBalance" />
 </androidx.constraintlayout.widget.ConstraintLayout>

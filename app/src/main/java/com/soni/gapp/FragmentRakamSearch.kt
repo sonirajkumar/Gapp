@@ -79,6 +79,12 @@ class FragmentRakamSearch : Fragment() {
         }.addOnFailureListener {
             Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_LONG).show()
         }
+
+        binding.buttonRakamSearchAddRakam.setOnClickListener {
+            val nextFragment = FragmentAddRakam()
+            nextFragment.arguments = arguments
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).addToBackStack(null).commit()
+        }
         return binding.root
     }
 }
