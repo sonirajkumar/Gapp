@@ -25,7 +25,7 @@ class FragmentRakamSearch : Fragment() {
     private lateinit var city: String
     private var mobileNumber: String? = null
     private var aadharNumber: String? = null
-    private lateinit var documentId: String
+    private lateinit var custDocumentId: String
 
     private lateinit var recyclerView: RecyclerView
     private var rakamList = ArrayList<DataRakamSearch>()
@@ -41,7 +41,7 @@ class FragmentRakamSearch : Fragment() {
             city = bundle.getString("city").toString()
             mobileNumber = bundle.getString("mobile_number").toString()
             aadharNumber = bundle.getString("aadhar_number").toString()
-            documentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }
+            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }
 
         }
     }
@@ -66,7 +66,7 @@ class FragmentRakamSearch : Fragment() {
         binding.textViewMobileNumber.text = "Mobile: $mobileNumber"
         binding.textViewAadharNumber.text = "Aadhar: $aadharNumber"
 
-        val collectionRef = db.collection("cust").document(documentId).collection("rakam")
+        val collectionRef = db.collection("cust").document(custDocumentId).collection("rakam")
         collectionRef.get().addOnSuccessListener {
             if(!it.isEmpty){
                 for(rakam in it){
@@ -97,50 +97,51 @@ class FragmentRakamSearch : Fragment() {
                 .setMessage("Are you sure want to Delete Customer?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { _, _ ->
-                    db.collection("cust").document(documentId)
+                    db.collection("archive").document(custDocumentId).set(
+                        hashMapOf(
+                            "f_name" to fName,
+                            "m_name" to mName,
+                            "l_name" to lName,
+                            "city" to city,
+                            "mobile_no" to mobileNumber,
+                            "aadhar_no" to aadharNumber
+                        )
+                    ).addOnSuccessListener {  }.addOnFailureListener {  }
+
+                    db.collection("cust").document(custDocumentId)
                         .collection("rakam").get()
                         .addOnSuccessListener { rakams->
                             if (!rakams.isEmpty){
                                 for(rakam in rakams){
-                                    db.collection("archive").document(documentId)
+                                    db.collection("archive").document(custDocumentId)
                                         .collection("rakam").document(rakam.id).set(rakam)
 
-                                    db.collection("cust").document(documentId)
+                                    db.collection("cust").document(custDocumentId)
                                         .collection("rakam").document(rakam.id)
                                         .collection("transaction").get()
                                         .addOnSuccessListener { ts->
                                             if (!ts.isEmpty){
                                                 for (transactions in ts) {
-                                                    db.collection("archive").document(documentId)
+                                                    db.collection("archive").document(custDocumentId)
                                                         .collection("rakam").document(rakam.id)
                                                         .collection("transaction").document(transactions.id)
                                                         .set(transactions.data)
 
-                                                    db.collection("cust").document(documentId)
+                                                    db.collection("cust").document(custDocumentId)
                                                         .collection("rakam").document(rakam.id)
                                                         .collection("transaction").document(transactions.id)
                                                         .delete()
                                                 }
                                             }
                                         }
-                                    db.collection("cust").document(documentId)
+                                    db.collection("cust").document(custDocumentId)
                                         .collection("rakam").document(rakam.id).delete()
                                 }
                             }
                         }
-
-                    db.collection("cust").document(documentId).get()
-                        .addOnSuccessListener {custDocs->
-                            custDocs.data?.let { it1 ->
-                                db.collection("archive").document(documentId)
-                                    .set(it1)
-                            }
-                        }
-
-                    db.collection("cust").document(documentId).delete()
-                        .addOnSuccessListener {
-                            Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show()
-                        }
+                    db.collection("cust").document(custDocumentId).delete().addOnSuccessListener {
+                        Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener {  }
 
                 }.setNegativeButton("No") { _, _ ->
                     Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
