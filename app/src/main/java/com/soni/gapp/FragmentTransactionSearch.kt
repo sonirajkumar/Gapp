@@ -181,16 +181,20 @@ class FragmentTransactionSearch : Fragment() {
 
         val date = SimpleDateFormat("dd/MM/yyyy").parse(dateString)
         val dateDiffMs = (Date().time - date.time).toFloat()
-        val dateDiffMonths: Float = ceil(dateDiffMs/(2592000000))
-        val dateDiffYears = floor(dateDiffMonths/12)
+
         if (tranType == "NAAME"){
+            val dateDiffMonths: Float = ceil(dateDiffMs/(2592000000))
+            val dateDiffYears = floor(dateDiffMonths/12)
             val remainingMonths = ceil(dateDiffMonths % 12)
+
             finalAmount += pa
             for(i in 1..dateDiffYears.toInt()){
                 finalAmount += calculateInterest(pa, ir.toFloat(), 12f)
             }
             finalAmount += calculateInterest(pa, ir.toFloat(), remainingMonths)
         }else{
+            val dateDiffMonths: Float = floor(dateDiffMs/(2592000000))
+            val dateDiffYears = floor(dateDiffMonths/12)
             val remainingMonths = floor(dateDiffMonths % 12)
             finalAmount -= pa
             for(i in 1..dateDiffYears.toInt()){
@@ -201,6 +205,7 @@ class FragmentTransactionSearch : Fragment() {
     }
     private fun calculateInterest(pa: Float, ir: Float, t: Float): Float {
         val tempAmount = pa * (1 + ((ir/100) * t))
+        println("$pa, $ir, $t, "+(tempAmount-pa))
         return tempAmount - pa
     }
 }
