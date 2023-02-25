@@ -112,7 +112,7 @@ class FragmentAddTransaction : Fragment() {
                     .setCancelable(false)
                     .setPositiveButton("Yes") { _, _ ->
                         val transactionHashMap = hashMapOf(
-                            "type" to radioBtn.text.toString(),
+                            "type" to radioBtn.text.toString().uppercase(),
                             "amount" to amount,
                             "ir" to ir,
                             "remarks" to remarks,

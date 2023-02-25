@@ -13,6 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentTransactionSearchBinding
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.ceil
+import kotlin.math.floor
+import kotlin.math.max
 
 class FragmentTransactionSearch : Fragment() {
     private var _binding: FragmentTransactionSearchBinding? = null
@@ -27,6 +33,7 @@ class FragmentTransactionSearch : Fragment() {
     private lateinit var rakamWeight: String
     private lateinit var custDocumentId: String
     private lateinit var rakamDocumentId: String
+    private lateinit var irForIntCal: String
 
     private lateinit var recyclerView: RecyclerView
     private var tranList = ArrayList<DataTransactionSearch>()
@@ -34,6 +41,8 @@ class FragmentTransactionSearch : Fragment() {
     private lateinit var alertBuilder: AlertDialog.Builder
 
     private val db = Firebase.firestore
+
+    private var finalAmount: Float = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +95,12 @@ class FragmentTransactionSearch : Fragment() {
                     )
                     tranList.add(tranDetail)
                     adapter.notifyDataSetChanged()
+
+                    if(!tran.data["ir"].toString().isEmpty()){
+                        irForIntCal = tran.data["ir"] as String
+                    }
+                    calculateFinalAmount(tran.data["amount"] as String, irForIntCal,
+                        tran.data["date"] as String,tran.data["type"] as String)
                 }
 
             }
@@ -98,7 +113,7 @@ class FragmentTransactionSearch : Fragment() {
         }
 
         binding.buttonCalculateTotalBalance.setOnClickListener {
-
+            binding.calculatedAmount.text = finalAmount.toString()
         }
 
         binding.btnDeleteRakam.setOnClickListener {
@@ -160,5 +175,32 @@ class FragmentTransactionSearch : Fragment() {
 
         return binding.root
     }
+    @SuppressLint("SimpleDateFormat")
+    private fun calculateFinalAmount(principal: String, ir: String, dateString: String, tranType: String){
+        val pa = principal.toFloat()
 
+        val date = SimpleDateFormat("dd/MM/yyyy").parse(dateString)
+        val dateDiffMs = (Date().time - date.time).toFloat()
+        val dateDiffMonths: Float = ceil(dateDiffMs/(2592000000))
+        val dateDiffYears = floor(dateDiffMonths/12)
+        if (tranType == "NAAME"){
+            val remainingMonths = ceil(dateDiffMonths % 12)
+            finalAmount += pa
+            for(i in 1..dateDiffYears.toInt()){
+                finalAmount += calculateInterest(pa, ir.toFloat(), 12f)
+            }
+            finalAmount += calculateInterest(pa, ir.toFloat(), remainingMonths)
+        }else{
+            val remainingMonths = floor(dateDiffMonths % 12)
+            finalAmount -= pa
+            for(i in 1..dateDiffYears.toInt()){
+                finalAmount -= calculateInterest(pa, ir.toFloat(), 12f)
+            }
+            finalAmount -= calculateInterest(pa, ir.toFloat(), max(0f, remainingMonths-1))
+        }
+    }
+    private fun calculateInterest(pa: Float, ir: Float, t: Float): Float {
+        val tempAmount = pa * (1 + ((ir/100) * t))
+        return tempAmount - pa
+    }
 }
