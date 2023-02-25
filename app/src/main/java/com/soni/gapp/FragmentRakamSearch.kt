@@ -85,6 +85,20 @@ class FragmentRakamSearch : Fragment() {
             Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_LONG).show()
         }
 
+        binding.btnEditCustInfo.setOnClickListener {
+            val bundle = Bundle()
+            val nextFragment = FragmentAddCust()
+            bundle.putString("f_name", fName)
+            bundle.putString("m_name", mName)
+            bundle.putString("l_name", lName)
+            bundle.putString("city", city)
+            bundle.putString("mobile_number", mobileNumber)
+            bundle.putString("aadhar_number", aadharNumber)
+            bundle.putBoolean("isTransferredFromSearch", true)
+            nextFragment.arguments = bundle
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).addToBackStack(null).commit()
+        }
+
         binding.buttonRakamSearchAddRakam.setOnClickListener {
             val nextFragment = FragmentAddRakam()
             nextFragment.arguments = arguments

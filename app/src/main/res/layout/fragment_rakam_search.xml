@@ -28,26 +28,37 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewSearchResultCustDetails" />
 
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
         android:id="@+id/textViewAadharNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
-        android:background="@android:color/darker_gray"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewMobileNumber"
         app:layout_constraintTop_toBottomOf="@+id/textViewSearchResultCustDetails" />
 
+    <Button
+        android:id="@+id/btnEditCustInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/searchRakamEditCustInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAadharNumber" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRakamSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMobileNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEditCustInfo" />
 
     <Button
         android:id="@+id/buttonRakamSearchAddRakam"
@@ -62,9 +73,9 @@
         android:id="@+id/btnDeleteCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rakamSearchDeleteCustomer"
-        android:backgroundTint="@android:color/holo_red_dark"
         android:layout_marginStart="50dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:text="@string/rakamSearchDeleteCustomer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonRakamSearchAddRakam"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewRakamSearch" />

@@ -43,6 +43,7 @@
     <string name="calculate_amount">Calculate Amount</string>
     <string name="rakamSearchDeleteCustomer">Delete Customer</string>
     <string name="tranSearchDeleteRakam">Delete Rakam</string>
+    <string name="searchRakamEditCustInfo">Edit Customer Info</string>
     <!-- String related to search results -->
 
 
