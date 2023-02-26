@@ -22,10 +22,11 @@ class FragmentAddCust : Fragment() {
     private lateinit var mName: String
     private lateinit var lName: String
     private lateinit var city: String
-    private var mobileNo: String = "null"
-    private var aadharNo: String = "null"
+    private var mobileNumber: String = "null"
+    private var aadharNumber: String = "null"
     private lateinit var custDocumentId: String
     private var isTransferredFromSearch: Boolean = false
+    private var isCustomerExists:Boolean = false
     private var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +36,14 @@ class FragmentAddCust : Fragment() {
             mName = bundle.getString("m_name").toString()
             lName = bundle.getString("l_name").toString()
             city = bundle.getString("city").toString()
-            mobileNo = bundle.getString("mobile_number").toString()
-            aadharNo = bundle.getString("aadhar_number").toString()
+            mobileNumber = bundle.getString("mobile_number").toString()
+            aadharNumber = bundle.getString("aadhar_number").toString()
             isTransferredFromSearch = bundle.getBoolean("isTransferredFromSearch")
-            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNo!!.filter { !it.isWhitespace() }+"_"+ aadharNo!!.filter { !it.isWhitespace() }
+            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber.filter { !it.isWhitespace() }+"_"+ aadharNumber.filter { !it.isWhitespace() }
 
-            alertBuilder = AlertDialog.Builder(activity)
         }
     }
+
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,165 +51,67 @@ class FragmentAddCust : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddCustBinding.inflate(inflater, container, false)
+        alertBuilder = AlertDialog.Builder(activity)
 
-        if (isTransferredFromSearch){
+        if (isTransferredFromSearch) {
             binding.firstName.setText(fName)
             binding.middleName.setText(mName)
             binding.lastName.setText(lName)
             binding.city.setText(city)
-            binding.mobileNumber.setText(mobileNo)
-            binding.aadharNumber.setText(aadharNo)
-            binding.addAccountButton.setText("Update Customer Info")
+            binding.mobileNumber.setText(mobileNumber)
+            binding.aadharNumber.setText(aadharNumber)
+            binding.addAccountButton.text = "Update Customer Info"
         }
 
-        binding.addAccountButton.setOnClickListener{
-            //Checking Data type
+        binding.addAccountButton.setOnClickListener {
             fName = binding.firstName.text.toString().uppercase()
             lName = binding.lastName.text.toString().uppercase()
             mName = binding.middleName.text.toString().uppercase()
             city = binding.city.text.toString().uppercase()
-            mobileNo = binding.mobileNumber.text.toString()
-            aadharNo = binding.aadharNumber.text.toString()
+            mobileNumber = binding.mobileNumber.text.toString()
+            aadharNumber = binding.aadharNumber.text.toString()
+            isCustomerExists = false
 
-            if (isTransferredFromSearch){
-                if (fName.isEmpty() or lName.isEmpty() or mName.isEmpty() or city.isEmpty()) {
-                    Toast.makeText(activity, "Please insert Valid Data ", Toast.LENGTH_LONG).show()
-                } else if (mobileNo.isNotBlank() and (mobileNo.length != 10)) {
-                    Toast.makeText(activity, "Please insert Valid Number ", Toast.LENGTH_LONG)
-                        .show()
-                } else if (aadharNo.isNotBlank() and (aadharNo.length != 12)) {
-                    Toast.makeText(activity, "Please insert Valid Aadhar ", Toast.LENGTH_LONG)
-                        .show()
-                }
-                else{
-                    alertBuilder.setTitle("Confirmation")
-                        .setMessage("Are you sure want to add account?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes") { _, _ ->
+            if (fName.isEmpty() or lName.isEmpty() or mName.isEmpty() or city.isEmpty()) {
+                Toast.makeText(activity, "Please insert Valid Data ", Toast.LENGTH_LONG).show()
+            } else if (mobileNumber.isNotBlank() and (mobileNumber.length != 10)) {
+                Toast.makeText(activity, "Please insert Valid Number ", Toast.LENGTH_LONG)
+                    .show()
+            } else if (aadharNumber.isNotBlank() and (aadharNumber.length != 12)) {
+                Toast.makeText(activity, "Please insert Valid Aadhar ", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                db.collection("cust").get().addOnSuccessListener { custDocs ->
+                    val query =
+                        fName.filter { !it.isWhitespace() } + "_" + mName.filter { !it.isWhitespace() } + "_" + lName.filter { !it.isWhitespace() } + "_" + city.filter { !it.isWhitespace() }
 
-                            val accountHashMap = hashMapOf(
-                                "f_name" to fName,
-                                "m_name" to mName,
-                                "l_name" to lName,
-                                "city" to city,
-                                "mobile_no" to mobileNo,
-                                "aadhar_no" to aadharNo
-
-                            )
-
-                            db.collection("cust").document(custDocumentId)
-                                .set(accountHashMap, SetOptions.merge())
-                                .addOnSuccessListener {
-                                    Toast.makeText(
-                                        activity,
-                                        "Account Updated Successfully",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    binding.firstName.text.clear()
-                                    binding.lastName.text.clear()
-                                    binding.middleName.text.clear()
-                                    binding.city.text.clear()
-                                    binding.mobileNumber.text.clear()
-                                    binding.aadharNumber.text.clear()
-
-                                }
-                                .addOnFailureListener {
-                                    Toast.makeText(
-                                        activity,
-                                        "Account Update Failed",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-
-
+                    if (!custDocs.isEmpty) {
+                        for (docs in custDocs) {
+                            if (docs.id.contains(query)) {
+                                isCustomerExists = true
+                            }
                         }
-                        .setNegativeButton("No") { _, _ ->
-                            Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
+                        println(isCustomerExists)
+                        if (isCustomerExists) {
+                            Toast.makeText(context, "Customer Already Exists", Toast.LENGTH_LONG).show()
+                        } else {
+                            alertBuilder.setTitle("Confirmation")
+                                .setMessage("Are you sure?")
+                                .setPositiveButton("Yes") { _, _ ->
+                                    addCustomer()
+                                }.setNegativeButton("No"){_,_->
+                                    Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show()
+                                }
+                            alertBuilder.show()
                         }
-                    alertBuilder.show()
+                    }
+                }.addOnFailureListener { Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_SHORT).show()
                 }
             }
-            else {
 
-                if (fName.isEmpty() or lName.isEmpty() or mName.isEmpty() or city.isEmpty()) {
-                    Toast.makeText(activity, "Please insert Valid Data ", Toast.LENGTH_LONG).show()
-                } else if (mobileNo.isNotBlank() and (mobileNo.length != 10)) {
-                    Toast.makeText(activity, "Please insert Valid Number ", Toast.LENGTH_LONG)
-                        .show()
-                } else if (aadharNo.isNotBlank() and (aadharNo.length != 12)) {
-                    Toast.makeText(activity, "Please insert Valid Aadhar ", Toast.LENGTH_LONG)
-                        .show()
-                } else {
-
-                    // Creating Alert to add customer
-                    alertBuilder.setTitle("Confirmation")
-                        .setMessage("Are you sure want to add account?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes") { _, _ ->
-
-                            val accountHashMap = hashMapOf(
-                                "f_name" to fName,
-                                "m_name" to mName,
-                                "l_name" to lName,
-                                "city" to city,
-                                "mobile_no" to mobileNo,
-                                "aadhar_no" to aadharNo
-
-                            )
-
-                            db.collection("cust").document(
-                                fName.filter { !it.isWhitespace() } + "_"
-                                        + mName.filter { !it.isWhitespace() } + "_"
-                                        + lName.filter { !it.isWhitespace() } + "_"
-                                        + city.filter { !it.isWhitespace() } + "_"
-                                        + mobileNo.filter { !it.isWhitespace() } + "_"
-                                        + aadharNo.filter { !it.isWhitespace() })
-                                .set(accountHashMap, SetOptions.merge())
-                                .addOnSuccessListener {
-                                    Toast.makeText(
-                                        activity,
-                                        "Account Added Successfully",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    binding.firstName.text.clear()
-                                    binding.lastName.text.clear()
-                                    binding.middleName.text.clear()
-                                    binding.city.text.clear()
-                                    binding.mobileNumber.text.clear()
-                                    binding.aadharNumber.text.clear()
-
-                                    val bundle = Bundle()
-                                    val nextFragment = FragmentAddRakam()
-                                    bundle.putString("f_name", fName)
-                                    bundle.putString("m_name", mName)
-                                    bundle.putString("l_name", lName)
-                                    bundle.putString("city", city)
-                                    bundle.putString("mobile_number", mobileNo)
-                                    bundle.putString("aadhar_number", aadharNo)
-                                    nextFragment.arguments = bundle
-
-                                    replaceFragment(nextFragment)
-                                }
-                                .addOnFailureListener {
-                                    Toast.makeText(
-                                        activity,
-                                        "Account insertion Failed",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
-
-
-                        }
-                        .setNegativeButton("No") { _, _ ->
-                            Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
-                        }
-                    alertBuilder.show()
-                }
-            }
         }
-        return binding.root
+            return binding.root
     }
-
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = requireActivity().supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -219,9 +122,61 @@ class FragmentAddCust : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+    private fun addCustomer(){
+            val accountHashMap = hashMapOf(
+                "f_name" to fName,
+                "m_name" to mName,
+                "l_name" to lName,
+                "city" to city,
+                "mobile_no" to mobileNumber,
+                "aadhar_no" to aadharNumber
 
+            )
+            val tempDocID = fName.filter { !it.isWhitespace() } + "_"+ mName.filter { !it.isWhitespace() } + "_"+ lName.filter { !it.isWhitespace() } + "_"+ city.filter { !it.isWhitespace() } + "_"+ mobileNumber.filter { !it.isWhitespace() } + "_"+ aadharNumber.filter { !it.isWhitespace() }
+            if (!isTransferredFromSearch) {
+                db.collection("cust").document(tempDocID)
+                    .set(accountHashMap, SetOptions.merge())
+                    .addOnSuccessListener {
+                        Toast.makeText(activity, "Account Added Successfully", Toast.LENGTH_LONG).show()
+                        binding.firstName.text.clear()
+                        binding.lastName.text.clear()
+                        binding.middleName.text.clear()
+                        binding.city.text.clear()
+                        binding.mobileNumber.text.clear()
+                        binding.aadharNumber.text.clear()
 
+                        val bundle = Bundle()
+                        val nextFragment = FragmentAddRakam()
+                        bundle.putString("f_name", fName)
+                        bundle.putString("m_name", mName)
+                        bundle.putString("l_name", lName)
+                        bundle.putString("city", city)
+                        bundle.putString("mobile_number", mobileNumber)
+                        bundle.putString("aadhar_number", aadharNumber)
+                        nextFragment.arguments = bundle
 
+                        replaceFragment(nextFragment)
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(activity, "Account insertion Failed", Toast.LENGTH_LONG).show()
+                    }
+            }
+            else{
+                db.collection("cust").document(custDocumentId)
+                    .set(accountHashMap, SetOptions.merge())
+                    .addOnSuccessListener {
+                        Toast.makeText(activity, "Account Updated Successfully", Toast.LENGTH_LONG).show()
+                        binding.firstName.text.clear()
+                        binding.lastName.text.clear()
+                        binding.middleName.text.clear()
+                        binding.city.text.clear()
+                        binding.mobileNumber.text.clear()
+                        binding.aadharNumber.text.clear()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(activity, "Account Update Failed", Toast.LENGTH_LONG).show()
+                    }
+            }
 
-
+    }
 }

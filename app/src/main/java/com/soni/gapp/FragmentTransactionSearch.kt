@@ -180,7 +180,7 @@ class FragmentTransactionSearch : Fragment() {
         val pa = principal.toFloat()
 
         val date = SimpleDateFormat("dd/MM/yyyy").parse(dateString)
-        val dateDiffMs = (Date().time - date.time).toFloat()
+        val dateDiffMs = (Date().time - date!!.time).toFloat()
 
         if (tranType == "NAAME"){
             val dateDiffMonths: Float = ceil(dateDiffMs/(2592000000))
