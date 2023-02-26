@@ -91,7 +91,6 @@ class FragmentAddCust : Fragment() {
                                 isCustomerExists = true
                             }
                         }
-                        println(isCustomerExists)
                         if (isCustomerExists) {
                             Toast.makeText(context, "Customer Already Exists", Toast.LENGTH_LONG).show()
                         } else {
