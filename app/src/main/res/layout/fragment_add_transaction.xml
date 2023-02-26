@@ -15,8 +15,9 @@
         android:layout_marginTop="25dp"
         android:layout_marginEnd="130dp"
         android:padding="20dp"
-        android:textSize="20sp"
+        android:textSize="11sp"
         android:text="@string/add_transaction"
+        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:padding="20dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
+        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
         android:padding="20dp"
-        android:textSize="20sp"
+        android:textSize="15sp"
+        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text_bkg"
         android:checkedButton="@id/radioBtnNaame"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,18 +61,20 @@
         app:layout_constraintTop_toBottomOf="@+id/text_view_rakam">
 
         <RadioButton
-        android:id="@+id/radioBtnNaame"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/naame"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="429dp" />
+            android:id="@+id/radioBtnNaame"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_bkg"
+            android:text="@string/naame"
+            android:textSize="16sp"
+            tools:layout_editor_absoluteX="46dp"
+            tools:layout_editor_absoluteY="429dp" />
 
         <RadioButton
             android:id="@+id/radioBtnJama"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_bkg"
             android:text="@string/jama"
             android:textSize="16sp"
             tools:layout_editor_absoluteX="54dp"
@@ -160,7 +166,7 @@
     <Button
         android:id="@+id/date_picker_button"
         android:layout_width="48dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="36dp"

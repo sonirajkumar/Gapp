@@ -15,6 +15,7 @@
         android:padding="20dp"
         android:text="@string/add_rakam"
         android:textSize="20sp"
+        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,55 +25,55 @@
         android:id="@+id/text_view_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="5dp"
         android:padding="20dp"
-        android:textSize="20sp"
+        android:textSize="11sp"
+        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_add_rakam" />
 
     <EditText
         android:id="@+id/rakam_type"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="228dp"
-        android:hint="@string/rakam_type"
+        android:layout_marginTop="20dp"
         android:autofillHints="name"
+        android:background="@drawable/edit_text_bkg"
+        android:hint="@string/rakam_type"
         android:inputType="textPersonName"
         android:padding="10dp"
         android:selectAllOnFocus="true"
-        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_name" />
 
     <EditText
         android:id="@+id/rakam_weight"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="288dp"
-        android:hint="@string/rakam_weight"
+        android:layout_marginTop="10dp"
         android:autofillHints="number"
+        android:background="@drawable/edit_text_bkg"
+        android:hint="@string/rakam_weight"
         android:inputType="number"
         android:padding="10dp"
         android:selectAllOnFocus="true"
-        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/rakam_type" />
 
     <Button
         android:id="@+id/add_rakam_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="146dp"
         android:layout_marginTop="53dp"
-        android:layout_marginEnd="178dp"
         android:text="@string/add_rakam"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rakam_weight" />
 

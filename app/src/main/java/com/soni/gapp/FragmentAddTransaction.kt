@@ -54,8 +54,8 @@ class FragmentAddTransaction : Fragment() {
         var radioSelection = binding.radioGrpNaameJama.checkedRadioButtonId
         radioBtn = binding.root.findViewById(radioSelection)
 
-        val showName = "Customer: $fName $mName $lName $city"
-        val showRakam = "Rakam: $rakamType: $rakamWeight GMS"
+        val showName = "$fName $mName $lName $city"
+        val showRakam = "$rakamType: $rakamWeight GMS"
 
         binding.textViewName.text = showName
         binding.textViewRakam.text = showRakam
