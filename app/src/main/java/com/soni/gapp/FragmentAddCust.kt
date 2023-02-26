@@ -87,7 +87,7 @@ class FragmentAddCust : Fragment() {
 
                     if (!custDocs.isEmpty) {
                         for (docs in custDocs) {
-                            if (docs.id.contains(query)) {
+                            if (docs.id.contains(query) && !isTransferredFromSearch) {
                                 isCustomerExists = true
                             }
                         }

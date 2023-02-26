@@ -113,7 +113,7 @@ class FragmentTransactionSearch : Fragment() {
         }
 
         binding.buttonCalculateTotalBalance.setOnClickListener {
-            binding.calculatedAmount.text = finalAmount.toString()
+            binding.calculatedAmount.text = "\u20B9 $finalAmount"
         }
 
         binding.btnDeleteRakam.setOnClickListener {
