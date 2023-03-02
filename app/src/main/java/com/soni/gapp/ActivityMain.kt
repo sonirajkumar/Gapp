@@ -2,23 +2,20 @@
 
 package com.soni.gapp
 
-//import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.soni.gapp.databinding.ActivityMainBinding
+import kotlin.system.exitProcess
 
 class ActivityMain : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-//    private lateinit var token: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        var token = this.getSharedPreferences("email", Context.MODE_PRIVATE)
 
         replaceFragment(FragmentHome())
 
@@ -28,17 +25,18 @@ class ActivityMain : AppCompatActivity() {
                 R.id.add -> replaceFragment(FragmentAddCust())
                 R.id.search -> replaceFragment(FragmentCustSearch())
                 R.id.menu -> replaceFragment(FragmentMenu())
-
                 else -> {
-
                 }
             }
             true
         }
+    }
 
-
-//        binding.username.text = token.getString("loginemail"," ")
-
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
+        exitProcess(0)
     }
 
     private fun replaceFragment(fragment: Fragment){

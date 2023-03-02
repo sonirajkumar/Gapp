@@ -25,7 +25,7 @@ class ActivityLogin : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        if (token.getString("loginemail"," ")!=" "){
+        if (token.getString("email"," ")!=" "){
             val intent = Intent( this, ActivityMain::class.java)
             startActivity(intent)
             finish()
@@ -42,11 +42,10 @@ class ActivityLogin : AppCompatActivity() {
                     if (it.isSuccessful){
 
                         val intent = Intent( this, ActivityMain::class.java)
-                        intent.putExtra("email",email)
 
 
                         val editor = token.edit()
-                        editor.putString("loginemail", email)
+                        editor.putString("email", email)
                         editor.apply()
 
                         startActivity(intent)

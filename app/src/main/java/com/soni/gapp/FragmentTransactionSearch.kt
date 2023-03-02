@@ -194,7 +194,7 @@ class FragmentTransactionSearch : Fragment() {
                     val tempEndDate = SimpleDateFormat("dd/MM/yyyy").parse(endDate)
                     val tempStartDate = SimpleDateFormat("dd/MM/yyyy").parse(StartDate)
                     val dateDiffMs = (tempEndDate!!.time - tempStartDate!!.time).toFloat()
-                    val dateDiffMonths: Float = ceil(dateDiffMs / (2592000000))
+                    val dateDiffMonths: Float = ceil(dateDiffMs / (2635200000))
                     val dateDiffYears = floor(dateDiffMonths / 12)
                     val remainingMonths = ceil(dateDiffMonths % 12)
 
