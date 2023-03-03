@@ -4,6 +4,9 @@ package com.soni.gapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.soni.gapp.databinding.ActivityMainBinding
 import kotlin.system.exitProcess
@@ -32,11 +35,18 @@ class ActivityMain : AppCompatActivity() {
         }
     }
 
+    private var doubleBackToExitPressedOnce = false
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        super.onBackPressed()
-        this.finish()
-        exitProcess(0)
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
 
     private fun replaceFragment(fragment: Fragment){
