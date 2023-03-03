@@ -13,13 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentTransactionSearchBinding
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.max
-
 class FragmentTransactionSearch : Fragment() {
     private var _binding: FragmentTransactionSearchBinding? = null
     private val binding get() = _binding!!
@@ -116,7 +110,8 @@ class FragmentTransactionSearch : Fragment() {
         }
 
         binding.buttonCalculateTotalBalance.setOnClickListener {
-            calculateFinalAmount()
+            val intCalObject = IntCalculator()
+            finalAmount = intCalObject.calculateFinalAmount(tranListForIntCal, irForIntCal)
             binding.calculatedAmount.text = "\u20B9 $finalAmount"
         }
 
@@ -178,84 +173,5 @@ class FragmentTransactionSearch : Fragment() {
         }
 
         return binding.root
-    }
-    @SuppressLint("SimpleDateFormat")
-    private fun calculateFinalAmount(){
-        if (tranListForIntCal[0][0]!="NAAME"){
-            Toast.makeText(context,"wrong sequence of transactions",Toast.LENGTH_SHORT).show()
-        }
-        var pa = 0f
-        for(i in 0 until tranListForIntCal.size){
-            if(i != tranListForIntCal.size-1){
-                if (tranListForIntCal[i][0]=="NAAME") {
-                    pa += tranListForIntCal[i][1].toFloat()
-                    val endDate = tranListForIntCal[i + 1][2]
-                    val StartDate = tranListForIntCal[i][2]
-                    val tempEndDate = SimpleDateFormat("dd/MM/yyyy").parse(endDate)
-                    val tempStartDate = SimpleDateFormat("dd/MM/yyyy").parse(StartDate)
-                    val dateDiffMs = (tempEndDate!!.time - tempStartDate!!.time).toFloat()
-                    val dateDiffMonths: Float = ceil(dateDiffMs / (2635200000))
-                    val dateDiffYears = floor(dateDiffMonths / 12)
-                    val remainingMonths = ceil(dateDiffMonths % 12)
-
-                    for (j in 1..dateDiffYears.toInt()) {
-                        pa += calculateInterest(pa, irForIntCal.toFloat(), 12f)
-                    }
-                    pa += calculateInterest(pa, irForIntCal.toFloat(), remainingMonths)
-                }
-                else{
-                    pa -= tranListForIntCal[i][1].toFloat()
-                    val endDate = tranListForIntCal[i + 1][2]
-                    val StartDate = tranListForIntCal[i][2]
-                    val tempEndDate = SimpleDateFormat("dd/MM/yyyy").parse(endDate)
-                    val tempStartDate = SimpleDateFormat("dd/MM/yyyy").parse(StartDate)
-                    val dateDiffMs = (tempEndDate!!.time - tempStartDate!!.time).toFloat()
-                    val dateDiffMonths: Float = ceil(dateDiffMs / (2592000000))
-                    val dateDiffYears = floor(dateDiffMonths / 12)
-                    val remainingMonths = ceil(dateDiffMonths % 12)
-
-                    for (j in 1..dateDiffYears.toInt()) {
-                        pa += calculateInterest(pa, irForIntCal.toFloat(), 12f)
-                    }
-                    pa += calculateInterest(pa, irForIntCal.toFloat(), remainingMonths)
-                }
-            }
-            else{
-                if (tranListForIntCal[i][0]=="NAAME") {
-                    pa += tranListForIntCal[i][1].toFloat()
-                    val StartDate = tranListForIntCal[i][2]
-                    val tempStartDate = SimpleDateFormat("dd/MM/yyyy").parse(StartDate)
-                    val dateDiffMs = (Date().time - tempStartDate!!.time).toFloat()
-                    val dateDiffMonths: Float = ceil(dateDiffMs / (2592000000))
-                    val dateDiffYears = floor(dateDiffMonths / 12)
-                    val remainingMonths = ceil(dateDiffMonths % 12)
-
-                    for (j in 1..dateDiffYears.toInt()) {
-                        pa += calculateInterest(pa, irForIntCal.toFloat(), 12f)
-                    }
-                    pa += calculateInterest(pa, irForIntCal.toFloat(), remainingMonths)
-                }
-                else{
-                    pa -= tranListForIntCal[i][1].toFloat()
-                    val StartDate = tranListForIntCal[i][2]
-                    val tempStartDate = SimpleDateFormat("dd/MM/yyyy").parse(StartDate)
-                    val dateDiffMs = (Date().time - tempStartDate!!.time).toFloat()
-                    val dateDiffMonths: Float = ceil(dateDiffMs / (2592000000))
-                    val dateDiffYears = floor(dateDiffMonths / 12)
-                    val remainingMonths = ceil(dateDiffMonths % 12)
-
-                    for (j in 1..dateDiffYears.toInt()) {
-                        pa += calculateInterest(pa, irForIntCal.toFloat(), 12f)
-                    }
-                    pa += calculateInterest(pa, irForIntCal.toFloat(), remainingMonths)
-                }
-            }
-
-        }
-        finalAmount = pa
-    }
-    private fun calculateInterest(pa: Float, ir: Float, t: Float): Float {
-        val tempAmount = pa * (1 + ((ir/100) * t))
-        return tempAmount - pa
     }
 }
