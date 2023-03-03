@@ -66,6 +66,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rakam_type" />
 
+    <EditText
+        android:id="@+id/rakam_number"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints="number"
+        android:background="@drawable/edit_text_bkg"
+        android:hint="@string/add_rakam_et_rakam_number"
+        android:inputType="textAutoComplete"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rakam_weight"
+        tools:ignore="TextFields" />
+
     <Button
         android:id="@+id/add_rakam_button"
         android:layout_width="wrap_content"
@@ -75,6 +92,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rakam_weight" />
+        app:layout_constraintTop_toBottomOf="@+id/rakam_number" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

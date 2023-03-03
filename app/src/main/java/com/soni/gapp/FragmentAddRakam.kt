@@ -43,8 +43,9 @@ class FragmentAddRakam : Fragment() {
         binding.addRakamButton.setOnClickListener {
             val rakamType = binding.rakamType.text.toString().uppercase()
             val rakamWeight = binding.rakamWeight.text.toString().uppercase()
+            val rakamNumber = binding.rakamNumber.text.toString().uppercase()
 
-            if (rakamType.isEmpty() or rakamWeight.isEmpty()){
+            if (rakamType.isEmpty() or rakamWeight.isEmpty() or rakamNumber.isEmpty()){
                 Toast.makeText(activity,"Please insert Valid Data ", Toast.LENGTH_LONG).show()
             }
             else{
@@ -54,7 +55,8 @@ class FragmentAddRakam : Fragment() {
                     .setPositiveButton("Yes") { _, _ ->
                         val rakamHashMap = hashMapOf(
                             "rakam_type" to rakamType,
-                            "weight_gms" to rakamWeight
+                            "weight_gms" to rakamWeight,
+                            "rakam_number" to rakamNumber
                             )
 
                         db.collection("cust").document(documentID)

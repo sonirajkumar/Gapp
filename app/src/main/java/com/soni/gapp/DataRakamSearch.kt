@@ -8,5 +8,6 @@ data class DataRakamSearch(
     val mobileNumber: String?,
     val aadharNumber: String?,
     val rakamType: String,
-    val rakamWeight: String
+    val rakamWeight: String,
+    val rakamNumber: String
 )

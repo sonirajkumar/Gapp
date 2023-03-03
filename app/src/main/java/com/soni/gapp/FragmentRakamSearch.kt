@@ -72,8 +72,9 @@ class FragmentRakamSearch : Fragment() {
                 for(rakam in it){
                     val rakamDetail = DataRakamSearch(
                         fName,mName,lName,city,mobileNumber,aadharNumber,
-                        rakam.data["rakam_type"] as String,
-                        rakam.data["weight_gms"] as String
+                        rakam.data["rakam_type"].toString(),
+                        rakam.data["weight_gms"].toString(),
+                        rakam.data["rakam_number"].toString()
                     )
                     rakamList.add(rakamDetail)
                     adapter.notifyDataSetChanged()

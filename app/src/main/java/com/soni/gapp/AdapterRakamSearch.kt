@@ -36,6 +36,7 @@ class AdapterRakamSearch(private  val rakamList: ArrayList<DataRakamSearch>): Re
             bundle.putString("aadhar_number", rakamSearchData.aadharNumber)
             bundle.putString("rakam_type", rakamSearchData.rakamType)
             bundle.putString("rakam_weight", rakamSearchData.rakamWeight)
+            bundle.putString("rakam_number", rakamSearchData.rakamNumber)
 
             val resultFragment = FragmentTransactionSearch()
             resultFragment.arguments = bundle

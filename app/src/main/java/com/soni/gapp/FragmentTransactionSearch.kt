@@ -25,6 +25,7 @@ class FragmentTransactionSearch : Fragment() {
     private var aadharNumber: String? = null
     private lateinit var rakamType: String
     private lateinit var rakamWeight: String
+    private lateinit var rakamNumber: String
     private lateinit var custDocumentId: String
     private lateinit var rakamDocumentId: String
     private lateinit var irForIntCal: String
@@ -50,6 +51,7 @@ class FragmentTransactionSearch : Fragment() {
             aadharNumber = bundle.getString("aadhar_number").toString()
             rakamType = bundle.getString("rakam_type").toString()
             rakamWeight = bundle.getString("rakam_weight").toString()
+            rakamNumber = bundle.getString("rakam_number").toString()
             custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }
             rakamDocumentId = rakamType.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
             alertBuilder = AlertDialog.Builder(activity)
@@ -71,7 +73,7 @@ class FragmentTransactionSearch : Fragment() {
         tranListForIntCal = mutableListOf()
 
         val custDetails = "$fName $mName $lName $city"
-        val rakamDetails = "$rakamType $rakamWeight GMS"
+        val rakamDetails = "$rakamType $rakamWeight GMS $rakamNumber"
         binding.textViewTransactionSearchFragmentCustDetails.text = custDetails
         binding.textViewTransactionSearchFragmentMobileNumber.text = "Mobile: $mobileNumber"
         binding.textViewTransactionSearchFragmentAadharNumber.text = "Aadhar: $aadharNumber"

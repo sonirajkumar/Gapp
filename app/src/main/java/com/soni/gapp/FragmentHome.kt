@@ -45,6 +45,8 @@ class FragmentHome : Fragment() {
         adapter.notifyDataSetChanged()
 
         binding.btnShowRakamInLoss.setOnClickListener {
+            custSearchList.clear()
+            adapter.notifyDataSetChanged()
             val silRate = binding.etSilverRate.text?.toString()
             if (silRate.isNullOrEmpty()){
                 Toast.makeText(context, "Please Enter a Valid Rate", Toast.LENGTH_SHORT).show()
