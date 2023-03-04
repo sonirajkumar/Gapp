@@ -76,7 +76,7 @@ class FragmentHome : Fragment() {
                                                     }
                                                     val intCalObject = IntCalculator()
                                                     finalAmount = intCalObject.calculateFinalAmount(tranListForIntCal, irForIntCal)
-                                                    if (finalAmount>((rakamWeight * silRate.toFloat())/1000)){
+                                                    if (finalAmount > ((rakamWeight * silRate.toFloat())/1000)){
                                                         val custData = DataCustSearch(
                                                             cust.data["f_name"].toString(),
                                                             cust.data["m_name"].toString(),
