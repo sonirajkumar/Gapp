@@ -108,7 +108,7 @@ class FragmentAddTransaction : Fragment() {
             else {
 
                 alertBuilder.setTitle("Confirmation")
-                    .setMessage("Are you sure want to add rakam?")
+                    .setMessage("Are you sure want to add transaction?")
                     .setCancelable(false)
                     .setPositiveButton("Yes") { _, _ ->
                         val transactionHashMap = hashMapOf(

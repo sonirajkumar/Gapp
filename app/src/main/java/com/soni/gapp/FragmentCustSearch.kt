@@ -44,7 +44,7 @@ class FragmentCustSearch : Fragment() {
                 custSearchList.clear()
                 adapter.notifyDataSetChanged()
                 if (query != null) {
-                    getCustData(query.uppercase())
+                    getCustData(query.filter { !it.isWhitespace() }.uppercase())
                 }
                 return true
             }

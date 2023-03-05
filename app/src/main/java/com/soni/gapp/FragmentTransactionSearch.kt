@@ -14,6 +14,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentTransactionSearchBinding
 import kotlin.collections.ArrayList
+import kotlin.math.ceil
 class FragmentTransactionSearch : Fragment() {
     private var _binding: FragmentTransactionSearchBinding? = null
     private val binding get() = _binding!!
@@ -30,6 +31,7 @@ class FragmentTransactionSearch : Fragment() {
     private lateinit var rakamDocumentId: String
     private lateinit var irForIntCal: String
     private lateinit var tranListForIntCal: MutableList<MutableList<String>>
+    private var isEmptyTransactions: Boolean = true
 
     private lateinit var recyclerView: RecyclerView
     private var tranList = ArrayList<DataTransactionSearch>()
@@ -82,6 +84,7 @@ class FragmentTransactionSearch : Fragment() {
         val collectionRef = db.collection("cust").document(custDocumentId).collection("rakam").document(rakamDocumentId).collection("transaction")
         collectionRef.get().addOnSuccessListener {
             if (!it.isEmpty) {
+                isEmptyTransactions = false
                 for (tran in it) {
                     val tranDetail = DataTransactionSearch(
                         tran.data["type"] as String,
@@ -112,9 +115,14 @@ class FragmentTransactionSearch : Fragment() {
         }
 
         binding.buttonCalculateTotalBalance.setOnClickListener {
-            val intCalObject = IntCalculator()
-            finalAmount = intCalObject.calculateFinalAmount(tranListForIntCal, irForIntCal)
-            binding.calculatedAmount.text = "\u20B9 $finalAmount"
+            if(!isEmptyTransactions) {
+                val intCalObject = IntCalculator()
+                finalAmount =
+                    ceil(intCalObject.calculateFinalAmount(tranListForIntCal, irForIntCal))
+                binding.calculatedAmount.text = "\u20B9 $finalAmount"
+            }else{
+                binding.calculatedAmount.text = "No Transactions"
+            }
         }
 
         binding.btnDeleteRakam.setOnClickListener {
