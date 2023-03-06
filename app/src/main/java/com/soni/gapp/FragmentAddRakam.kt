@@ -40,6 +40,12 @@ class FragmentAddRakam : Fragment() {
 
         alertBuilder = AlertDialog.Builder(activity)
 
+        db.collection("max_rakam_number").document("rakam_number").get()
+            .addOnSuccessListener {
+                val text = "Last Rakam Number: " + it.data?.get("rakam_number")?.toString()
+                binding.tvLastRakamNumber.text = text
+            }
+
         binding.addRakamButton.setOnClickListener {
             val rakamType = binding.rakamType.text.toString().uppercase()
             val rakamWeight = binding.rakamWeight.text.toString().uppercase()
@@ -85,6 +91,7 @@ class FragmentAddRakam : Fragment() {
                             .addOnFailureListener{
                                 Toast.makeText(activity, "Rakam insertion Failed", Toast.LENGTH_LONG).show()
                             }
+                        db.collection("max_rakam_number").document("rakam_number").set(hashMapOf("rakam_number" to rakamNumber), SetOptions.merge())
 
                     }
                     .setNegativeButton("No"){_, _ ->
