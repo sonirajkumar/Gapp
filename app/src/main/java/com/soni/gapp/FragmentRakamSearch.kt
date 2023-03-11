@@ -129,7 +129,7 @@ class FragmentRakamSearch : Fragment() {
                             if (!rakams.isEmpty){
                                 for(rakam in rakams){
                                     db.collection("archive").document(custDocumentId)
-                                        .collection("rakam").document(rakam.id).set(rakam)
+                                        .collection("rakam").document(rakam.id).set(rakam.data)
 
                                     db.collection("cust").document(custDocumentId)
                                         .collection("rakam").document(rakam.id)

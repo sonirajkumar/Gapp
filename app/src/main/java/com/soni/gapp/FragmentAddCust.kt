@@ -161,7 +161,7 @@ class FragmentAddCust : Fragment() {
                     }
             }
             else{
-                db.collection("cust").document(custDocumentId)
+                db.collection("cust").document(tempDocID)
                     .set(accountHashMap, SetOptions.merge())
                     .addOnSuccessListener {
                         Toast.makeText(activity, "Account Updated Successfully", Toast.LENGTH_LONG).show()
@@ -175,6 +175,39 @@ class FragmentAddCust : Fragment() {
                     .addOnFailureListener {
                         Toast.makeText(activity, "Account Update Failed", Toast.LENGTH_LONG).show()
                     }
+
+                db.collection("cust").document(custDocumentId)
+                    .collection("rakam").get()
+                    .addOnSuccessListener { rakams->
+                        if (!rakams.isEmpty){
+                            for(rakam in rakams){
+                                db.collection("cust").document(tempDocID)
+                                    .collection("rakam").document(rakam.id).set(rakam.data)
+
+                                db.collection("cust").document(custDocumentId)
+                                    .collection("rakam").document(rakam.id)
+                                    .collection("transaction").get()
+                                    .addOnSuccessListener { ts->
+                                        if (!ts.isEmpty){
+                                            for (transactions in ts) {
+                                                db.collection("cust").document(tempDocID)
+                                                    .collection("rakam").document(rakam.id)
+                                                    .collection("transaction").document(transactions.id)
+                                                    .set(transactions.data)
+
+                                                db.collection("cust").document(custDocumentId)
+                                                    .collection("rakam").document(rakam.id)
+                                                    .collection("transaction").document(transactions.id)
+                                                    .delete()
+                                            }
+                                        }
+                                    }
+                                db.collection("cust").document(custDocumentId)
+                                    .collection("rakam").document(rakam.id).delete()
+                            }
+                        }
+                    }
+                db.collection("cust").document(custDocumentId).delete()
             }
 
     }
