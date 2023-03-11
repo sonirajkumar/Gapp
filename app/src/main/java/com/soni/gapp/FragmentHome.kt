@@ -66,7 +66,7 @@ class FragmentHome : Fragment() {
                                                 .addOnSuccessListener {tss->
                                                     if(!tss.isEmpty){
                                                         for(tran in tss){
-                                                            if(!tran.data["ir"].toString().isEmpty()){
+                                                            if(tran.data["ir"].toString().isNotEmpty()){
                                                                 irForIntCal = tran.data["ir"] as String
                                                             }
                                                             tranListForIntCal.add(mutableListOf(tran.data["type"].toString(),
@@ -76,7 +76,9 @@ class FragmentHome : Fragment() {
                                                     }
                                                     val intCalObject = IntCalculator()
                                                     finalAmount = intCalObject.calculateFinalAmount(tranListForIntCal, irForIntCal)
+
                                                     if (finalAmount > ((rakamWeight * silRate.toFloat())/1000)){
+
                                                         val custData = DataCustSearch(
                                                             cust.data["f_name"].toString(),
                                                             cust.data["m_name"].toString(),
@@ -87,6 +89,8 @@ class FragmentHome : Fragment() {
                                                         custSearchList.add(custData)
                                                         adapter.notifyDataSetChanged()
                                                     }
+                                                    tranListForIntCal.clear()
+                                                    irForIntCal = "0"
                                                 }
 
                                         }
