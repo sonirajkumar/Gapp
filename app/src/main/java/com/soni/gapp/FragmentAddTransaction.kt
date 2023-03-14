@@ -11,11 +11,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentAddTransactionBinding
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
@@ -128,6 +130,15 @@ class FragmentAddTransaction : Fragment() {
                                 binding.editTextRemarks.text.clear()
                                 binding.editTextIr.text.clear()
                                 binding.editTextDate.text.clear()
+                                // ADDING HISTORY HERE
+                                db.collection("history").document(LocalDateTime.now().toString())
+                                    .set(hashMapOf(
+                                        "f_name" to fName,
+                                        "m_name" to mName,
+                                        "l_name" to lName,
+                                        "city" to city,
+                                        "timestamp" to LocalDateTime.now().toString()
+                                    ))
                             }
                             .addOnFailureListener {
                                 Toast.makeText(
