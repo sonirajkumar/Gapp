@@ -118,7 +118,8 @@ class FragmentAddTransaction : Fragment() {
                             "amount" to amount,
                             "ir" to ir,
                             "remarks" to remarks,
-                            "date" to date
+                            "date" to date,
+                            "timestamp" to LocalDateTime.now().toString()
                         )
                         db.collection("cust").document(custDocumentID)
                             .collection("rakam").document(rakamDocumentID)

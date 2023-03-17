@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.AggregateSource
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentMenuBinding
@@ -52,7 +53,7 @@ class FragmentMenu : Fragment() {
             custSearchList.clear()
             adapter.notifyDataSetChanged()
 
-            db.collection("history").get().addOnSuccessListener { customers->
+            db.collection("history").orderBy("timestamp", Query.Direction.DESCENDING).get().addOnSuccessListener { customers->
                 if (!customers.isEmpty){
                     for(cust in customers){
                         val custData = DataCustSearch(
