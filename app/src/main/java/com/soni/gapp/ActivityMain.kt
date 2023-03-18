@@ -2,12 +2,8 @@ package com.soni.gapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.soni.gapp.databinding.ActivityMainBinding
-import kotlin.system.exitProcess
 
 class ActivityMain : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
