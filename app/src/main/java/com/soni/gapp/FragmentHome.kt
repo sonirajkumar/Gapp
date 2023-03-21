@@ -64,6 +64,8 @@ class FragmentHome : Fragment() {
 
         binding.btnShowTotal.setOnClickListener {
             totalAmountFlag = true
+            totalAmount = 0
+            totalJama = 0
             getFinalAmount()
         }
 
