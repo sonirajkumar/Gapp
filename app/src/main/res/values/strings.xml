@@ -49,6 +49,10 @@
     <string name="add_rakam_et_rakam_number">Rakam Number</string>
     <string name="fragment_menu_log_out">Log Out</string>
     <string name="fragment_menu_btn_last_transactions">Show Last Transactions</string>
+    <string name="fragment_home_btn_show_total">Show Total</string>
+    <string name="fragment_home_tv_total_amount">Total Amount: \u20B9</string>
+    <string name="fragment_home_tv_total_jama">Total Jama: \u20B9</string>
+    <string name="fragment_home_tv_total_interest">Total Interest: ₹</string>
     <!-- String related to search results -->
 
 

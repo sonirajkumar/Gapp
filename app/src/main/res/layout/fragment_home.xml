@@ -48,11 +48,80 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvShowRakamInLoss"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnShowTotal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnShowRakamInLoss" />
+
+    <Button
+        android:id="@+id/btnShowTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_home_btn_show_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvShowRakamInLoss" />
+
+    <TextView
+        android:id="@+id/tvTotalAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/fragment_home_tv_total_amount"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvTotalAmountValue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnShowTotal" />
+
+    <TextView
+        android:id="@+id/tvTotalAmountValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvTotalAmount"
+        app:layout_constraintTop_toBottomOf="@+id/btnShowTotal" />
+
+    <TextView
+        android:id="@+id/tvTotalJama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/fragment_home_tv_total_jama"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalAmount" />
+
+    <TextView
+        android:id="@+id/tvTotalJamaValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvTotalJama"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalAmount" />
+
+    <TextView
+        android:id="@+id/tvTotalInterest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/fragment_home_tv_total_interest"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalJama" />
+
+    <TextView
+        android:id="@+id/tvTotalInterestValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/tvTotalInterest"
+        app:layout_constraintTop_toBottomOf="@+id/tvTotalJama" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
