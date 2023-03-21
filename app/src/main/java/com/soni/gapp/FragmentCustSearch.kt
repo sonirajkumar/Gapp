@@ -58,6 +58,8 @@ class FragmentCustSearch : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     fun getCustData(query: String?){
+        custSearchList.clear()
+        adapter.notifyDataSetChanged()
         val collectionRef = db.collection("cust")
         collectionRef.get().addOnSuccessListener {
             if (!it.isEmpty){

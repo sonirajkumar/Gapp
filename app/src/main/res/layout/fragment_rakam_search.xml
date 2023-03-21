@@ -55,6 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRakamSearchAddRakam"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,6 +64,7 @@
 
     <Button
         android:id="@+id/buttonRakamSearchAddRakam"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_rakam"
@@ -73,6 +76,7 @@
         android:id="@+id/btnDeleteCustomer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="50dp"
         android:backgroundTint="@android:color/holo_red_dark"
         android:text="@string/rakamSearchDeleteCustomer"

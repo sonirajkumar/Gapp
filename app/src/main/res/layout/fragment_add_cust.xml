@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/add_cust_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".FragmentAddCust">
 
     <TextView
         android:id="@+id/text_view_add_account"
+        android:background="@drawable/edit_text_bkg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="166dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginTop="50dp"
         android:padding="20dp"
         android:text="@string/create_account"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/first_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/first_name"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="10dp"
         android:autofillHints="name"
+        android:background="@drawable/edit_text_bkg"
         android:hint="@string/first_name"
         android:inputType="textPersonName"
         android:padding="10dp"
         android:selectAllOnFocus="true"
-        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_add_account" />
 
     <EditText
         android:id="@+id/middle_name"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="10dp"
         android:autofillHints="name"
+        android:background="@drawable/edit_text_bkg"
         android:hint="@string/middle_name"
         android:inputType="textPersonName"
         android:padding="10dp"
         android:selectAllOnFocus="true"
-        android:background="@drawable/edit_text_bkg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/first_name" />
 
     <EditText
         android:id="@+id/last_name"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="248dp"
+        android:layout_marginTop="10dp"
         android:autofillHints="surname"
         android:background="@drawable/edit_text_bkg"
         android:hint="@string/last_name"
@@ -69,15 +69,15 @@
         android:padding="10dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/middle_name" />
 
     <EditText
         android:id="@+id/city"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="10dp"
         android:autofillHints="city_name"
         android:background="@drawable/edit_text_bkg"
         android:hint="@string/city"
@@ -87,13 +87,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/last_name" />
 
     <EditText
         android:id="@+id/mobile_number"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="368dp"
+        android:layout_marginTop="10dp"
         android:autofillHints="mobile_number"
         android:background="@drawable/edit_text_bkg"
         android:hint="@string/mobile_number"
@@ -103,13 +103,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/city" />
 
     <EditText
         android:id="@+id/aadhar_number"
         android:layout_width="350dp"
         android:layout_height="50dp"
-        android:layout_marginTop="428dp"
+        android:layout_marginTop="10dp"
         android:autofillHints="aadhar_name"
         android:background="@drawable/edit_text_bkg"
         android:hint="@string/aadhar_number"
@@ -117,9 +117,9 @@
         android:padding="10dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/mobile_number" />
 
 
     <Button
@@ -135,3 +135,5 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
