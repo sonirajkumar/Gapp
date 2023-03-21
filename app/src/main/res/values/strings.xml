@@ -52,7 +52,6 @@
     <string name="fragment_home_btn_show_total">Show Total</string>
     <string name="fragment_home_tv_total_amount">Total Amount: \u20B9</string>
     <string name="fragment_home_tv_total_jama">Total Jama: \u20B9</string>
-    <string name="fragment_home_tv_total_interest">Total Interest: ₹</string>
     <!-- String related to search results -->
 
 
