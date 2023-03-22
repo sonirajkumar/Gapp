@@ -25,6 +25,7 @@ class FragmentHome : Fragment() {
     private var finalAmount: Float = 0f
     private var totalAmount: Int = 0
     private var totalJama: Int = 0
+    private var activeInterest: Int = 0
     private var silRate: String = "0"
     private var totalAmountFlag: Boolean = false
 
@@ -66,6 +67,7 @@ class FragmentHome : Fragment() {
             totalAmountFlag = true
             totalAmount = 0
             totalJama = 0
+            activeInterest = 0
             getFinalAmount()
         }
 
@@ -116,14 +118,19 @@ class FragmentHome : Fragment() {
 
                                             // adding code for total value
                                             if (!tss.isEmpty && finalAmount>1000f && totalAmountFlag){
+                                                var tempAmount = 0
                                                 for(tran in tss){
                                                     if(tran.data["type"].toString() == "NAAME"){
                                                         totalAmount += tran.data["amount"].toString().toInt()
+                                                        tempAmount += tran.data["amount"].toString().toInt()
                                                     }
                                                     else{
                                                         totalJama += tran.data["amount"].toString().toInt()
+                                                        tempAmount -= tran.data["amount"].toString().toInt()
                                                     }
                                                 }
+                                                activeInterest += (finalAmount.toInt() - tempAmount)
+                                                binding.tvActiveInterestValue.text = activeInterest.toString()
                                                 binding.tvTotalAmountValue.text = totalAmount.toString()
                                                 binding.tvTotalJamaValue.text = totalJama.toString()
                                             }
