@@ -13,11 +13,13 @@
 
     <TextView
         android:id="@+id/text_view_add_rakam"
-        android:layout_width="wrap_content"
+        android:background="@color/md_theme_dark_primary"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/edit_text_bkg"
-        android:padding="20dp"
+        android:layout_marginTop="0dp"
+        android:padding="10dp"
         android:text="@string/add_rakam"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,16 +29,31 @@
 
     <TextView
         android:id="@+id/text_view_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/edit_text_bkg"
-        android:padding="20dp"
+        android:gravity="center"
+        android:background="@color/md_theme_dark_error"
+        android:layout_marginTop="0dp"
+        android:padding="10dp"
         android:textSize="11sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_add_rakam" />
+
+    <TextView
+        android:id="@+id/tvLastRakamNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/md_theme_light_tertiaryContainer"
+        android:padding="10dp"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_name"
+        tools:ignore="SmallSp" />
 
     <EditText
         android:id="@+id/rakam_type"
@@ -52,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_name" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLastRakamNumber" />
 
     <EditText
         android:id="@+id/rakam_weight"
@@ -98,18 +115,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rakam_number" />
 
-    <TextView
-        android:id="@+id/tvLastRakamNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_bkg"
-        android:textSize="20sp"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_rakam_button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
