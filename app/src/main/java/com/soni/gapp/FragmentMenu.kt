@@ -42,7 +42,6 @@ class FragmentMenu : Fragment() {
         val rvCustHistory = binding.rvLastTransactions
         rvCustHistory.layoutManager = LinearLayoutManager(context)
         adapter = AdapterCustSearch(custSearchList)
-        adapter.isTransferredFromHistory = true
         rvCustHistory.adapter = adapter
         custSearchList.clear()
         adapter.notifyDataSetChanged()
@@ -61,8 +60,8 @@ class FragmentMenu : Fragment() {
                             cust.data["m_name"].toString(),
                             cust.data["l_name"].toString(),
                             cust.data["city"].toString(),
-                            " ",
-                            " ")
+                            cust.data["mobile_no"].toString(),
+                            cust.data["aadhar_no"].toString())
 
                         custSearchList.add(custData)
                         adapter.notifyDataSetChanged()

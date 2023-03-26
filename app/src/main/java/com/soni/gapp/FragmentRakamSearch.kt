@@ -97,13 +97,13 @@ class FragmentRakamSearch : Fragment() {
             bundle.putString("aadhar_number", aadharNumber)
             bundle.putBoolean("isTransferredFromSearch", true)
             nextFragment.arguments = bundle
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).addToBackStack(null).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).commit()
         }
 
         binding.buttonRakamSearchAddRakam.setOnClickListener {
             val nextFragment = FragmentAddRakam()
             nextFragment.arguments = arguments
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).addToBackStack(null).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).commit()
         }
 
         // DELETING CUSTOMER HERE

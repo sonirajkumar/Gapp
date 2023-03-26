@@ -111,7 +111,7 @@ class FragmentTransactionSearch : Fragment() {
         binding.btnAddTransaction.setOnClickListener {
             val nextFragment = FragmentAddTransaction()
             nextFragment.arguments = arguments
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).addToBackStack(null).commit()
+            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).commit()
         }
 
         binding.buttonCalculateTotalBalance.setOnClickListener {

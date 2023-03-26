@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class AdapterCustSearch(private val custList: ArrayList<DataCustSearch>): RecyclerView.Adapter<AdapterCustSearch.CustSearchViewHolder>() {
-    var isTransferredFromHistory: Boolean = false
     inner class CustSearchViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val custDetails: TextView = itemView.findViewById(R.id.SearchDetails)
         val custConstraintLayout: ConstraintLayout = itemView.findViewById(R.id.SearchConstrainLayout)
@@ -36,21 +35,20 @@ class AdapterCustSearch(private val custList: ArrayList<DataCustSearch>): Recycl
         holder.custDetails.text = custDetailsText
 
         holder.custConstraintLayout.setOnClickListener {
-            if (!isTransferredFromHistory) {
-                val bundle = Bundle()
-                bundle.putString("f_name", custSearchData.fName)
-                bundle.putString("m_name", custSearchData.mName)
-                bundle.putString("l_name", custSearchData.lName)
-                bundle.putString("city", custSearchData.city)
-                bundle.putString("mobile_number", custSearchData.mobileNumber)
-                bundle.putString("aadhar_number", custSearchData.aadharNumber)
-                val resultFragment = FragmentRakamSearch()
-                resultFragment.arguments = bundle
-                val appCompactActivity = it.context as AppCompatActivity
-                appCompactActivity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, resultFragment)
-                    .addToBackStack(null).commit()
-            }
+            val bundle = Bundle()
+            bundle.putString("f_name", custSearchData.fName)
+            bundle.putString("m_name", custSearchData.mName)
+            bundle.putString("l_name", custSearchData.lName)
+            bundle.putString("city", custSearchData.city)
+            bundle.putString("mobile_number", custSearchData.mobileNumber)
+            bundle.putString("aadhar_number", custSearchData.aadharNumber)
+            val resultFragment = FragmentRakamSearch()
+            resultFragment.arguments = bundle
+            val appCompactActivity = it.context as AppCompatActivity
+            appCompactActivity.supportFragmentManager.beginTransaction()
+                .replace(R.id.frameLayout, resultFragment)
+                .commit()
+
         }
     }
 }
