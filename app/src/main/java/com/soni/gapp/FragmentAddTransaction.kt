@@ -138,6 +138,8 @@ class FragmentAddTransaction : Fragment() {
                                         "m_name" to mName,
                                         "l_name" to lName,
                                         "city" to city,
+                                        "mobile_no" to mobileNo,
+                                        "aadhar_no" to aadharNo,
                                         "timestamp" to LocalDateTime.now().toString()
                                     ))
                             }
