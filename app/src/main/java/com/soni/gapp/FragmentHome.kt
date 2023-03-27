@@ -53,7 +53,8 @@ class FragmentHome : Fragment() {
         binding.btnShowRakamInLoss.setOnClickListener {
             custSearchList.clear()
             adapter.notifyDataSetChanged()
-            silRate = binding.etSilverRate.text?.toString().toString()
+            silRate = binding.etSilverRate.text.toString()
+            goldRate = binding.etGoldRate.text.toString()
             if (silRate.isEmpty() || goldRate.isEmpty()){
                 Toast.makeText(context, "Please Enter a Valid Rate", Toast.LENGTH_SHORT).show()
             }
@@ -85,7 +86,7 @@ class FragmentHome : Fragment() {
                             if (!rakams.isEmpty){
                                 for (rakam in rakams){
                                     val rakamWeight = rakam.data["weight_gms"].toString().toFloat()
-                                    val metalType = rakam.data["metal_type"].toString()
+                                    val metalType: String? = rakam.data["metal_type"]?.toString()
                                     db.collection("cust").document(cust.id)
                                         .collection("rakam").document(rakam.id)
                                         .collection("transaction").get()
@@ -102,9 +103,8 @@ class FragmentHome : Fragment() {
                                             }
                                             val intCalObject = IntCalculator()
                                             finalAmount = intCalObject.calculateFinalAmount(tranListForIntCal, irForIntCal)
-                                            if (metalType == "SILVER" || metalType.isEmpty()) {
+                                            if (metalType == "SILVER" || metalType.isNullOrEmpty()) {
                                                 if ((finalAmount > ((rakamWeight * silRate.toFloat()) / 1000) && !totalAmountFlag)) {
-
                                                     val custData = DataCustSearch(
                                                         cust.data["f_name"].toString(),
                                                         cust.data["m_name"].toString(),
@@ -119,7 +119,6 @@ class FragmentHome : Fragment() {
                                             }
                                             if (metalType == "GOLD"){
                                                 if ((finalAmount > ((rakamWeight * goldRate.toFloat()) / 10) && !totalAmountFlag)) {
-
                                                     val custData = DataCustSearch(
                                                         cust.data["f_name"].toString(),
                                                         cust.data["m_name"].toString(),
