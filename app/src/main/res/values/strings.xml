@@ -53,6 +53,8 @@
     <string name="fragment_home_tv_total_amount">Total Amount: \u20B9</string>
     <string name="fragment_home_tv_total_jama">Total Jama: \u20B9</string>
     <string name="fragment_home_tv_activeInterest">Active Interest: ₹</string>
+    <string name="fragment_add_rakam_metal_type_silver">Silver</string>
+    <string name="fragment_add_rakam_metal_type_gold">Gold</string>
     <!-- String related to search results -->
 
 

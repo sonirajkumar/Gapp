@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.ScrollView
 import android.widget.Toast
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -24,7 +26,7 @@ class FragmentAddRakam : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAddRakamDetailsBinding.inflate(inflater, container, false)
 
         val data = arguments
@@ -50,6 +52,8 @@ class FragmentAddRakam : Fragment() {
             val rakamType = binding.rakamType.text.toString().uppercase()
             val rakamWeight = binding.rakamWeight.text.toString().uppercase()
             val rakamNumber = binding.rakamNumber.text.toString().uppercase()
+            val radioGrpSelection = binding.radioGrpMetalType.checkedRadioButtonId
+            val metalType = binding.root.findViewById<RadioButton>(radioGrpSelection).text.toString().uppercase()
 
             if (rakamType.isEmpty() or rakamWeight.isEmpty() or rakamNumber.isEmpty()){
                 Toast.makeText(activity,"Please insert Valid Data ", Toast.LENGTH_LONG).show()
@@ -60,6 +64,7 @@ class FragmentAddRakam : Fragment() {
                     .setCancelable(false)
                     .setPositiveButton("Yes") { _, _ ->
                         val rakamHashMap = hashMapOf(
+                            "metal_type" to metalType,
                             "rakam_type" to rakamType,
                             "weight_gms" to rakamWeight,
                             "rakam_number" to rakamNumber
