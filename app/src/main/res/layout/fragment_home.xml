@@ -9,10 +9,14 @@
 
     <TextView
         android:id="@+id/tvRakamInLoss"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/md_theme_dark_primary"
+        android:gravity="center"
         android:text="@string/home_tv_rakaminloss"
+        android:textColor="@color/md_theme_light_shadow"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="0dp"
         android:autofillHints="Silver Rate"
         android:background="@drawable/edit_text_bkg"
         android:hint="@string/home_et_silver_rate"
@@ -31,24 +35,41 @@
         android:padding="10dp"
         android:selectAllOnFocus="true"
         android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnShowRakamInLoss"
+        app:layout_constraintEnd_toStartOf="@+id/etGoldRate"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRakamInLoss" />
+
+    <EditText
+        android:id="@+id/etGoldRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints="Silver Rate"
+        android:background="@drawable/edit_text_bkg"
+        android:hint="@string/fragment_home_et_gold_rate"
+        android:inputType="number"
+        android:padding="10dp"
+        android:selectAllOnFocus="true"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/etSilverRate"
         app:layout_constraintTop_toBottomOf="@+id/tvRakamInLoss" />
 
     <Button
         android:id="@+id/btnShowRakamInLoss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="@string/home_btn_showrakaminloss"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etSilverRate"
-        app:layout_constraintTop_toBottomOf="@+id/tvRakamInLoss" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSilverRate" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvShowRakamInLoss"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/btnShowTotal"
         app:layout_constraintEnd_toEndOf="parent"

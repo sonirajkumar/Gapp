@@ -27,6 +27,7 @@ class FragmentHome : Fragment() {
     private var totalJama: Int = 0
     private var activeInterest: Int = 0
     private var silRate: String = "0"
+    private var goldRate: String = "0"
     private var totalAmountFlag: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +54,7 @@ class FragmentHome : Fragment() {
             custSearchList.clear()
             adapter.notifyDataSetChanged()
             silRate = binding.etSilverRate.text?.toString().toString()
-            if (silRate.isEmpty()){
+            if (silRate.isEmpty() || goldRate.isEmpty()){
                 Toast.makeText(context, "Please Enter a Valid Rate", Toast.LENGTH_SHORT).show()
             }
             else{
@@ -84,6 +85,7 @@ class FragmentHome : Fragment() {
                             if (!rakams.isEmpty){
                                 for (rakam in rakams){
                                     val rakamWeight = rakam.data["weight_gms"].toString().toFloat()
+                                    val metalType = rakam.data["metal_type"].toString()
                                     db.collection("cust").document(cust.id)
                                         .collection("rakam").document(rakam.id)
                                         .collection("transaction").get()
@@ -100,18 +102,35 @@ class FragmentHome : Fragment() {
                                             }
                                             val intCalObject = IntCalculator()
                                             finalAmount = intCalObject.calculateFinalAmount(tranListForIntCal, irForIntCal)
+                                            if (metalType == "SILVER" || metalType.isEmpty()) {
+                                                if ((finalAmount > ((rakamWeight * silRate.toFloat()) / 1000) && !totalAmountFlag)) {
 
-                                            if ((finalAmount > ((rakamWeight * silRate.toFloat())/1000) && !totalAmountFlag)){
+                                                    val custData = DataCustSearch(
+                                                        cust.data["f_name"].toString(),
+                                                        cust.data["m_name"].toString(),
+                                                        cust.data["l_name"].toString(),
+                                                        cust.data["city"].toString(),
+                                                        cust.data["mobile_no"].toString(),
+                                                        cust.data["aadhar_no"].toString()
+                                                    )
+                                                    custSearchList.add(custData)
+                                                    adapter.notifyDataSetChanged()
+                                                }
+                                            }
+                                            if (metalType == "GOLD"){
+                                                if ((finalAmount > ((rakamWeight * goldRate.toFloat()) / 10) && !totalAmountFlag)) {
 
-                                                val custData = DataCustSearch(
-                                                    cust.data["f_name"].toString(),
-                                                    cust.data["m_name"].toString(),
-                                                    cust.data["l_name"].toString(),
-                                                    cust.data["city"].toString(),
-                                                    cust.data["mobile_no"].toString(),
-                                                    cust.data["aadhar_no"].toString())
-                                                custSearchList.add(custData)
-                                                adapter.notifyDataSetChanged()
+                                                    val custData = DataCustSearch(
+                                                        cust.data["f_name"].toString(),
+                                                        cust.data["m_name"].toString(),
+                                                        cust.data["l_name"].toString(),
+                                                        cust.data["city"].toString(),
+                                                        cust.data["mobile_no"].toString(),
+                                                        cust.data["aadhar_no"].toString()
+                                                    )
+                                                    custSearchList.add(custData)
+                                                    adapter.notifyDataSetChanged()
+                                                }
                                             }
                                             tranListForIntCal.clear()
                                             irForIntCal = "0"

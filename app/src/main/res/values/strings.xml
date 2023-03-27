@@ -55,6 +55,7 @@
     <string name="fragment_home_tv_activeInterest">Active Interest: ₹</string>
     <string name="fragment_add_rakam_metal_type_silver">Silver</string>
     <string name="fragment_add_rakam_metal_type_gold">Gold</string>
+    <string name="fragment_home_et_gold_rate">Gold Rate</string>
     <!-- String related to search results -->
 
 
