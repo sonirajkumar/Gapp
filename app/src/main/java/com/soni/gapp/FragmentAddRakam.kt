@@ -91,7 +91,8 @@ class FragmentAddRakam : Fragment() {
                                 bundle.putString("rakam_weight", rakamWeight)
                                 nextFragment.arguments = bundle
 
-                                replaceFragment(nextFragment)
+                                requireActivity().supportFragmentManager.beginTransaction()
+                                    .replace(R.id.frameLayout, nextFragment).commit()
                             }
                             .addOnFailureListener{
                                 Toast.makeText(activity, "Rakam insertion Failed", Toast.LENGTH_LONG).show()
@@ -107,12 +108,6 @@ class FragmentAddRakam : Fragment() {
         }
 
         return binding.root
-    }
-    private fun replaceFragment(fragment: Fragment){
-        val fragmentManager = requireActivity().supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.commit()
     }
     override fun onDestroyView() {
         super.onDestroyView()

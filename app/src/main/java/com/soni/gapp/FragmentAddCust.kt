@@ -111,12 +111,6 @@ class FragmentAddCust : Fragment() {
         }
             return binding.root
     }
-    private fun replaceFragment(fragment: Fragment){
-        val fragmentManager = requireActivity().supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.commit()
-    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -154,7 +148,7 @@ class FragmentAddCust : Fragment() {
                         bundle.putString("aadhar_number", aadharNumber)
                         nextFragment.arguments = bundle
 
-                        replaceFragment(nextFragment)
+                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout,nextFragment).commit()
                     }
                     .addOnFailureListener {
                         Toast.makeText(activity, "Account insertion Failed", Toast.LENGTH_LONG).show()
