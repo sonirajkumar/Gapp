@@ -31,6 +31,7 @@ class FragmentAddRakam : Fragment() {
     private lateinit var rakamWeight: String
     private lateinit var rakamNumber: String
     private lateinit var metalType: String
+    private var newCustomer: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +65,7 @@ class FragmentAddRakam : Fragment() {
 
         db.collection("cust").document(custDocumentId).collection("rakam").get().addOnSuccessListener { rakamDocs ->
             if (!rakamDocs.isEmpty) {
+                newCustomer = false
                 for (docs in rakamDocs) {
                     binding.rakamNumber.setText(docs.data["rakam_number"].toString())
                 }
@@ -148,8 +150,10 @@ class FragmentAddRakam : Fragment() {
                     .addOnFailureListener{
                         Toast.makeText(activity, "Rakam insertion Failed", Toast.LENGTH_LONG).show()
                     }
-                db.collection("max_rakam_number").document("rakam_number").set(hashMapOf("rakam_number" to rakamNumber), SetOptions.merge())
 
+                if(newCustomer){
+                    db.collection("max_rakam_number").document("rakam_number").set(hashMapOf("rakam_number" to rakamNumber), SetOptions.merge())
+                }
             }
             .setNegativeButton("No"){_, _ ->
                 Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
