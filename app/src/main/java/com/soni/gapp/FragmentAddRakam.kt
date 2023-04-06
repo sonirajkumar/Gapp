@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.ScrollView
 import android.widget.Toast
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -21,22 +20,37 @@ class FragmentAddRakam : Fragment() {
     private val binding get() = _binding!!
     private lateinit var alertBuilder: AlertDialog.Builder
     private var db = Firebase.firestore
+    private lateinit var fName: String
+    private lateinit var mName: String
+    private lateinit var lName: String
+    private lateinit var city: String
+    private var mobileNumber: String? = null
+    private var aadharNumber: String? = null
+    private lateinit var custDocumentId: String
+    private lateinit var rakamType: String
+    private lateinit var rakamWeight: String
+    private lateinit var rakamNumber: String
+    private lateinit var metalType: String
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let { bundle ->
+            fName = bundle.getString("f_name").toString()
+            mName = bundle.getString("m_name").toString()
+            lName = bundle.getString("l_name").toString()
+            city = bundle.getString("city").toString()
+            mobileNumber = bundle.getString("mobile_number").toString()
+            aadharNumber = bundle.getString("aadhar_number").toString()
+            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }
+
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddRakamDetailsBinding.inflate(inflater, container, false)
-
-        val data = arguments
-        val fName = data?.getString("f_name")
-        val lName = data?.getString("l_name")
-        val mName = data?.getString("m_name")
-        val city = data?.getString("city")
-        val mobileNo = data?.getString("mobile_number")
-        val aadharNo = data?.getString("aadhar_number")
-        val documentID = fName?.filter { !it.isWhitespace() } +"_"+ mName?.filter { !it.isWhitespace() } +"_"+ lName?.filter { !it.isWhitespace() } +"_"+ city?.filter { !it.isWhitespace() }+"_"+ mobileNo?.filter { !it.isWhitespace() }+"_"+ aadharNo?.filter { !it.isWhitespace() }
         val showName = "$fName $mName $lName $city"
         binding.textViewName.text = showName
 
@@ -48,62 +62,43 @@ class FragmentAddRakam : Fragment() {
                 binding.tvLastRakamNumber.text = text
             }
 
+        db.collection("cust").document(custDocumentId).collection("rakam").get().addOnSuccessListener { rakamDocs ->
+            if (!rakamDocs.isEmpty) {
+                for (docs in rakamDocs) {
+                    binding.rakamNumber.setText(docs.data["rakam_number"].toString())
+                }
+            }
+        }
+
         binding.addRakamButton.setOnClickListener {
-            val rakamType = binding.rakamType.text.toString().uppercase()
-            val rakamWeight = binding.rakamWeight.text.toString().uppercase()
-            val rakamNumber = binding.rakamNumber.text.toString().uppercase()
+            rakamType = binding.rakamType.text.toString().uppercase()
+            rakamWeight = binding.rakamWeight.text.toString().uppercase()
+            rakamNumber = binding.rakamNumber.text.toString().uppercase()
             val radioGrpSelection = binding.radioGrpMetalType.checkedRadioButtonId
-            val metalType = binding.root.findViewById<RadioButton>(radioGrpSelection).text.toString().uppercase()
+            metalType = binding.root.findViewById<RadioButton>(radioGrpSelection).text.toString().uppercase()
 
             if (rakamType.isEmpty() or rakamWeight.isEmpty() or rakamNumber.isEmpty()){
                 Toast.makeText(activity,"Please insert Valid Data ", Toast.LENGTH_LONG).show()
             }
             else{
-                alertBuilder.setTitle("Confirmation")
-                    .setMessage("Are you sure want to add rakam?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes") { _, _ ->
-                        val rakamHashMap = hashMapOf(
-                            "metal_type" to metalType,
-                            "rakam_type" to rakamType,
-                            "weight_gms" to rakamWeight,
-                            "rakam_number" to rakamNumber
-                            )
-
-                        db.collection("cust").document(documentID)
-                            .collection("rakam").document(rakamType.filter { !it.isWhitespace() }
-                                    +"_"+rakamWeight+"GMS")
-                            .set(rakamHashMap, SetOptions.merge())
-                            .addOnSuccessListener {
-                                Toast.makeText(activity, "Rakam Added Successfully", Toast.LENGTH_LONG).show()
-                                binding.rakamType.text.clear()
-                                binding.rakamWeight.text.clear()
-
-                                val bundle = Bundle()
-                                val nextFragment = FragmentAddTransaction()
-                                bundle.putString("f_name", fName)
-                                bundle.putString("m_name", mName)
-                                bundle.putString("l_name", lName)
-                                bundle.putString("city", city)
-                                bundle.putString("mobile_number", mobileNo)
-                                bundle.putString("aadhar_number", aadharNo)
-                                bundle.putString("rakam_type", rakamType)
-                                bundle.putString("rakam_weight", rakamWeight)
-                                nextFragment.arguments = bundle
-
-                                requireActivity().supportFragmentManager.beginTransaction()
-                                    .replace(R.id.frameLayout, nextFragment).commit()
+                val query = rakamType.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
+                db.collection("cust").document(custDocumentId).collection("rakam").get().addOnSuccessListener { rakamDocs ->
+                    if (!rakamDocs.isEmpty) {
+                        for (docs in rakamDocs) {
+                            if (docs.id.contains(query)) {
+                                Toast.makeText(context, "Rakam Already Exists", Toast.LENGTH_LONG).show()
                             }
-                            .addOnFailureListener{
-                                Toast.makeText(activity, "Rakam insertion Failed", Toast.LENGTH_LONG).show()
+                            else{
+                                addRakam()
                             }
-                        db.collection("max_rakam_number").document("rakam_number").set(hashMapOf("rakam_number" to rakamNumber), SetOptions.merge())
+                        }
+                    }
+                    else{
+                        addRakam()
+                    }
+                }
 
-                    }
-                    .setNegativeButton("No"){_, _ ->
-                        Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
-                    }
-                alertBuilder.show()
+
             }
         }
 
@@ -112,6 +107,54 @@ class FragmentAddRakam : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun addRakam(){
+        alertBuilder.setTitle("Confirmation")
+            .setMessage("Are you sure want to add rakam?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { _, _ ->
+                val rakamHashMap = hashMapOf(
+                    "metal_type" to metalType,
+                    "rakam_type" to rakamType,
+                    "weight_gms" to rakamWeight,
+                    "rakam_number" to rakamNumber
+                )
+
+                db.collection("cust").document(custDocumentId)
+                    .collection("rakam").document(rakamType.filter { !it.isWhitespace() }
+                            +"_"+rakamWeight+"GMS")
+                    .set(rakamHashMap, SetOptions.merge())
+                    .addOnSuccessListener {
+                        Toast.makeText(activity, "Rakam Added Successfully", Toast.LENGTH_LONG).show()
+                        binding.rakamType.text.clear()
+                        binding.rakamWeight.text.clear()
+
+                        val bundle = Bundle()
+                        val nextFragment = FragmentAddTransaction()
+                        bundle.putString("f_name", fName)
+                        bundle.putString("m_name", mName)
+                        bundle.putString("l_name", lName)
+                        bundle.putString("city", city)
+                        bundle.putString("mobile_number", mobileNumber)
+                        bundle.putString("aadhar_number", aadharNumber)
+                        bundle.putString("rakam_type", rakamType)
+                        bundle.putString("rakam_weight", rakamWeight)
+                        nextFragment.arguments = bundle
+
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frameLayout, nextFragment).commit()
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(activity, "Rakam insertion Failed", Toast.LENGTH_LONG).show()
+                    }
+                db.collection("max_rakam_number").document("rakam_number").set(hashMapOf("rakam_number" to rakamNumber), SetOptions.merge())
+
+            }
+            .setNegativeButton("No"){_, _ ->
+                Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
+            }
+        alertBuilder.show()
     }
 
 }
