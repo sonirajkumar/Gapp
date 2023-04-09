@@ -37,12 +37,14 @@ class AdapterRakamSearch(private  val rakamList: ArrayList<DataRakamSearch>): Re
             bundle.putString("rakam_type", rakamSearchData.rakamType)
             bundle.putString("rakam_weight", rakamSearchData.rakamWeight)
             bundle.putString("rakam_number", rakamSearchData.rakamNumber)
+            bundle.putString("metal_type", rakamSearchData.metalType)
+            bundle.putString("net_weight_gms", rakamSearchData.netWeight)
 
-            val resultFragment = FragmentTransactionSearch()
-            resultFragment.arguments = bundle
+            val nextFragment = FragmentTransactionSearch()
+            nextFragment.arguments = bundle
             val appCompactActivity = it.context as AppCompatActivity
             appCompactActivity.supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, resultFragment).commit()
+                .replace(R.id.frameLayout, nextFragment).commit()
         }
     }
 

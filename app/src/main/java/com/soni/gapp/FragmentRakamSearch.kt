@@ -74,7 +74,9 @@ class FragmentRakamSearch : Fragment() {
                         fName,mName,lName,city,mobileNumber,aadharNumber,
                         rakam.data["rakam_type"].toString(),
                         rakam.data["weight_gms"].toString(),
-                        rakam.data["rakam_number"].toString()
+                        rakam.data["rakam_number"].toString(),
+                        rakam.data["metal_type"]?.toString(),
+                        rakam.data["net_weight_gms"]?.toString()
                     )
                     rakamList.add(rakamDetail)
                     adapter.notifyDataSetChanged()

@@ -9,5 +9,7 @@ data class DataRakamSearch(
     val aadharNumber: String?,
     val rakamType: String,
     val rakamWeight: String,
-    val rakamNumber: String
+    val rakamNumber: String,
+    val metalType: String?,
+    val netWeight: String?
 )

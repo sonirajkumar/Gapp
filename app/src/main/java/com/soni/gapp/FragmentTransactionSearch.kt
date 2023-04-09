@@ -27,6 +27,8 @@ class FragmentTransactionSearch : Fragment() {
     private lateinit var rakamType: String
     private lateinit var rakamWeight: String
     private lateinit var rakamNumber: String
+    private lateinit var rakamNetWeight: String
+    private lateinit var metalType: String
     private lateinit var custDocumentId: String
     private lateinit var rakamDocumentId: String
     private lateinit var irForIntCal: String
@@ -54,6 +56,9 @@ class FragmentTransactionSearch : Fragment() {
             rakamType = bundle.getString("rakam_type").toString()
             rakamWeight = bundle.getString("rakam_weight").toString()
             rakamNumber = bundle.getString("rakam_number").toString()
+            rakamNetWeight = bundle.getString("net_weight_gms").toString()
+            metalType = bundle.getString("metal_type").toString()
+
             custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }
             rakamDocumentId = rakamType.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
             alertBuilder = AlertDialog.Builder(activity)
@@ -74,12 +79,14 @@ class FragmentTransactionSearch : Fragment() {
         adapter.notifyDataSetChanged()
         tranListForIntCal = mutableListOf()
 
-        val custDetails = "$fName $mName $lName $city"
-        val rakamDetails = "$rakamType $rakamWeight GMS $rakamNumber"
-        binding.textViewTransactionSearchFragmentCustDetails.text = custDetails
+        val showCustDetails = "$fName $mName $lName $city"
+        val showRakamDetails = "$metalType: $rakamType"
+        val showRakamWeightNumber = "Net: $rakamNetWeight | Fine: $rakamWeight | Number: $rakamNumber"
+        binding.textViewTransactionSearchFragmentCustDetails.text = showCustDetails
         binding.textViewTransactionSearchFragmentMobileNumber.text = "Mobile: $mobileNumber"
         binding.textViewTransactionSearchFragmentAadharNumber.text = "Aadhar: $aadharNumber"
-        binding.textViewTransactionSearchFragmentRakamDetails.text = rakamDetails
+        binding.textViewTransactionSearchFragmentRakamDetails.text = showRakamDetails
+        binding.textViewRakamWeightNumber.text = showRakamWeightNumber
 
         val collectionRef = db.collection("cust").document(custDocumentId).collection("rakam").document(rakamDocumentId).collection("transaction")
         collectionRef.get().addOnSuccessListener {

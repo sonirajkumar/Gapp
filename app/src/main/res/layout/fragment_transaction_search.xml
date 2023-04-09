@@ -35,7 +35,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewTransactionSearchFragmentCustDetails" />
 
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
         android:id="@+id/textViewTransactionSearchFragmentAadharNumber"
         android:background="@color/md_theme_dark_error"
         android:textColor="@color/md_theme_light_shadow"
@@ -49,7 +49,7 @@
         app:layout_constraintStart_toEndOf="@+id/textViewTransactionSearchFragmentMobileNumber"
         app:layout_constraintTop_toBottomOf="@+id/textViewTransactionSearchFragmentCustDetails" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
         android:id="@+id/textViewTransactionSearchFragmentRakamDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,6 +63,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTransactionSearchFragmentMobileNumber" />
 
+    <TextView
+        android:id="@+id/text_view_rakam_weight_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/md_theme_light_shadow"
+        android:gravity="center"
+        android:background="@color/md_theme_light_outlineVariant"
+        android:padding="10dp"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionSearchFragmentRakamDetails" />
+
     <Button
         android:id="@+id/btnDeleteRakam"
         android:layout_width="wrap_content"
@@ -72,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTransactionSearchFragmentRakamDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/text_view_rakam_weight_number" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTransactionSearch"
