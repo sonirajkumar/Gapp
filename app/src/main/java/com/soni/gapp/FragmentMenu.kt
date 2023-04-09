@@ -72,7 +72,7 @@ class FragmentMenu : Fragment() {
             db.collection("history").count().get(AggregateSource.SERVER)
                 .addOnCompleteListener {count->
                     if(count.isSuccessful){
-                        val countDiff = count.result.count - 20
+                        val countDiff = count.result.count - 50
                         if (countDiff>0) {
                             db.collection("history").orderBy("timestamp").limit(countDiff)
                                 .get().addOnSuccessListener {

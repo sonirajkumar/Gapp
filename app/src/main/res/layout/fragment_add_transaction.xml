@@ -56,6 +56,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_name" />
 
+    <TextView
+        android:id="@+id/text_view_rakam_weight_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/md_theme_light_shadow"
+        android:gravity="center"
+        android:background="@color/md_theme_light_outlineVariant"
+        android:padding="10dp"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_rakam" />
+
     <RadioGroup
         android:id="@+id/radioGrpNaameJama"
         android:layout_width="wrap_content"
@@ -66,7 +80,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_rakam">
+        app:layout_constraintTop_toBottomOf="@+id/text_view_rakam_weight_number">
 
         <RadioButton
             android:id="@+id/radioBtnNaame"
@@ -95,14 +109,13 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="5dp"
         android:autofillHints="number"
         android:background="@drawable/edit_text_bkg"
         android:hint="@string/amount"
         android:inputType="number"
         android:padding="12dp"
         android:selectAllOnFocus="true"
-        app:layout_constraintEnd_toStartOf="@+id/editTextIr"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGrpNaameJama" />
 
@@ -110,7 +123,6 @@
         android:id="@+id/editTextIr"
         android:layout_width="75dp"
         android:layout_height="48dp"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
         android:autofillHints="number"
         android:background="@drawable/edit_text_bkg"
@@ -119,37 +131,26 @@
         android:padding="12dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextAmount"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrpNaameJama" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextAmount" />
 
     <EditText
         android:id="@+id/editTextRemarks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:selectAllOnFocus="true"
-        android:padding="12dp"
-        android:layout_marginStart="101dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="100dp"
-        android:ems="10"
         android:autofillHints="postalAddress"
-        android:inputType="textAutoComplete"
-        android:hint="@string/remarks"
         android:background="@drawable/edit_text_bkg"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/remarks"
+        android:inputType="textAutoComplete"
+        android:padding="12dp"
+        android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextIr" />
 
-    <Button
-        android:id="@+id/add_transaction_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+
 
     <EditText
         android:id="@+id/editTextDate"
@@ -180,6 +181,17 @@
         app:layout_constraintStart_toEndOf="@+id/editTextDate"
         app:layout_constraintTop_toBottomOf="@+id/editTextRemarks"
         tools:ignore="RtlHardcoded" />
+
+    <Button
+        android:id="@+id/add_transaction_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

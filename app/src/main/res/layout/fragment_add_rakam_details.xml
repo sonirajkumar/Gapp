@@ -109,6 +109,22 @@
             app:layout_constraintTop_toBottomOf="@+id/radioGrpMetalType" />
 
         <EditText
+            android:id="@+id/net_rakam_weight"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:autofillHints="number"
+            android:background="@drawable/edit_text_bkg"
+            android:hint="@string/fragment_add_rakam_net_weight"
+            android:inputType="number"
+            android:padding="10dp"
+            android:selectAllOnFocus="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rakam_type" />
+
+        <EditText
             android:id="@+id/rakam_weight"
             android:layout_width="350dp"
             android:layout_height="50dp"
@@ -122,7 +138,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rakam_type" />
+            app:layout_constraintTop_toBottomOf="@+id/net_rakam_weight" />
 
         <EditText
             android:id="@+id/rakam_number"

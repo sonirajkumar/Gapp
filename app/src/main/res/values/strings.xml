@@ -23,7 +23,7 @@
     <!-- Strings related to Add Rakam -->
     <string name="add_rakam">Add Rakam</string>
     <string name="rakam_type">Rakam Type Ex. Kada/Sakli</string>
-    <string name="rakam_weight">Rakam Weight in GMS Ex. 1000</string>
+    <string name="rakam_weight">Fine Weight in GMS Ex. 1000</string>
     <!-- Strings related to Add Transaction -->
     <string name="add_transaction">Add Transactions</string>
     <string name="naame">Naame</string>
@@ -56,6 +56,7 @@
     <string name="fragment_add_rakam_metal_type_silver">Silver</string>
     <string name="fragment_add_rakam_metal_type_gold">Gold</string>
     <string name="fragment_home_et_gold_rate">Gold Rate</string>
+    <string name="fragment_add_rakam_net_weight">Net Weight in GMS Ex. 1000</string>
     <!-- String related to search results -->
 
 

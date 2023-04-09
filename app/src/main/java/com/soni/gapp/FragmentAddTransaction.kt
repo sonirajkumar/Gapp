@@ -49,6 +49,9 @@ class FragmentAddTransaction : Fragment() {
         val aadharNo = data?.getString("aadhar_number")
         val rakamType = data?.getString("rakam_type")
         val rakamWeight = data?.getString("rakam_weight")
+        val netRakamWeight = data?.getString("net_weight_gms")
+        val metalType = data?.getString("metal_type")
+        val rakamNumber = data?.getString("rakam_number")
 
         val custDocumentID = fName?.filter { !it.isWhitespace() } +"_"+ mName?.filter { !it.isWhitespace() } +"_"+ lName?.filter { !it.isWhitespace() } +"_"+ city?.filter { !it.isWhitespace() }+"_"+ mobileNo?.filter { !it.isWhitespace() }+"_"+ aadharNo?.filter { !it.isWhitespace() }
         val rakamDocumentID = rakamType?.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
@@ -57,10 +60,12 @@ class FragmentAddTransaction : Fragment() {
         radioBtn = binding.root.findViewById(radioSelection)
 
         val showName = "$fName $mName $lName $city"
-        val showRakam = "$rakamType: $rakamWeight GMS"
+        val showRakam = "$metalType: $rakamType"
+        val showWeight = "Net: $netRakamWeight GMS | Fine: $rakamWeight GMS | Number: $rakamNumber"
 
         binding.textViewName.text = showName
         binding.textViewRakam.text = showRakam
+        binding.textViewRakamWeightNumber.text = showWeight
 
         val myCalender = Calendar.getInstance()
         editTextDate = binding.editTextDate

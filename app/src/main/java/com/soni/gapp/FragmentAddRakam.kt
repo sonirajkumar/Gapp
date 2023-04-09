@@ -28,6 +28,7 @@ class FragmentAddRakam : Fragment() {
     private var aadharNumber: String? = null
     private lateinit var custDocumentId: String
     private lateinit var rakamType: String
+    private lateinit var rakamNetWeight: String
     private lateinit var rakamWeight: String
     private lateinit var rakamNumber: String
     private lateinit var metalType: String
@@ -76,11 +77,12 @@ class FragmentAddRakam : Fragment() {
             rakamType = binding.rakamType.text.toString().uppercase()
             rakamWeight = binding.rakamWeight.text.toString().uppercase()
             rakamNumber = binding.rakamNumber.text.toString().uppercase()
+            rakamNetWeight = binding.netRakamWeight.text.toString().uppercase()
             val radioGrpSelection = binding.radioGrpMetalType.checkedRadioButtonId
             metalType = binding.root.findViewById<RadioButton>(radioGrpSelection).text.toString().uppercase()
 
-            if (rakamType.isEmpty() or rakamWeight.isEmpty() or rakamNumber.isEmpty()){
-                Toast.makeText(activity,"Please insert Valid Data ", Toast.LENGTH_LONG).show()
+            if (rakamType.isEmpty() or rakamWeight.isEmpty() or rakamNumber.isEmpty() or rakamNetWeight.isEmpty()){
+                Toast.makeText(activity,"Please insert Valid/Complete Data ", Toast.LENGTH_LONG).show()
             }
             else{
                 val query = rakamType.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
@@ -120,7 +122,8 @@ class FragmentAddRakam : Fragment() {
                     "metal_type" to metalType,
                     "rakam_type" to rakamType,
                     "weight_gms" to rakamWeight,
-                    "rakam_number" to rakamNumber
+                    "rakam_number" to rakamNumber,
+                    "net_weight_gms" to rakamNetWeight
                 )
 
                 db.collection("cust").document(custDocumentId)
@@ -142,6 +145,9 @@ class FragmentAddRakam : Fragment() {
                         bundle.putString("aadhar_number", aadharNumber)
                         bundle.putString("rakam_type", rakamType)
                         bundle.putString("rakam_weight", rakamWeight)
+                        bundle.putString("net_weight_gms", rakamNetWeight)
+                        bundle.putString("metal_type", metalType)
+                        bundle.putString("rakam_number", rakamNumber)
                         nextFragment.arguments = bundle
 
                         requireActivity().supportFragmentManager.beginTransaction()
