@@ -3,6 +3,8 @@ package com.soni.gapp
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -95,6 +97,24 @@ class FragmentAddTransaction : Fragment() {
             }
         }
 
+        val etDate = binding.editTextDate
+        etDate.addTextChangedListener(object: TextWatcher{
+            val prevL = 0
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val length = p0?.length
+                if((prevL < length!!) && (length==2 || length==5)){
+                    p0.append("/")
+                }
+
+            }
+
+        })
 
         binding.addTransactionBtn.setOnClickListener {
             amount = binding.editTextAmount.text.toString()

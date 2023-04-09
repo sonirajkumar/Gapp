@@ -81,7 +81,7 @@ class FragmentTransactionSearch : Fragment() {
 
         val showCustDetails = "$fName $mName $lName $city"
         val showRakamDetails = "$metalType: $rakamType"
-        val showRakamWeightNumber = "Net: $rakamNetWeight | Fine: $rakamWeight | Number: $rakamNumber"
+        val showRakamWeightNumber = "Net: $rakamNetWeight GMS | Fine: $rakamWeight GMS | Number: $rakamNumber"
         binding.textViewTransactionSearchFragmentCustDetails.text = showCustDetails
         binding.textViewTransactionSearchFragmentMobileNumber.text = "Mobile: $mobileNumber"
         binding.textViewTransactionSearchFragmentAadharNumber.text = "Aadhar: $aadharNumber"

@@ -3,6 +3,8 @@ package com.soni.gapp
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +55,26 @@ class FragmentAddCust : Fragment() {
         _binding = FragmentAddCustBinding.inflate(inflater, container, false)
         alertBuilder = AlertDialog.Builder(activity)
 
+        val etAadharNumber = binding.aadharNumber
+
+        etAadharNumber.addTextChangedListener(object: TextWatcher{
+            val prevL = 0
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                val length = p0?.length
+                if((prevL < length!!) && (length==4 || length==9)){
+                    p0.append("-")
+                }
+            }
+
+        })
+
         if (isTransferredFromSearch) {
             binding.firstName.setText(fName)
             binding.middleName.setText(mName)
@@ -77,7 +99,7 @@ class FragmentAddCust : Fragment() {
             } else if (mobileNumber.isNotBlank() and (mobileNumber.length != 10)) {
                 Toast.makeText(activity, "Please insert Valid Number ", Toast.LENGTH_LONG)
                     .show()
-            } else if (aadharNumber.isNotBlank() and (aadharNumber.length != 12)) {
+            } else if (aadharNumber.isNotBlank() and (aadharNumber.length != 14)) {
                 Toast.makeText(activity, "Please insert Valid Aadhar ", Toast.LENGTH_LONG)
                     .show()
             } else {
