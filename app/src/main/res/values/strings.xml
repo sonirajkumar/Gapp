@@ -57,6 +57,7 @@
     <string name="fragment_add_rakam_metal_type_gold">Gold</string>
     <string name="fragment_home_et_gold_rate">Gold Rate</string>
     <string name="fragment_add_rakam_net_weight">Net Weight in GMS Ex. 1000</string>
+    <string name="btnBackupData">Backup Data</string>
     <!-- String related to search results -->
 
 
