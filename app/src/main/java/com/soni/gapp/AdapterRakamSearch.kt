@@ -44,7 +44,8 @@ class AdapterRakamSearch(private  val rakamList: ArrayList<DataRakamSearch>): Re
             nextFragment.arguments = bundle
             val appCompactActivity = it.context as AppCompatActivity
             appCompactActivity.supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, nextFragment).commit()
+                .replace(R.id.frameLayout, nextFragment).addToBackStack(null)
+                .commit()
         }
     }
 

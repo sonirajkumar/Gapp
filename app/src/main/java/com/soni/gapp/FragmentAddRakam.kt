@@ -134,6 +134,7 @@ class FragmentAddRakam : Fragment() {
                         Toast.makeText(activity, "Rakam Added Successfully", Toast.LENGTH_LONG).show()
                         binding.rakamType.text.clear()
                         binding.rakamWeight.text.clear()
+                        binding.netRakamWeight.text.clear()
 
                         val bundle = Bundle()
                         val nextFragment = FragmentAddTransaction()
@@ -151,7 +152,7 @@ class FragmentAddRakam : Fragment() {
                         nextFragment.arguments = bundle
 
                         requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.frameLayout, nextFragment).commit()
+                            .replace(R.id.frameLayout, nextFragment).addToBackStack(null).commit()
                     }
                     .addOnFailureListener{
                         Toast.makeText(activity, "Rakam insertion Failed", Toast.LENGTH_LONG).show()

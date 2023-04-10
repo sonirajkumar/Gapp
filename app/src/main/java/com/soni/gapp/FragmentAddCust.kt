@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -42,7 +43,7 @@ class FragmentAddCust : Fragment() {
             aadharNumber = bundle.getString("aadhar_number").toString()
             isTransferredFromSearch = bundle.getBoolean("isTransferredFromSearch")
             custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber.filter { !it.isWhitespace() }+"_"+ aadharNumber.filter { !it.isWhitespace() }
-
+            requireActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
     }
 
@@ -52,7 +53,7 @@ class FragmentAddCust : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddCustBinding.inflate(inflater, container, false)
+                _binding = FragmentAddCustBinding.inflate(inflater, container, false)
         alertBuilder = AlertDialog.Builder(activity)
 
         val etAadharNumber = binding.aadharNumber
@@ -170,7 +171,8 @@ class FragmentAddCust : Fragment() {
                         bundle.putString("aadhar_number", aadharNumber)
                         nextFragment.arguments = bundle
 
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout,nextFragment).commit()
+
+                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout,nextFragment).addToBackStack(null).commit()
                     }
                     .addOnFailureListener {
                         Toast.makeText(activity, "Account insertion Failed", Toast.LENGTH_LONG).show()

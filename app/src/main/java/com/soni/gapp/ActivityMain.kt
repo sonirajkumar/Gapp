@@ -3,6 +3,7 @@ package com.soni.gapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.soni.gapp.databinding.ActivityMainBinding
 
 class ActivityMain : AppCompatActivity() {
@@ -33,7 +34,7 @@ class ActivityMain : AppCompatActivity() {
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.commit()
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        fragmentTransaction.replace(R.id.frameLayout, fragment).addToBackStack(null).commit()
     }
 }

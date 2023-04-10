@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -42,11 +43,12 @@ class AdapterCustSearch(private val custList: ArrayList<DataCustSearch>): Recycl
             bundle.putString("city", custSearchData.city)
             bundle.putString("mobile_number", custSearchData.mobileNumber)
             bundle.putString("aadhar_number", custSearchData.aadharNumber)
-            val resultFragment = FragmentRakamSearch()
-            resultFragment.arguments = bundle
+            val nextFragment = FragmentRakamSearch()
+            nextFragment.arguments = bundle
             val appCompactActivity = it.context as AppCompatActivity
+
             appCompactActivity.supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, resultFragment)
+                .replace(R.id.frameLayout, nextFragment).addToBackStack(null)
                 .commit()
 
         }
