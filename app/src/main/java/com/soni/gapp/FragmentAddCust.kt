@@ -53,7 +53,7 @@ class FragmentAddCust : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-                _binding = FragmentAddCustBinding.inflate(inflater, container, false)
+        _binding = FragmentAddCustBinding.inflate(inflater, container, false)
         alertBuilder = AlertDialog.Builder(activity)
 
         val etAadharNumber = binding.aadharNumber
@@ -84,6 +84,7 @@ class FragmentAddCust : Fragment() {
             binding.mobileNumber.setText(mobileNumber)
             binding.aadharNumber.setText(aadharNumber)
             binding.addAccountButton.text = "Update Customer Info"
+            binding.textViewAddAccount.text = "Update Customer Account"
         }
 
         binding.addAccountButton.setOnClickListener {
