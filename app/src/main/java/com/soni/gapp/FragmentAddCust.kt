@@ -27,6 +27,7 @@ class FragmentAddCust : Fragment() {
     private lateinit var city: String
     private var mobileNumber: String = "null"
     private var aadharNumber: String = "null"
+    private lateinit var cid: String
     private lateinit var custDocumentId: String
     private var isTransferredFromSearch: Boolean = false
     private var isCustomerExists:Boolean = false
@@ -41,20 +42,21 @@ class FragmentAddCust : Fragment() {
             city = bundle.getString("city").toString()
             mobileNumber = bundle.getString("mobile_number").toString()
             aadharNumber = bundle.getString("aadhar_number").toString()
+            cid = bundle.getString("cid").toString()
             isTransferredFromSearch = bundle.getBoolean("isTransferredFromSearch")
-            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber.filter { !it.isWhitespace() }+"_"+ aadharNumber.filter { !it.isWhitespace() }
+            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber.filter { !it.isWhitespace() }+"_"+ aadharNumber.filter { !it.isWhitespace() } +"_"+ cid.filter { !it.isWhitespace() }
             requireActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
         _binding = FragmentAddCustBinding.inflate(inflater, container, false)
         alertBuilder = AlertDialog.Builder(activity)
+
+        db.collection("last_cid").document("cid").get().addOnSuccessListener {
+             binding.tvLastCidNumber.text = "Last Customer ID: " + it.data?.get("cid").toString()
+        }
 
         val etAadharNumber = binding.aadharNumber
 
@@ -83,6 +85,7 @@ class FragmentAddCust : Fragment() {
             binding.city.setText(city)
             binding.mobileNumber.setText(mobileNumber)
             binding.aadharNumber.setText(aadharNumber)
+            binding.customerId.setText(cid)
             binding.addAccountButton.text = "Update Customer Info"
             binding.textViewAddAccount.text = "Update Customer Account"
         }
@@ -92,11 +95,12 @@ class FragmentAddCust : Fragment() {
             lName = binding.lastName.text.toString().uppercase()
             mName = binding.middleName.text.toString().uppercase()
             city = binding.city.text.toString().uppercase()
+            cid = binding.customerId.text.toString().uppercase()
             mobileNumber = binding.mobileNumber.text.toString()
             aadharNumber = binding.aadharNumber.text.toString()
             isCustomerExists = false
 
-            if (fName.isEmpty() or lName.isEmpty() or mName.isEmpty() or city.isEmpty()) {
+            if (fName.isEmpty() or lName.isEmpty() or mName.isEmpty() or city.isEmpty() or cid.isEmpty()) {
                 Toast.makeText(activity, "Please insert Valid Data ", Toast.LENGTH_LONG).show()
             } else if (mobileNumber.isNotBlank() and (mobileNumber.length != 10)) {
                 Toast.makeText(activity, "Please insert Valid Number ", Toast.LENGTH_LONG)
@@ -106,17 +110,15 @@ class FragmentAddCust : Fragment() {
                     .show()
             } else {
                 db.collection("cust").get().addOnSuccessListener { custDocs ->
-                    val query =
-                        fName.filter { !it.isWhitespace() } + "_" + mName.filter { !it.isWhitespace() } + "_" + lName.filter { !it.isWhitespace() } + "_" + city.filter { !it.isWhitespace() }
 
                     if (!custDocs.isEmpty) {
                         for (docs in custDocs) {
-                            if (docs.id.contains(query) && !isTransferredFromSearch) {
+                            if ((docs.data["cid"].toString() == cid) && !isTransferredFromSearch) {
                                 isCustomerExists = true
                             }
                         }
                         if (isCustomerExists) {
-                            Toast.makeText(context, "Customer Already Exists", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "Customer ID Already Exists", Toast.LENGTH_LONG).show()
                         } else {
                             alertBuilder.setTitle("Confirmation")
                                 .setMessage("Are you sure?")
@@ -146,21 +148,24 @@ class FragmentAddCust : Fragment() {
                 "l_name" to lName,
                 "city" to city,
                 "mobile_no" to mobileNumber,
-                "aadhar_no" to aadharNumber
+                "aadhar_no" to aadharNumber,
+                "cid" to cid
 
             )
-            val tempDocID = fName.filter { !it.isWhitespace() } + "_"+ mName.filter { !it.isWhitespace() } + "_"+ lName.filter { !it.isWhitespace() } + "_"+ city.filter { !it.isWhitespace() } + "_"+ mobileNumber.filter { !it.isWhitespace() } + "_"+ aadharNumber.filter { !it.isWhitespace() }
+            val tempDocID = fName.filter { !it.isWhitespace() } + "_"+ mName.filter { !it.isWhitespace() } + "_"+ lName.filter { !it.isWhitespace() } + "_"+ city.filter { !it.isWhitespace() } + "_"+ mobileNumber.filter { !it.isWhitespace() } + "_"+ aadharNumber.filter { !it.isWhitespace() } +"_"+ cid.filter { !it.isWhitespace() }
             if (!isTransferredFromSearch) {
                 db.collection("cust").document(tempDocID)
                     .set(accountHashMap, SetOptions.merge())
                     .addOnSuccessListener {
                         Toast.makeText(activity, "Account Added Successfully", Toast.LENGTH_LONG).show()
+                        db.collection("last_cid").document("cid").set(hashMapOf("cid" to cid))
                         binding.firstName.text.clear()
                         binding.lastName.text.clear()
                         binding.middleName.text.clear()
                         binding.city.text.clear()
                         binding.mobileNumber.text.clear()
                         binding.aadharNumber.text.clear()
+                        binding.customerId.text.clear()
 
                         val bundle = Bundle()
                         val nextFragment = FragmentAddRakam()
@@ -170,6 +175,7 @@ class FragmentAddCust : Fragment() {
                         bundle.putString("city", city)
                         bundle.putString("mobile_number", mobileNumber)
                         bundle.putString("aadhar_number", aadharNumber)
+                        bundle.putString("cid", cid)
                         nextFragment.arguments = bundle
 
 
@@ -190,6 +196,7 @@ class FragmentAddCust : Fragment() {
                         binding.city.text.clear()
                         binding.mobileNumber.text.clear()
                         binding.aadharNumber.text.clear()
+                        binding.customerId.text.clear()
                     }
                     .addOnFailureListener {
                         Toast.makeText(activity, "Account Update Failed", Toast.LENGTH_LONG).show()
@@ -200,29 +207,33 @@ class FragmentAddCust : Fragment() {
                     .addOnSuccessListener { rakams->
                         if (!rakams.isEmpty){
                             for(rakam in rakams){
-                                db.collection("cust").document(tempDocID)
-                                    .collection("rakam").document(rakam.id).set(rakam.data)
+                                db.collection("cust").document(tempDocID).collection("rakam").document(rakam.id).set(rakam.data).addOnSuccessListener {
 
-                                db.collection("cust").document(custDocumentId)
-                                    .collection("rakam").document(rakam.id)
-                                    .collection("transaction").get()
-                                    .addOnSuccessListener { ts->
-                                        if (!ts.isEmpty){
-                                            for (transactions in ts) {
-                                                db.collection("cust").document(tempDocID)
-                                                    .collection("rakam").document(rakam.id)
-                                                    .collection("transaction").document(transactions.id)
-                                                    .set(transactions.data)
+                                        db.collection("cust").document(custDocumentId)
+                                            .collection("rakam").document(rakam.id)
+                                            .collection("transaction").get()
+                                            .addOnSuccessListener { ts ->
+                                                if (!ts.isEmpty) {
+                                                    for (transactions in ts) {
+                                                        db.collection("cust").document(tempDocID)
+                                                            .collection("rakam").document(rakam.id)
+                                                            .collection("transaction")
+                                                            .document(transactions.id)
+                                                            .set(transactions.data).addOnSuccessListener {
+                                                                db.collection("cust")
+                                                                    .document(custDocumentId)
+                                                                    .collection("rakam").document(rakam.id)
+                                                                    .collection("transaction")
+                                                                    .document(transactions.id)
+                                                                    .delete()
+                                                            }
 
-                                                db.collection("cust").document(custDocumentId)
-                                                    .collection("rakam").document(rakam.id)
-                                                    .collection("transaction").document(transactions.id)
-                                                    .delete()
+                                                    }
+                                                }
                                             }
-                                        }
+                                        db.collection("cust").document(custDocumentId)
+                                            .collection("rakam").document(rakam.id).delete()
                                     }
-                                db.collection("cust").document(custDocumentId)
-                                    .collection("rakam").document(rakam.id).delete()
                             }
                         }
                     }

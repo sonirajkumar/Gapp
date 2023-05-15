@@ -28,7 +28,7 @@
             android:inputType="text"
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent"
-            app:queryHint="Search Name/City/Mobile/Aadhar" />
+            app:queryHint="Search Name/City/Mobile/Aadhar/CID" />
 
     </com.google.android.material.card.MaterialCardView>
 

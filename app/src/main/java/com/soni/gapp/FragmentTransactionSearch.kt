@@ -24,9 +24,9 @@ class FragmentTransactionSearch : Fragment() {
     private lateinit var city: String
     private var mobileNumber: String? = null
     private var aadharNumber: String? = null
+    private lateinit var cid: String
     private lateinit var rakamType: String
     private lateinit var rakamWeight: String
-    private lateinit var rakamNumber: String
     private lateinit var rakamNetWeight: String
     private lateinit var metalType: String
     private lateinit var custDocumentId: String
@@ -53,13 +53,13 @@ class FragmentTransactionSearch : Fragment() {
             city = bundle.getString("city").toString()
             mobileNumber = bundle.getString("mobile_number").toString()
             aadharNumber = bundle.getString("aadhar_number").toString()
+            cid = bundle.getString("cid").toString()
             rakamType = bundle.getString("rakam_type").toString()
             rakamWeight = bundle.getString("rakam_weight").toString()
-            rakamNumber = bundle.getString("rakam_number").toString()
             rakamNetWeight = bundle.getString("net_weight_gms").toString()
             metalType = bundle.getString("metal_type").toString()
 
-            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }
+            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }+"_"+ cid.filter { !it.isWhitespace() }
             rakamDocumentId = rakamType.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
             alertBuilder = AlertDialog.Builder(activity)
         }
@@ -81,7 +81,7 @@ class FragmentTransactionSearch : Fragment() {
 
         val showCustDetails = "$fName $mName $lName $city"
         val showRakamDetails = "$metalType: $rakamType"
-        val showRakamWeightNumber = "Net: $rakamNetWeight GMS | Fine: $rakamWeight GMS | Number: $rakamNumber"
+        val showRakamWeightNumber = "Net: $rakamNetWeight GMS | Fine: $rakamWeight GMS | Customer ID: $cid"
         binding.textViewTransactionSearchFragmentCustDetails.text = showCustDetails
         binding.textViewTransactionSearchFragmentMobileNumber.text = "Mobile: $mobileNumber"
         binding.textViewTransactionSearchFragmentAadharNumber.text = "Aadhar: $aadharNumber"
@@ -144,7 +144,8 @@ class FragmentTransactionSearch : Fragment() {
                             "l_name" to lName,
                             "city" to city,
                             "mobile_no" to mobileNumber,
-                            "aadhar_no" to aadharNumber
+                            "aadhar_no" to aadharNumber,
+                            "cid" to cid
                         )
                     ).addOnSuccessListener {  }.addOnFailureListener {  }
 
@@ -152,7 +153,9 @@ class FragmentTransactionSearch : Fragment() {
                         .collection("rakam").document(rakamDocumentId).set(
                             hashMapOf(
                                 "rakam_type" to rakamType,
-                                "weight_gms" to rakamWeight
+                                "weight_gms" to rakamWeight,
+                                "metal_type" to metalType,
+                                "net_weight_gms" to rakamNetWeight
                             )
                         )
 

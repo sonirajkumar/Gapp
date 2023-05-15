@@ -6,5 +6,6 @@ data class DataCustSearch(
     val lName: String,
     val city: String,
     val mobileNumber: String?,
-    val aadharNumber: String?
+    val aadharNumber: String?,
+    val cid: String
 )

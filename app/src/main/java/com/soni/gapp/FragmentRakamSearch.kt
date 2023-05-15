@@ -25,6 +25,7 @@ class FragmentRakamSearch : Fragment() {
     private lateinit var city: String
     private var mobileNumber: String? = null
     private var aadharNumber: String? = null
+    private lateinit var cid: String
     private lateinit var custDocumentId: String
 
     private lateinit var recyclerView: RecyclerView
@@ -41,7 +42,8 @@ class FragmentRakamSearch : Fragment() {
             city = bundle.getString("city").toString()
             mobileNumber = bundle.getString("mobile_number").toString()
             aadharNumber = bundle.getString("aadhar_number").toString()
-            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }
+            cid = bundle.getString("cid").toString()
+            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber!!.filter { !it.isWhitespace() }+"_"+ aadharNumber!!.filter { !it.isWhitespace() }+"_"+ cid.filter { !it.isWhitespace() }
 
         }
     }
@@ -61,7 +63,7 @@ class FragmentRakamSearch : Fragment() {
         rakamList.clear()
         adapter.notifyDataSetChanged()
 
-        val custDetails = "$fName $mName $lName $city"
+        val custDetails = "$fName $mName $lName $city $cid"
         binding.textViewSearchResultCustDetails.text = custDetails
         binding.textViewMobileNumber.text = "Mobile: $mobileNumber"
         binding.textViewAadharNumber.text = "Aadhar: $aadharNumber"
@@ -71,10 +73,9 @@ class FragmentRakamSearch : Fragment() {
             if(!it.isEmpty){
                 for(rakam in it){
                     val rakamDetail = DataRakamSearch(
-                        fName,mName,lName,city,mobileNumber,aadharNumber,
+                        fName,mName,lName,city,mobileNumber,aadharNumber,cid,
                         rakam.data["rakam_type"].toString(),
                         rakam.data["weight_gms"].toString(),
-                        rakam.data["rakam_number"].toString(),
                         rakam.data["metal_type"]?.toString(),
                         rakam.data["net_weight_gms"]?.toString()
                     )
@@ -97,6 +98,7 @@ class FragmentRakamSearch : Fragment() {
             bundle.putString("city", city)
             bundle.putString("mobile_number", mobileNumber)
             bundle.putString("aadhar_number", aadharNumber)
+            bundle.putString("cid", cid)
             bundle.putBoolean("isTransferredFromSearch", true)
             nextFragment.arguments = bundle
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout, nextFragment).commit()
@@ -121,7 +123,8 @@ class FragmentRakamSearch : Fragment() {
                             "l_name" to lName,
                             "city" to city,
                             "mobile_no" to mobileNumber,
-                            "aadhar_no" to aadharNumber
+                            "aadhar_no" to aadharNumber,
+                            "cid" to cid
                         )
                     ).addOnSuccessListener {  }.addOnFailureListener {  }
 

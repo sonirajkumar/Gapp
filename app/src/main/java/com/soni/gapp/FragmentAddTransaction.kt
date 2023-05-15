@@ -13,13 +13,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
-import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentAddTransactionBinding
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
@@ -36,34 +34,51 @@ class FragmentAddTransaction : Fragment() {
     private lateinit var date:String
     private var remarks: String? = ""
 
+    private lateinit var fName: String
+    private lateinit var mName: String
+    private lateinit var lName: String
+    private lateinit var city: String
+    private var mobileNumber: String? = null
+    private var aadharNumber: String? = null
+    private lateinit var cid: String
+    private lateinit var custDocumentId: String
+    private lateinit var rakamType: String
+    private lateinit var netRakamWeight: String
+    private lateinit var rakamWeight: String
+    private lateinit var metalType: String
+    private lateinit var rakamDocumentID: String
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let { bundle ->
+            fName = bundle.getString("f_name").toString()
+            mName = bundle.getString("m_name").toString()
+            lName = bundle.getString("l_name").toString()
+            city = bundle.getString("city").toString()
+            mobileNumber = bundle.getString("mobile_number").toString()
+            aadharNumber = bundle.getString("aadhar_number").toString()
+            cid = bundle.getString("cid").toString()
+            custDocumentId = fName.filter { !it.isWhitespace() } + "_" + mName.filter { !it.isWhitespace() } + "_" + lName.filter { !it.isWhitespace() } + "_" + city.filter { !it.isWhitespace() } + "_" + mobileNumber!!.filter { !it.isWhitespace() } + "_" + aadharNumber!!.filter { !it.isWhitespace() } + "_" + cid.filter { !it.isWhitespace() }
+
+            rakamType = bundle.getString("rakam_type").toString()
+            rakamWeight = bundle.getString("rakam_weight").toString()
+            netRakamWeight = bundle.getString("net_weight_gms").toString()
+            metalType = bundle.getString("metal_type").toString()
+            rakamDocumentID = rakamType.filter { !it.isWhitespace() } + "_" + rakamWeight + "GMS"
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
        _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
 
-        val data = arguments
-        val fName = data?.getString("f_name")
-        val lName = data?.getString("l_name")
-        val mName = data?.getString("m_name")
-        val city = data?.getString("city")
-        val mobileNo = data?.getString("mobile_number")
-        val aadharNo = data?.getString("aadhar_number")
-        val rakamType = data?.getString("rakam_type")
-        val rakamWeight = data?.getString("rakam_weight")
-        val netRakamWeight = data?.getString("net_weight_gms")
-        val metalType = data?.getString("metal_type")
-        val rakamNumber = data?.getString("rakam_number")
-
-        val custDocumentID = fName?.filter { !it.isWhitespace() } +"_"+ mName?.filter { !it.isWhitespace() } +"_"+ lName?.filter { !it.isWhitespace() } +"_"+ city?.filter { !it.isWhitespace() }+"_"+ mobileNo?.filter { !it.isWhitespace() }+"_"+ aadharNo?.filter { !it.isWhitespace() }
-        val rakamDocumentID = rakamType?.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
-
         var radioSelection = binding.radioGrpNaameJama.checkedRadioButtonId
         radioBtn = binding.root.findViewById(radioSelection)
 
         val showName = "$fName $mName $lName $city"
         val showRakam = "$metalType: $rakamType"
-        val showWeight = "Net: $netRakamWeight GMS | Fine: $rakamWeight GMS | Number: $rakamNumber"
+        val showWeight = "Net: $netRakamWeight GMS | Fine: $rakamWeight GMS | Customer ID: $cid"
 
         binding.textViewName.text = showName
         binding.textViewRakam.text = showRakam
@@ -146,7 +161,7 @@ class FragmentAddTransaction : Fragment() {
                             "date" to date,
                             "timestamp" to LocalDateTime.now().toString()
                         )
-                        db.collection("cust").document(custDocumentID)
+                        db.collection("cust").document(custDocumentId)
                             .collection("rakam").document(rakamDocumentID)
                             .collection("transaction").document(LocalDateTime.now().toString())
                             .set(transactionHashMap, SetOptions.merge())
@@ -159,12 +174,7 @@ class FragmentAddTransaction : Fragment() {
                                 // ADDING HISTORY HERE
                                 db.collection("history").document(LocalDateTime.now().toString())
                                     .set(hashMapOf(
-                                        "f_name" to fName,
-                                        "m_name" to mName,
-                                        "l_name" to lName,
-                                        "city" to city,
-                                        "mobile_no" to mobileNo,
-                                        "aadhar_no" to aadharNo,
+                                        "cid" to cid,
                                         "timestamp" to LocalDateTime.now().toString()
                                     ))
                             }

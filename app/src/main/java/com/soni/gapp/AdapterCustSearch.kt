@@ -32,7 +32,9 @@ class AdapterCustSearch(private val custList: ArrayList<DataCustSearch>): Recycl
         val custDetailsText: String = custSearchData.fName + " " +
                 custSearchData.mName + " " +
                 custSearchData.lName + " " +
-                custSearchData.city
+                custSearchData.city + " (" +
+                custSearchData.cid + ")"
+
         holder.custDetails.text = custDetailsText
 
         holder.custConstraintLayout.setOnClickListener {
@@ -43,6 +45,7 @@ class AdapterCustSearch(private val custList: ArrayList<DataCustSearch>): Recycl
             bundle.putString("city", custSearchData.city)
             bundle.putString("mobile_number", custSearchData.mobileNumber)
             bundle.putString("aadhar_number", custSearchData.aadharNumber)
+            bundle.putString("cid", custSearchData.cid)
             val nextFragment = FragmentRakamSearch()
             nextFragment.arguments = bundle
             val appCompactActivity = it.context as AppCompatActivity

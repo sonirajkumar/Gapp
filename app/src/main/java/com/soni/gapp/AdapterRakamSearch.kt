@@ -34,9 +34,9 @@ class AdapterRakamSearch(private  val rakamList: ArrayList<DataRakamSearch>): Re
             bundle.putString("city", rakamSearchData.city)
             bundle.putString("mobile_number", rakamSearchData.mobileNumber)
             bundle.putString("aadhar_number", rakamSearchData.aadharNumber)
+            bundle.putString("cid", rakamSearchData.cid)
             bundle.putString("rakam_type", rakamSearchData.rakamType)
             bundle.putString("rakam_weight", rakamSearchData.rakamWeight)
-            bundle.putString("rakam_number", rakamSearchData.rakamNumber)
             bundle.putString("metal_type", rakamSearchData.metalType)
             bundle.putString("net_weight_gms", rakamSearchData.netWeight)
 

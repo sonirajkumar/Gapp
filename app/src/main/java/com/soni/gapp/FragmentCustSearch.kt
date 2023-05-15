@@ -32,10 +32,7 @@ class FragmentCustSearch : Fragment() {
         }
     }
     @SuppressLint("NotifyDataSetChanged")
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentCustSearchBinding.inflate(inflater, container, false)
         recyclerView = binding.searchRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -70,7 +67,6 @@ class FragmentCustSearch : Fragment() {
         val collectionRef = db.collection("cust")
         collectionRef.get().addOnSuccessListener {
             if (!it.isEmpty){
-
                 for (docs in it){
                     if(docs.id.contains("$query")){
                         collectionRef.document(docs.id).get().addOnSuccessListener {
@@ -80,7 +76,8 @@ class FragmentCustSearch : Fragment() {
                                 document.data?.get("l_name") as String,
                                 document.data?.get("city") as String,
                                 document.data?.get("mobile_no") as String,
-                                document.data?.get("aadhar_no") as String)
+                                document.data?.get("aadhar_no") as String,
+                                document.data?.get("cid") as String)
 
                             custSearchList.add(cust)
                             adapter.notifyDataSetChanged()

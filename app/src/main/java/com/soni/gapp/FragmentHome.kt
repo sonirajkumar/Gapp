@@ -113,7 +113,8 @@ class FragmentHome : Fragment() {
                                                         cust.data["l_name"].toString(),
                                                         cust.data["city"].toString(),
                                                         cust.data["mobile_no"].toString(),
-                                                        cust.data["aadhar_no"].toString()
+                                                        cust.data["aadhar_no"].toString(),
+                                                        cust.data["cid"].toString()
                                                     )
                                                     custSearchList.add(custData)
                                                     adapter.notifyDataSetChanged()
@@ -127,7 +128,8 @@ class FragmentHome : Fragment() {
                                                         cust.data["l_name"].toString(),
                                                         cust.data["city"].toString(),
                                                         cust.data["mobile_no"].toString(),
-                                                        cust.data["aadhar_no"].toString()
+                                                        cust.data["aadhar_no"].toString(),
+                                                        cust.data["cid"].toString()
                                                     )
                                                     custSearchList.add(custData)
                                                     adapter.notifyDataSetChanged()
