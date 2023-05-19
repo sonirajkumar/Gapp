@@ -31,6 +31,7 @@ class FragmentAddCust : Fragment() {
     private lateinit var custDocumentId: String
     private var isTransferredFromSearch: Boolean = false
     private var isCustomerExists:Boolean = false
+    private var lastCidNumber: String = ""
     private var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,10 +54,6 @@ class FragmentAddCust : Fragment() {
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
         _binding = FragmentAddCustBinding.inflate(inflater, container, false)
         alertBuilder = AlertDialog.Builder(activity)
-
-        db.collection("last_cid").document("cid").get().addOnSuccessListener {
-             binding.tvLastCidNumber.text = "Last Customer ID: " + it.data?.get("cid").toString()
-        }
 
         val etAadharNumber = binding.aadharNumber
 
@@ -90,14 +87,21 @@ class FragmentAddCust : Fragment() {
             binding.textViewAddAccount.text = "Update Customer Account"
         }
 
+        binding.btnShowLastCid.setOnClickListener {
+            db.collection("last_cid").document("cid").get().addOnSuccessListener {
+                lastCidNumber = "Last Customer ID: " + it.data?.get("cid").toString()
+                binding.tvLastCidNumber.text = lastCidNumber
+            }
+        }
+
         binding.addAccountButton.setOnClickListener {
-            fName = binding.firstName.text.toString().uppercase()
-            lName = binding.lastName.text.toString().uppercase()
-            mName = binding.middleName.text.toString().uppercase()
-            city = binding.city.text.toString().uppercase()
-            cid = binding.customerId.text.toString().uppercase()
-            mobileNumber = binding.mobileNumber.text.toString()
-            aadharNumber = binding.aadharNumber.text.toString()
+            fName = binding.firstName.text.toString().replace("/",".").uppercase()
+            lName = binding.lastName.text.toString().replace("/",".").uppercase()
+            mName = binding.middleName.text.toString().replace("/",".").uppercase()
+            city = binding.city.text.toString().replace("/",".").uppercase()
+            cid = binding.customerId.text.toString().replace("/",".").uppercase()
+            mobileNumber = binding.mobileNumber.text.toString().replace("/",".")
+            aadharNumber = binding.aadharNumber.text.toString().replace("/",".")
             isCustomerExists = false
 
             if (fName.isEmpty() or lName.isEmpty() or mName.isEmpty() or city.isEmpty() or cid.isEmpty()) {

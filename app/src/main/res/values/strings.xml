@@ -19,6 +19,7 @@
     <string name="mobile_number">Mobile Number</string>
     <string name="aadhar_number">Aadhar Number</string>
     <string name="et_customer_id">Customer ID</string>
+    <string name="addCustShowLastCid">Show Last CID</string>
 
     <string name="add_account">Add Account</string>
     <!-- Strings related to Add Rakam -->
@@ -59,6 +60,7 @@
     <string name="fragment_home_et_gold_rate">Gold Rate</string>
     <string name="fragment_add_rakam_net_weight">Net Weight in GMS Ex. 1000</string>
     <string name="btnBackupData">Backup Data</string>
+
 
     <!-- String related to search results -->
 
