@@ -14,9 +14,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.AggregateSource
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.soni.gapp.databinding.FragmentMenuBinding
@@ -27,6 +25,7 @@ class FragmentMenu : Fragment() {
     private lateinit var auth: FirebaseAuth
     private var custSearchList = ArrayList<DataCustSearch>()
     private lateinit var adapter: AdapterCustSearch
+    private var histList: MutableList<String> = mutableListOf()
     private val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,16 +52,20 @@ class FragmentMenu : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.btnShowLastTransactions.setOnClickListener {
+            histList.clear()
             custSearchList.clear()
             adapter.notifyDataSetChanged()
 
             db.collection("history").orderBy("timestamp", Query.Direction.DESCENDING).get().addOnSuccessListener { custID->
                 if (!custID.isEmpty){
                     for(ids in custID){
+                        histList.add(ids.data["cid"].toString())
+                    }
+                    for(cid in histList){
                         db.collection("cust").get().addOnSuccessListener {
                             if (!it.isEmpty) {
                                 for (docs in it) {
-                                    if (docs.id.contains(ids.data["cid"].toString())) {
+                                    if(docs.id.takeLast(cid.length) == cid){
                                         db.collection("cust").document(docs.id).get()
                                             .addOnSuccessListener { document ->
                                                 val custData = DataCustSearch(
@@ -84,7 +87,6 @@ class FragmentMenu : Fragment() {
                         }.addOnFailureListener {
                             Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_LONG).show()
                         }
-//
                     }
                 }
             }
