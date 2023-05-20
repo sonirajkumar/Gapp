@@ -161,7 +161,20 @@ class FragmentRakamSearch : Fragment() {
                         }
                     db.collection("cust").document(custDocumentId).delete().addOnSuccessListener {
                         Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_LONG).show()
-                    }.addOnFailureListener {  }
+                    }
+
+                    db.collection("history").get().addOnSuccessListener {
+                        if (!it.isEmpty){
+                            for (custs in it){
+                                db.collection("history").document(custs.id).get().addOnSuccessListener { hist->
+                                    val histCid = hist.data?.get("cid").toString()
+                                    if (histCid==cid){
+                                        db.collection("history").document(custs.id).delete()
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                 }.setNegativeButton("No") { _, _ ->
                     Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
