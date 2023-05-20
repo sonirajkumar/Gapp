@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -25,8 +24,11 @@ class FragmentMenu : Fragment() {
     private lateinit var auth: FirebaseAuth
     private var custSearchList = ArrayList<DataCustSearch>()
     private lateinit var adapter: AdapterCustSearch
-    private var histList: MutableList<String> = mutableListOf()
+    private lateinit var custData: DataCustSearch
     private val db = Firebase.firestore
+
+    private var histCidList: MutableList<String> = mutableListOf()
+    private var histCustDetails: MutableMap<String, DataCustSearch> = mutableMapOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,23 +54,26 @@ class FragmentMenu : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.btnShowLastTransactions.setOnClickListener {
-            histList.clear()
             custSearchList.clear()
             adapter.notifyDataSetChanged()
 
-            db.collection("history").orderBy("timestamp", Query.Direction.DESCENDING).get().addOnSuccessListener { custID->
-                if (!custID.isEmpty){
-                    for(ids in custID){
-                        histList.add(ids.data["cid"].toString())
+            db.collection("history").orderBy("timestamp", Query.Direction.DESCENDING).get()
+                .addOnSuccessListener { custID ->
+                    if (!custID.isEmpty) {
+                        for (ids in custID) {
+                            if (!histCidList.contains(ids.data["cid"].toString())){
+                                histCidList.add(ids.data["cid"].toString())
+                            }
+                        }
                     }
-                    for(cid in histList){
-                        db.collection("cust").get().addOnSuccessListener {
-                            if (!it.isEmpty) {
-                                for (docs in it) {
-                                    if(docs.id.takeLast(cid.length) == cid){
-                                        db.collection("cust").document(docs.id).get()
+                    db.collection("cust").get().addOnSuccessListener { custIDs ->
+                        if (!custIDs.isEmpty) {
+                            for (ele in histCidList) {
+                                for (customerDoc in custIDs) {
+                                    if (customerDoc.id.takeLast(ele.length) == ele) {
+                                        db.collection("cust").document(customerDoc.id).get()
                                             .addOnSuccessListener { document ->
-                                                val custData = DataCustSearch(
+                                                custData = DataCustSearch(
                                                     document.data!!["f_name"].toString(),
                                                     document.data!!["m_name"].toString(),
                                                     document.data!!["l_name"].toString(),
@@ -77,32 +82,32 @@ class FragmentMenu : Fragment() {
                                                     document.data!!["aadhar_no"].toString(),
                                                     document.data!!["cid"].toString()
                                                 )
+                                                histCustDetails[ele] = custData
+                                                if(histCidList.size == histCustDetails.size){
+                                                    for (histCust in histCidList){
+                                                        histCustDetails[histCust]?.let { it1 -> custSearchList.add(it1) }
+                                                        adapter.notifyDataSetChanged()
+                                                    }
+                                                }
 
-                                                custSearchList.add(custData)
-                                                adapter.notifyDataSetChanged()
+
                                             }
                                     }
                                 }
                             }
-                        }.addOnFailureListener {
-                            Toast.makeText(context, "Data Fetching Failed", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
-            }
 
             db.collection("history").count().get(AggregateSource.SERVER)
-                .addOnCompleteListener {count->
-                    if(count.isSuccessful){
+                .addOnCompleteListener { count ->
+                    if (count.isSuccessful) {
                         val countDiff = count.result.count - 50
-                        if (countDiff>0) {
+                        if (countDiff > 0) {
                             db.collection("history").orderBy("timestamp").limit(countDiff)
                                 .get().addOnSuccessListener {
                                     for (docs in it) {
                                         db.collection("history").document(docs.id).delete()
-                                            .addOnSuccessListener {
-
-                                            }
                                     }
                                 }
                         }
@@ -111,113 +116,6 @@ class FragmentMenu : Fragment() {
         }
 
         binding.btnBackup.setOnClickListener {
-
-            // CREATING NEW COLLECTION HERE FOR CUST
-//            var existsRN = ""
-//            db.collection("cust").get().addOnSuccessListener {docs->
-//                if(!docs.isEmpty){
-//                    for (doc in docs){
-////                        val updates = hashMapOf<String, Any>(
-////                            "cid" to FieldValue.delete()
-////                        )
-////                        db.collection("cust").document(doc.id).update(updates)
-//                        val fName = doc.data["f_name"].toString()
-//                        val mName = doc.data["m_name"].toString()
-//                        val lName = doc.data["l_name"].toString()
-//                        val city = doc.data["city"].toString()
-//                        val mobileNumber = doc.data["mobile_no"].toString()
-//                        val AadharNumber = doc.data["aadhar_no"].toString()
-//
-//
-//                        val custDetails = fName+"_"+mName+"_"+lName+"_"+city+"_"+mobileNumber+"_"+AadharNumber+"_"
-//
-//                        db.collection("cust").document(doc.id).collection("rakam").get().addOnSuccessListener {rakams->
-//                            if(!rakams.isEmpty){
-//                                for (rakam in rakams){
-//                                    db.collection("cust").document(doc.id).collection("rakam").document(rakam.id).get().addOnSuccessListener {rakamData->
-//                                        existsRN = rakamData.data?.get("rakam_number").toString().replace("/",".").filter { !it.isWhitespace() }
-//                                        val newCustDetails = custDetails + existsRN
-//                                        db.collection("newcust").document(newCustDetails).set(
-//                                            hashMapOf(
-//                                                "f_name" to fName,
-//                                                "m_name" to mName,
-//                                                "l_name" to lName,
-//                                                "city" to city,
-//                                                "mobile_no" to mobileNumber,
-//                                                "aadhar_no" to AadharNumber,
-//                                                "cid" to existsRN
-//                                            ), SetOptions.merge()
-//                                        ).addOnSuccessListener {
-//
-//                                            db.collection("newcust").document(newCustDetails)
-//                                                .collection("rakam").document(rakam.id).set(rakam.data).addOnSuccessListener {
-//
-//                                                    db.collection("cust").document(doc.id).collection("rakam").document(rakam.id).collection("transaction").get().addOnSuccessListener {ts->
-//                                                        if (!ts.isEmpty){
-//                                                            for (transactions in ts) {
-//                                                                db.collection("newcust").document(newCustDetails)
-//                                                                    .collection("rakam").document(rakam.id)
-//                                                                    .collection("transaction").document(transactions.id)
-//                                                                    .set(transactions.data)
-//                                                            }
-//                                                        }
-//                                                    }
-//
-//                                                }
-//                                        }
-//                                    }
-//
-//
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-
-            // DELETE CUST AND THEN RUN THIS
-
-//            db.collection("newcust").get().addOnSuccessListener {customers->
-//                if (!customers.isEmpty){
-//                    for (cust in customers){
-//                        db.collection("cust").document(cust.id.filter { !it.isWhitespace() }).set(cust.data).addOnSuccessListener {
-//                            db.collection("newcust").document(cust.id).collection("rakam").get().addOnSuccessListener { rakams->
-//                                if (!rakams.isEmpty){
-//                                    for (rakam in rakams){
-//                                        db.collection("cust").document(cust.id.filter { !it.isWhitespace() }).collection("rakam").document(rakam.id).set(rakam.data).addOnSuccessListener {
-//                                            db.collection("newcust").document(cust.id).collection("rakam").document(rakam.id).collection("transaction").get().addOnSuccessListener { ts->
-//                                                if (!ts.isEmpty){
-//                                                    for (trans in ts){
-//                                                        db.collection("cust").document(cust.id.filter { !it.isWhitespace() }).collection("rakam").document(rakam.id).collection("transaction").document(trans.id).set(trans.data)
-//                                                    }
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-
-            // DELETE NEWCUST AND RUN THIS
-//            val updates = hashMapOf<String, Any>(
-//                "rakam_number" to FieldValue.delete(),
-//            )
-//            db.collection("cust").get().addOnSuccessListener { customers ->
-//                if (!customers.isEmpty) {
-//                    for (cust in customers) {
-//                        db.collection("cust").document(cust.id).collection("rakam").get().addOnSuccessListener { rakams ->
-//                            if (!rakams.isEmpty) {
-//                                for (rakam in rakams) {
-//                                    db.collection("cust").document(cust.id).collection("rakam").document(rakam.id).update(updates)
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
 
         }
 
