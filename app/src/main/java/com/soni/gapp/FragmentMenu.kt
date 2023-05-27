@@ -115,9 +115,9 @@ class FragmentMenu : Fragment() {
                 }
         }
 
-        binding.btnBackup.setOnClickListener {
-
-        }
+//        binding.btnBackup.setOnClickListener {
+//
+//        }
 
         binding.btnLogout.setOnClickListener {
             token.edit().clear().apply()

@@ -189,29 +189,38 @@ class FragmentAddCust : Fragment() {
                         Toast.makeText(activity, "Account insertion Failed", Toast.LENGTH_LONG).show()
                     }
             }
-            else{
-                db.collection("cust").document(tempDocID)
-                    .set(accountHashMap, SetOptions.merge())
-                    .addOnSuccessListener {
-                        Toast.makeText(activity, "Account Updated Successfully", Toast.LENGTH_LONG).show()
-                        binding.firstName.text.clear()
-                        binding.lastName.text.clear()
-                        binding.middleName.text.clear()
-                        binding.city.text.clear()
-                        binding.mobileNumber.text.clear()
-                        binding.aadharNumber.text.clear()
-                        binding.customerId.text.clear()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(activity, "Account Update Failed", Toast.LENGTH_LONG).show()
-                    }
+            else {
+                if (tempDocID == custDocumentId) {
+                    Toast.makeText(context, "No Change in Customer Data", Toast.LENGTH_SHORT).show()
+                } else {
+                    db.collection("cust").document(tempDocID)
+                        .set(accountHashMap, SetOptions.merge())
+                        .addOnSuccessListener {
+                            Toast.makeText(
+                                activity,
+                                "Account Updated Successfully",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            binding.firstName.text.clear()
+                            binding.lastName.text.clear()
+                            binding.middleName.text.clear()
+                            binding.city.text.clear()
+                            binding.mobileNumber.text.clear()
+                            binding.aadharNumber.text.clear()
+                            binding.customerId.text.clear()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(activity, "Account Update Failed", Toast.LENGTH_LONG)
+                                .show()
+                        }
 
-                db.collection("cust").document(custDocumentId)
-                    .collection("rakam").get()
-                    .addOnSuccessListener { rakams->
-                        if (!rakams.isEmpty){
-                            for(rakam in rakams){
-                                db.collection("cust").document(tempDocID).collection("rakam").document(rakam.id).set(rakam.data).addOnSuccessListener {
+                    db.collection("cust").document(custDocumentId)
+                        .collection("rakam").get()
+                        .addOnSuccessListener { rakams ->
+                            if (!rakams.isEmpty) {
+                                for (rakam in rakams) {
+                                    db.collection("cust").document(tempDocID).collection("rakam")
+                                        .document(rakam.id).set(rakam.data).addOnSuccessListener {
 
                                         db.collection("cust").document(custDocumentId)
                                             .collection("rakam").document(rakam.id)
@@ -223,10 +232,12 @@ class FragmentAddCust : Fragment() {
                                                             .collection("rakam").document(rakam.id)
                                                             .collection("transaction")
                                                             .document(transactions.id)
-                                                            .set(transactions.data).addOnSuccessListener {
+                                                            .set(transactions.data)
+                                                            .addOnSuccessListener {
                                                                 db.collection("cust")
                                                                     .document(custDocumentId)
-                                                                    .collection("rakam").document(rakam.id)
+                                                                    .collection("rakam")
+                                                                    .document(rakam.id)
                                                                     .collection("transaction")
                                                                     .document(transactions.id)
                                                                     .delete()
@@ -238,11 +249,11 @@ class FragmentAddCust : Fragment() {
                                         db.collection("cust").document(custDocumentId)
                                             .collection("rakam").document(rakam.id).delete()
                                     }
+                                }
                             }
                         }
-                    }
-                db.collection("cust").document(custDocumentId).delete()
+                    db.collection("cust").document(custDocumentId).delete()
+                }
             }
-
     }
 }
