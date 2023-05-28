@@ -253,6 +253,19 @@ class FragmentAddCust : Fragment() {
                             }
                         }
                     db.collection("cust").document(custDocumentId).delete()
+
+                    db.collection("history").get().addOnSuccessListener {
+                        if (!it.isEmpty){
+                            for (custs in it){
+                                db.collection("history").document(custs.id).get().addOnSuccessListener { hist->
+                                    val histCid = hist.data?.get("cid").toString()
+                                    if (histCid==cid){
+                                        db.collection("history").document(custs.id).delete()
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
     }
