@@ -27,6 +27,7 @@ class FragmentAddCust : Fragment() {
     private lateinit var city: String
     private var mobileNumber: String = "null"
     private var aadharNumber: String = "null"
+    private lateinit var oldCid: String
     private lateinit var cid: String
     private lateinit var custDocumentId: String
     private var isTransferredFromSearch: Boolean = false
@@ -43,9 +44,9 @@ class FragmentAddCust : Fragment() {
             city = bundle.getString("city").toString()
             mobileNumber = bundle.getString("mobile_number").toString()
             aadharNumber = bundle.getString("aadhar_number").toString()
-            cid = bundle.getString("cid").toString()
+            oldCid = bundle.getString("cid").toString()
             isTransferredFromSearch = bundle.getBoolean("isTransferredFromSearch")
-            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber.filter { !it.isWhitespace() }+"_"+ aadharNumber.filter { !it.isWhitespace() } +"_"+ cid.filter { !it.isWhitespace() }
+            custDocumentId = fName.filter { !it.isWhitespace() } +"_"+ mName.filter { !it.isWhitespace() } +"_"+ lName.filter { !it.isWhitespace() } +"_"+ city.filter { !it.isWhitespace() }+"_"+ mobileNumber.filter { !it.isWhitespace() }+"_"+ aadharNumber.filter { !it.isWhitespace() } +"_"+ oldCid.filter { !it.isWhitespace() }
             requireActivity().supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
     }
@@ -82,7 +83,7 @@ class FragmentAddCust : Fragment() {
             binding.city.setText(city)
             binding.mobileNumber.setText(mobileNumber)
             binding.aadharNumber.setText(aadharNumber)
-            binding.customerId.setText(cid)
+            binding.customerId.setText(oldCid)
             binding.addAccountButton.text = "Update Customer Info"
             binding.textViewAddAccount.text = "Update Customer Account"
         }
@@ -254,14 +255,17 @@ class FragmentAddCust : Fragment() {
                         }
                     db.collection("cust").document(custDocumentId).delete()
 
-                    db.collection("history").get().addOnSuccessListener {
-                        if (!it.isEmpty){
-                            for (custs in it){
-                                db.collection("history").document(custs.id).get().addOnSuccessListener { hist->
-                                    val histCid = hist.data?.get("cid").toString()
-                                    if (histCid==cid){
-                                        db.collection("history").document(custs.id).delete()
-                                    }
+                    if(oldCid != cid) {
+                        db.collection("history").get().addOnSuccessListener {
+                            if (!it.isEmpty) {
+                                for (custs in it) {
+                                    db.collection("history").document(custs.id).get()
+                                        .addOnSuccessListener { hist ->
+                                            val histCid = hist.data?.get("cid").toString()
+                                            if (histCid == oldCid) {
+                                                db.collection("history").document(custs.id).delete()
+                                            }
+                                        }
                                 }
                             }
                         }

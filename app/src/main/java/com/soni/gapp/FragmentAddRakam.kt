@@ -68,7 +68,10 @@ class FragmentAddRakam : Fragment() {
             metalType = binding.root.findViewById<RadioButton>(radioGrpSelection).text.toString().uppercase()
 
             if (rakamType.isEmpty() or rakamWeight.isEmpty() or rakamNetWeight.isEmpty()){
-                Toast.makeText(activity,"Please insert Valid/Complete Data ", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity,"Please insert Valid/Complete Data!", Toast.LENGTH_LONG).show()
+            }
+            else if (rakamWeight.toInt() > rakamNetWeight.toInt()){
+                Toast.makeText(activity,"Fine weight should be less than or equal to net weight!", Toast.LENGTH_LONG).show()
             }
             else{
                 val query = rakamType.filter { !it.isWhitespace() }+"_"+rakamWeight+"GMS"
