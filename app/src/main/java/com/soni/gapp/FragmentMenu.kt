@@ -61,16 +61,18 @@ class FragmentMenu : Fragment() {
                 .addOnSuccessListener { custID ->
                     if (!custID.isEmpty) {
                         for (ids in custID) {
-                            if (!histCidList.contains(ids.data["cid"].toString())){
-                                histCidList.add(ids.data["cid"].toString())
+                            if (!histCidList.contains(ids.data["cid"].toString().filter { !it.isWhitespace() })){
+                                histCidList.add(ids.data["cid"].toString().filter { !it.isWhitespace() })
                             }
                         }
                     }
                     db.collection("cust").get().addOnSuccessListener { custIDs ->
                         if (!custIDs.isEmpty) {
                             for (ele in histCidList) {
+                                var isEleFound = 0
                                 for (customerDoc in custIDs) {
-                                    if (customerDoc.id.takeLast(ele.length) == ele) {
+                                    if (customerDoc.id.takeLast(ele.length+1) == "_${ele.filter { !it.isWhitespace() }}") {
+                                        isEleFound = 1
                                         db.collection("cust").document(customerDoc.id).get()
                                             .addOnSuccessListener { document ->
                                                 custData = DataCustSearch(
@@ -93,6 +95,9 @@ class FragmentMenu : Fragment() {
 
                                             }
                                     }
+                                }
+                                if (isEleFound==0){
+                                    println("ele $ele not found")
                                 }
                             }
                         }

@@ -140,30 +140,106 @@ class FragmentAddCust : Fragment() {
             }
 
         }
-            return binding.root
+        return binding.root
     }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
     private fun addCustomer(){
-            val accountHashMap = hashMapOf(
-                "f_name" to fName,
-                "m_name" to mName,
-                "l_name" to lName,
-                "city" to city,
-                "mobile_no" to mobileNumber,
-                "aadhar_no" to aadharNumber,
-                "cid" to cid
+        val accountHashMap = hashMapOf(
+            "f_name" to fName,
+            "m_name" to mName,
+            "l_name" to lName,
+            "city" to city,
+            "mobile_no" to mobileNumber,
+            "aadhar_no" to aadharNumber,
+            "cid" to cid
 
-            )
-            val tempDocID = fName.filter { !it.isWhitespace() } + "_"+ mName.filter { !it.isWhitespace() } + "_"+ lName.filter { !it.isWhitespace() } + "_"+ city.filter { !it.isWhitespace() } + "_"+ mobileNumber.filter { !it.isWhitespace() } + "_"+ aadharNumber.filter { !it.isWhitespace() } +"_"+ cid.filter { !it.isWhitespace() }
-            if (!isTransferredFromSearch) {
+        )
+        val tempDocID = fName.filter { !it.isWhitespace() } + "_"+ mName.filter { !it.isWhitespace() } + "_"+ lName.filter { !it.isWhitespace() } + "_"+ city.filter { !it.isWhitespace() } + "_"+ mobileNumber.filter { !it.isWhitespace() } + "_"+ aadharNumber.filter { !it.isWhitespace() } +"_"+ cid.filter { !it.isWhitespace() }
+        if (!isTransferredFromSearch) {
+            db.collection("cust").document(tempDocID)
+                .set(accountHashMap, SetOptions.merge())
+                .addOnSuccessListener {
+                    Toast.makeText(activity, "Account Added Successfully", Toast.LENGTH_LONG).show()
+                    db.collection("last_cid").document("cid").set(hashMapOf("cid" to cid))
+                    binding.firstName.text.clear()
+                    binding.lastName.text.clear()
+                    binding.middleName.text.clear()
+                    binding.city.text.clear()
+                    binding.mobileNumber.text.clear()
+                    binding.aadharNumber.text.clear()
+                    binding.customerId.text.clear()
+
+                    val bundle = Bundle()
+                    val nextFragment = FragmentAddRakam()
+                    bundle.putString("f_name", fName)
+                    bundle.putString("m_name", mName)
+                    bundle.putString("l_name", lName)
+                    bundle.putString("city", city)
+                    bundle.putString("mobile_number", mobileNumber)
+                    bundle.putString("aadhar_number", aadharNumber)
+                    bundle.putString("cid", cid)
+                    nextFragment.arguments = bundle
+
+
+                    requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout,nextFragment).addToBackStack(null).commit()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, "Account insertion Failed", Toast.LENGTH_LONG).show()
+                }
+        }
+        else {
+            if (tempDocID == custDocumentId) {
+                Toast.makeText(context, "No Change in Customer Data", Toast.LENGTH_SHORT).show()
+            } else {
                 db.collection("cust").document(tempDocID)
                     .set(accountHashMap, SetOptions.merge())
                     .addOnSuccessListener {
-                        Toast.makeText(activity, "Account Added Successfully", Toast.LENGTH_LONG).show()
-                        db.collection("last_cid").document("cid").set(hashMapOf("cid" to cid))
+                        db.collection("cust").document(custDocumentId)
+                            .collection("rakam").get()
+                            .addOnSuccessListener { rakams ->
+                                if (!rakams.isEmpty) {
+                                    for (rakam in rakams) {
+                                        db.collection("cust").document(tempDocID).collection("rakam")
+                                            .document(rakam.id).set(rakam.data).addOnSuccessListener {
+
+                                                db.collection("cust").document(custDocumentId)
+                                                    .collection("rakam").document(rakam.id)
+                                                    .collection("transaction").get()
+                                                    .addOnSuccessListener { ts ->
+                                                        if (!ts.isEmpty) {
+                                                            for (transactions in ts) {
+                                                                db.collection("cust").document(tempDocID)
+                                                                    .collection("rakam").document(rakam.id)
+                                                                    .collection("transaction")
+                                                                    .document(transactions.id)
+                                                                    .set(transactions.data)
+                                                                    .addOnSuccessListener {
+                                                                        db.collection("cust")
+                                                                            .document(custDocumentId)
+                                                                            .collection("rakam")
+                                                                            .document(rakam.id)
+                                                                            .collection("transaction")
+                                                                            .document(transactions.id)
+                                                                            .delete()
+                                                                    }
+
+                                                            }
+                                                        }
+                                                    }
+                                                db.collection("cust").document(custDocumentId)
+                                                    .collection("rakam").document(rakam.id).delete()
+                                            }
+                                    }
+                                }
+                            }
+                        Toast.makeText(
+                            activity,
+                            "Account Updated Successfully",
+                            Toast.LENGTH_LONG
+                        ).show()
                         binding.firstName.text.clear()
                         binding.lastName.text.clear()
                         binding.middleName.text.clear()
@@ -171,106 +247,31 @@ class FragmentAddCust : Fragment() {
                         binding.mobileNumber.text.clear()
                         binding.aadharNumber.text.clear()
                         binding.customerId.text.clear()
-
-                        val bundle = Bundle()
-                        val nextFragment = FragmentAddRakam()
-                        bundle.putString("f_name", fName)
-                        bundle.putString("m_name", mName)
-                        bundle.putString("l_name", lName)
-                        bundle.putString("city", city)
-                        bundle.putString("mobile_number", mobileNumber)
-                        bundle.putString("aadhar_number", aadharNumber)
-                        bundle.putString("cid", cid)
-                        nextFragment.arguments = bundle
-
-
-                        requireActivity().supportFragmentManager.beginTransaction().replace(R.id.frameLayout,nextFragment).addToBackStack(null).commit()
                     }
                     .addOnFailureListener {
-                        Toast.makeText(activity, "Account insertion Failed", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "Account Update Failed", Toast.LENGTH_LONG)
+                            .show()
                     }
-            }
-            else {
-                if (tempDocID == custDocumentId) {
-                    Toast.makeText(context, "No Change in Customer Data", Toast.LENGTH_SHORT).show()
-                } else {
-                    db.collection("cust").document(tempDocID)
-                        .set(accountHashMap, SetOptions.merge())
-                        .addOnSuccessListener {
-                            Toast.makeText(
-                                activity,
-                                "Account Updated Successfully",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            binding.firstName.text.clear()
-                            binding.lastName.text.clear()
-                            binding.middleName.text.clear()
-                            binding.city.text.clear()
-                            binding.mobileNumber.text.clear()
-                            binding.aadharNumber.text.clear()
-                            binding.customerId.text.clear()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(activity, "Account Update Failed", Toast.LENGTH_LONG)
-                                .show()
-                        }
 
-                    db.collection("cust").document(custDocumentId)
-                        .collection("rakam").get()
-                        .addOnSuccessListener { rakams ->
-                            if (!rakams.isEmpty) {
-                                for (rakam in rakams) {
-                                    db.collection("cust").document(tempDocID).collection("rakam")
-                                        .document(rakam.id).set(rakam.data).addOnSuccessListener {
 
-                                        db.collection("cust").document(custDocumentId)
-                                            .collection("rakam").document(rakam.id)
-                                            .collection("transaction").get()
-                                            .addOnSuccessListener { ts ->
-                                                if (!ts.isEmpty) {
-                                                    for (transactions in ts) {
-                                                        db.collection("cust").document(tempDocID)
-                                                            .collection("rakam").document(rakam.id)
-                                                            .collection("transaction")
-                                                            .document(transactions.id)
-                                                            .set(transactions.data)
-                                                            .addOnSuccessListener {
-                                                                db.collection("cust")
-                                                                    .document(custDocumentId)
-                                                                    .collection("rakam")
-                                                                    .document(rakam.id)
-                                                                    .collection("transaction")
-                                                                    .document(transactions.id)
-                                                                    .delete()
-                                                            }
+                db.collection("cust").document(custDocumentId).delete()
 
-                                                    }
-                                                }
-                                            }
-                                        db.collection("cust").document(custDocumentId)
-                                            .collection("rakam").document(rakam.id).delete()
-                                    }
-                                }
-                            }
-                        }
-                    db.collection("cust").document(custDocumentId).delete()
-
-                    if(oldCid != cid) {
-                        db.collection("history").get().addOnSuccessListener {
-                            if (!it.isEmpty) {
-                                for (custs in it) {
-                                    db.collection("history").document(custs.id).get()
-                                        .addOnSuccessListener { hist ->
-                                            val histCid = hist.data?.get("cid").toString()
-                                            if (histCid == oldCid) {
-                                                db.collection("history").document(custs.id).delete()
-                                            }
+                if(oldCid != cid) {
+                    db.collection("history").get().addOnSuccessListener {
+                        if (!it.isEmpty) {
+                            for (custs in it) {
+                                db.collection("history").document(custs.id).get()
+                                    .addOnSuccessListener { hist ->
+                                        val histCid = hist.data?.get("cid").toString()
+                                        if (histCid == oldCid) {
+                                            db.collection("history").document(custs.id).delete()
                                         }
-                                }
+                                    }
                             }
                         }
                     }
                 }
             }
+        }
     }
 }
