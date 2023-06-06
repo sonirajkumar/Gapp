@@ -91,14 +91,14 @@ class FragmentMenu : Fragment() {
                                                         adapter.notifyDataSetChanged()
                                                     }
                                                 }
-
-
+//                                                println(histCustDetails.size)
+//                                                println(histCidList.size)
                                             }
                                     }
                                 }
-                                if (isEleFound==0){
-                                    println("ele $ele not found")
-                                }
+//                                if (isEleFound==0){
+//                                    println("ele $ele not found")
+//                                }
                             }
                         }
                     }
