@@ -26,6 +26,7 @@ class FragmentMenu : Fragment() {
     private lateinit var adapter: AdapterCustSearch
     private lateinit var custData: DataCustSearch
     private val db = Firebase.firestore
+    private var lastHistCid = "1"
 
     private var histCidList: MutableList<String> = mutableListOf()
     private var histCustDetails: MutableMap<String, DataCustSearch> = mutableMapOf()
@@ -57,6 +58,14 @@ class FragmentMenu : Fragment() {
             custSearchList.clear()
             adapter.notifyDataSetChanged()
 
+            db.collection("history").orderBy("timestamp", Query.Direction.ASCENDING).limit(1).get()
+                .addOnSuccessListener { lastCust -> if (!lastCust.isEmpty){
+                    for (ele in lastCust){
+                        lastHistCid = ele.data["cid"].toString()
+                    }
+                }
+                }
+
             db.collection("history").orderBy("timestamp", Query.Direction.DESCENDING).get()
                 .addOnSuccessListener { custID ->
                     if (!custID.isEmpty) {
@@ -85,7 +94,8 @@ class FragmentMenu : Fragment() {
                                                     document.data!!["cid"].toString()
                                                 )
                                                 histCustDetails[ele] = custData
-                                                if(histCidList.size == histCustDetails.size){
+//                                                if(histCidList.size == histCustDetails.size){
+                                                if (lastHistCid == ele){
                                                     for (histCust in histCidList){
                                                         histCustDetails[histCust]?.let { it1 -> custSearchList.add(it1) }
                                                         adapter.notifyDataSetChanged()
