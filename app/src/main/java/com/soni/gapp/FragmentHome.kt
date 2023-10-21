@@ -90,38 +90,38 @@ class FragmentHome : Fragment() {
                 .setPositiveButton("Yes") { _, _ ->
                     binding.homeProgressBar.visibility = View.VISIBLE
                     var custString =
-                        "CID|FirstName|MiddleName|LastName|City|Mobile|Aadhar|RakamType|RakamName|Weight|Fine|TransactionType|Date|Amount|IR|Remarks\n"
+                        "CID,FirstName,MiddleName,LastName,City,Mobile,Aadhar,RakamType,RakamName,Weight,Fine,TransactionType,Date,Amount,IR,Remarks\n"
 
                     //Reading Customer Data Here
                     db.collection("cust").get().addOnSuccessListener { custIDs ->
                         if (!custIDs.isEmpty) {
                             for (customerDoc in custIDs) {
                                 val tempCustString =
-                                    customerDoc.data["cid"].toString() + "|" + customerDoc.data["f_name"].toString() + "|" + customerDoc.data["m_name"].toString() + "|" + customerDoc.data["l_name"].toString() + "|" + customerDoc.data["city"].toString() + "|" + customerDoc.data["mobile_no"].toString() + "|" + customerDoc.data["aadhar_no"].toString() + "|"
+                                    customerDoc.data["cid"].toString().replace(","," ") + "," + customerDoc.data["f_name"].toString().replace(","," ") + "," + customerDoc.data["m_name"].toString().replace(","," ") + "," + customerDoc.data["l_name"].toString().replace(","," ") + "," + customerDoc.data["city"].toString().replace(","," ") + "," + customerDoc.data["mobile_no"].toString().replace(","," ") + "," + customerDoc.data["aadhar_no"].toString().replace(","," ") + ","
                                 //Reading Rakam Data for each Customer Here
                                 db.collection("cust").document(customerDoc.id).collection("rakam")
                                     .get().addOnSuccessListener { rakamIds ->
-                                    if (!rakamIds.isEmpty) {
-                                        for (rakamDoc in rakamIds) {
-                                            val tempRakamString =
-                                                rakamDoc.data["metal_type"].toString() + "|" + rakamDoc.data["rakam_type"].toString() + "|" + rakamDoc.data["net_weight_gms"].toString() + "|" + rakamDoc.data["weight_gms"].toString() + "|"
-                                            //Reading Transaction data for each rakam here
-                                            db.collection("cust").document(customerDoc.id)
-                                                .collection("rakam").document(rakamDoc.id)
-                                                .collection("transaction").get()
-                                                .addOnSuccessListener { transIDs ->
-                                                    if (!transIDs.isEmpty) {
-                                                        for (transDoc in transIDs) {
-                                                            val tempTransString =
-                                                                transDoc.data["type"].toString() + "|" + transDoc.data["ir"].toString() + "|" + transDoc.data["amount"].toString() + "|" + transDoc.data["date"].toString() + "|" + transDoc.data["remarks"].toString()
-                                                            custString += tempCustString + tempRakamString + tempTransString + "\n"
+                                        if (!rakamIds.isEmpty) {
+                                            for (rakamDoc in rakamIds) {
+                                                val tempRakamString =
+                                                    rakamDoc.data["metal_type"].toString().replace(","," ") + "," + rakamDoc.data["rakam_type"].toString().replace(","," ") + "," + rakamDoc.data["net_weight_gms"].toString().replace(","," ") + "," + rakamDoc.data["weight_gms"].toString().replace(","," ") + ","
+                                                //Reading Transaction data for each rakam here
+                                                db.collection("cust").document(customerDoc.id)
+                                                    .collection("rakam").document(rakamDoc.id)
+                                                    .collection("transaction").get()
+                                                    .addOnSuccessListener { transIDs ->
+                                                        if (!transIDs.isEmpty) {
+                                                            for (transDoc in transIDs) {
+                                                                val tempTransString =
+                                                                    transDoc.data["type"].toString().replace(","," ") + "," + transDoc.data["ir"].toString().replace(","," ") + "," + transDoc.data["amount"].toString().replace(","," ") + "," + transDoc.data["date"].toString().replace(","," ") + "," + transDoc.data["remarks"].toString().replace(","," ")
+                                                                custString += tempCustString + tempRakamString + tempTransString + "\n"
+                                                            }
                                                         }
+                                                        writeToFile(custString)
                                                     }
-                                                    writeToFile(custString)
-                                                }
+                                            }
                                         }
                                     }
-                                }
                             }
                         }
                     }
