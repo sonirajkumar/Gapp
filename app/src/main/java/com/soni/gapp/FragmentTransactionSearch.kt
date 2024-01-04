@@ -109,7 +109,7 @@ class FragmentTransactionSearch : Fragment() {
 
                     tranListForIntCal.add(mutableListOf(tran.data["type"].toString(),
                         tran.data["amount"] as String, tran.data["date"] as String
-                        ))
+                    ))
                 }
 
             }
@@ -187,8 +187,8 @@ class FragmentTransactionSearch : Fragment() {
 
                 }
                 .setNegativeButton("No") { _, _ ->
-            Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
-        }
+                    Toast.makeText(activity, "Cancelled", Toast.LENGTH_SHORT).show()
+                }
             alertBuilder.show()
         }
 
